@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Hadoop and HDFShadoop 特点 存很大的数据 写一次，多次读取(不可修改，只可追加) commodity and heterogenious hardware  Hadoop 不适合： low-latency data access 大量小尺寸数据 multiple writers arbitary file modification(文件经常会做变动)  Hadoop 生态Ha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop-hdfs">
+<meta property="og:url" content="https://unicorn-raya.github.io/2021/05/08/hadoop-hdfs/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hadoop and HDFShadoop 特点 存很大的数据 写一次，多次读取(不可修改，只可追加) commodity and heterogenious hardware  Hadoop 不适合： low-latency data access 大量小尺寸数据 multiple writers arbitary file modification(文件经常会做变动)  Hadoop 生态Ha">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/hdfs_architecture.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/Secondary_Namenode.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/hdfs_read.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/hdfs_write.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/HA.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/jn.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/qjm.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/ha-share-storage.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/checkpoints.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/Data_locality.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/replication.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/Rack_awareness.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/yra.PNG">
+<meta property="article:published_time" content="2021-05-08T09:08:39.000Z">
+<meta property="article:modified_time" content="2021-05-08T09:33:36.000Z">
+<meta property="article:author" content="ray">
+<meta property="article:tag" content="大数据学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unicorn-raya.github.io/hadoop-hdfs/hdfs_architecture.PNG">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/2021/05/08/hadoop-hdfs/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/2021/05/08/hadoop-hdfs/","path":"2021/05/08/hadoop-hdfs/","title":"hadoop-hdfs"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>hadoop-hdfs | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop-and-HDFS"><span class="nav-number">1.</span> <span class="nav-text">Hadoop and HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hadoop-%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">hadoop 特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop-%E4%B8%8D%E9%80%82%E5%90%88%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">Hadoop 不适合：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop-%E7%94%9F%E6%80%81"><span class="nav-number">1.3.</span> <span class="nav-text">Hadoop 生态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop-%E6%A0%B8%E5%BF%83"><span class="nav-number">1.3.1.</span> <span class="nav-text">Hadoop 核心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS"><span class="nav-number">1.3.2.</span> <span class="nav-text">HDFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS-%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.3.</span> <span class="nav-text">HDFS 结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NameNode"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">NameNode</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="nav-number">1.3.3.1.1.</span> <span class="nav-text">作用：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataNode"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">DataNode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Secondary-NameNode"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">Secondary NameNode</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Secondary-NameNode-%E4%BD%9C%E7%94%A8"><span class="nav-number">1.3.3.3.1.</span> <span class="nav-text">Secondary NameNode 作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Secondary-NameNode-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.3.3.2.</span> <span class="nav-text">Secondary NameNode 的工作机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hdfs-%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.4.</span> <span class="nav-text">hdfs 读写过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hdfs-read"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">hdfs read</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hdfs-write"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">hdfs write</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS-HA"><span class="nav-number">1.4.</span> <span class="nav-text">HDFS - HA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StandBy-Namenode-HA"><span class="nav-number">1.4.1.</span> <span class="nav-text">StandBy Namenode - HA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA-%E4%B8%8B%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.4.2.</span> <span class="nav-text">HA 下的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA-Quorum-Jouranl-Nodes"><span class="nav-number">1.4.3.</span> <span class="nav-text">HA - Quorum Jouranl Nodes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA-%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8-shared-storage"><span class="nav-number">1.4.4.</span> <span class="nav-text">HA - 共享存储(shared storage)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS%E4%B8%AD%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.5.</span> <span class="nav-text">HDFS中的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#checkpointing"><span class="nav-number">1.5.1.</span> <span class="nav-text">checkpointing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-locality"><span class="nav-number">1.5.2.</span> <span class="nav-text">Data locality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Replication"><span class="nav-number">1.5.3.</span> <span class="nav-text">Replication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rack-awareness"><span class="nav-number">1.5.4.</span> <span class="nav-text">Rack awareness</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Why-Rack-awareness"><span class="nav-number">1.5.4.1.</span> <span class="nav-text">Why Rack awareness</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Small-file-problem"><span class="nav-number">1.6.</span> <span class="nav-text">Small file problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.7.</span> <span class="nav-text">常见数据格式</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/08/hadoop-hdfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="hadoop-hdfs | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hadoop-hdfs
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-05-08 17:08:39 / Modified: 17:33:36" itemprop="dateCreated datePublished" datetime="2021-05-08T17:08:39+08:00">2021-05-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Hadoop-and-HDFS"><a href="#Hadoop-and-HDFS" class="headerlink" title="Hadoop and HDFS"></a>Hadoop and HDFS</h1><h2 id="hadoop-特点"><a href="#hadoop-特点" class="headerlink" title="hadoop 特点"></a>hadoop 特点</h2><ul>
+<li>存很大的数据</li>
+<li>写一次，多次读取(不可修改，只可追加)</li>
+<li>commodity and heterogenious hardware</li>
+</ul>
+<h2 id="Hadoop-不适合："><a href="#Hadoop-不适合：" class="headerlink" title="Hadoop 不适合："></a>Hadoop 不适合：</h2><ul>
+<li>low-latency data access</li>
+<li>大量小尺寸数据</li>
+<li>multiple writers</li>
+<li>arbitary file modification(文件经常会做变动)</li>
+</ul>
+<h2 id="Hadoop-生态"><a href="#Hadoop-生态" class="headerlink" title="Hadoop 生态"></a>Hadoop 生态</h2><h3 id="Hadoop-核心"><a href="#Hadoop-核心" class="headerlink" title="Hadoop 核心"></a>Hadoop 核心</h3><ul>
+<li>HDFS</li>
+<li>MapReduce</li>
+<li>YARN<br>等等，像Pig, Hive,Spark, HBase</li>
+</ul>
+<h3 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h3><p>HDFS 是一个 master-slave 的文件系统(file system).他可以分布式存储数据(存储在node，也就是machine上，通常，node都是 linux machine with java)。同样的，他也支持分布式计算，以及 horizontal scalability （Vertical Scaling vs. Horizontal Scaling ?）</p>
+<h3 id="HDFS-结构"><a href="#HDFS-结构" class="headerlink" title="HDFS 结构"></a>HDFS 结构</h3><p><img src="/./hadoop-hdfs/hdfs_architecture.PNG" alt="hdfs_architecture"></p>
+<h4 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h4><ul>
+<li>维护和管理 DataNodes 中的blocks,且 namenode 是 master node</li>
+</ul>
+<h5 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h5><ul>
+<li>记录所有文件的元数据(metadata),matadata 是由 FsImage(filesystem namespace) 和 editlogs(all the recent modifications) 组成。</li>
+<li>记录元数据中的每次变化</li>
+<li>检测datanodes的状态</li>
+<li>记录HDFS中blocks的所有记录</li>
+<li>DataNode fails后的恢复工作</li>
+</ul>
+<p>其中：<br>FsImage 文件用来记录数据块到文件的映射、目录或文件的结构、属性等信息，里面记录了自最后一次检查点之前 HDFS 文件系统中所有目录和文件的信息。   </p>
+<p>Edit Log 文件记录了对文件的创建、删除、重命名等操作日志，也就是自最后一次检查点之后所有针对 HDFS 文件系统的操作都会记录在 Edit Log 文件中。例如，在 HDFS 中创建一个文件， NameNode 就会在 Edit Log 中插入一条记录，同样修改文件的副本系数也会在 Edit Log 中插入一条记录。<br>注意，NameNode daemon（守护程序）需要一直跑，一旦namenode down, 集群(cluster) 也会down.</p>
+<p>简单说:<br>metadata: fs images + edit log&#x2F; written in memory<br>fs image &#x3D; paths + block ids + user + group + permissions&#x2F; written in disk<br>edit log &#x3D; operations&#x2F; written in disk  </p>
+<!-- ![namenode](namenode.PNG) -->
+
+<h4 id="DataNode"><a href="#DataNode" class="headerlink" title="DataNode"></a>DataNode</h4><p>真正存数据的地方,可以用来performs 读写request，以及报告状态给NameNode(heartbeat)，属于slave-node </p>
+<p>当nameNode failed, 集群就会down,没有namenode中的metadata，就无法重组blocks,为了防止这样的情况，我们加上Secondary NameNode</p>
+<h4 id="Secondary-NameNode"><a href="#Secondary-NameNode" class="headerlink" title="Secondary NameNode"></a>Secondary NameNode</h4><p>取Namenode中的metadata中的checkpoints. Secondary NameNode不是namenode的备份，且必须再另一个node上跑</p>
+<h5 id="Secondary-NameNode-作用"><a href="#Secondary-NameNode-作用" class="headerlink" title="Secondary NameNode 作用"></a>Secondary NameNode 作用</h5><ul>
+<li>performs memory intensive housekeeping   </li>
+<li>存储Fsimage 和 editlogs的备份</li>
+<li>周期性的把editlogs的改动应用到fsimages上，并刷新自身的editlogs</li>
+<li>一旦namenode down,file system metadata就可以从secondary namenode上的最新的fsimage上恢复</li>
+</ul>
+<h5 id="Secondary-NameNode-的工作机制"><a href="#Secondary-NameNode-的工作机制" class="headerlink" title="Secondary NameNode 的工作机制"></a>Secondary NameNode 的工作机制</h5><p><img src="/./hadoop-hdfs/Secondary_Namenode.PNG" alt="Secondary_Namenode"><br>详细解释：<br>(<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082</a>)</p>
+<h3 id="hdfs-读写过程"><a href="#hdfs-读写过程" class="headerlink" title="hdfs 读写过程"></a>hdfs 读写过程</h3><h4 id="hdfs-read"><a href="#hdfs-read" class="headerlink" title="hdfs read"></a>hdfs read</h4><p><img src="/./hadoop-hdfs/hdfs_read.PNG" alt="hdfs_read"></p>
+<h4 id="hdfs-write"><a href="#hdfs-write" class="headerlink" title="hdfs write"></a>hdfs write</h4><p><img src="/./hadoop-hdfs/hdfs_write.PNG" alt="hdfs_write"><br><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082</a></p>
+<h2 id="HDFS-HA"><a href="#HDFS-HA" class="headerlink" title="HDFS - HA"></a>HDFS - HA</h2><p>HA 模式下，会有两个namenode。 其中只有一个namenode处于active的状态，另一个处于standby状态。这种机制实现namenode的双机热备高可用功能。</p>
+<h3 id="StandBy-Namenode-HA"><a href="#StandBy-Namenode-HA" class="headerlink" title="StandBy Namenode - HA"></a>StandBy Namenode - HA</h3><p>standby namenode 会时刻同步active namenode的元数据。一旦active的namenode down,standby 会自动或者手动变为active的状态。自动切换的实现，可以通过zookeeper的仲裁来实现(kafka集群结构也同样依赖zookeeper)。zookeeper会检测两个namenode的状态，来选举active的namenode.此外，active 和 standby 的同步，是通过journal nodes来实现的。 </p>
+<h3 id="HA-下的结构"><a href="#HA-下的结构" class="headerlink" title="HA 下的结构"></a>HA 下的结构</h3><p><img src="/./hadoop-hdfs/HA.PNG" alt="HA"><br>机制：（<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079%EF%BC%89">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079）</a><br>（ha下，active namenode 和 standby 必须有一样的metadata）    </p>
+<p>ZooKeeper（ZK）集群作为一个高可靠系统，能够为集群协作数据提供监控，并将数据的更改随时反馈给客户端。HDFS 的热备功能依赖 ZK 提供的两个特性：错误监测、活动节点选举。HDFS 通过 ZK 实现高可用的机制如下。</p>
+<p>每个 NameNode 都会在 ZK 中注册并且持久化一个 session 标识，一旦 NameNode 失效了，那么 session 也将过期，而 ZK 也会通知其他的 NameNode 发起一个失败切换。ZK 提供了一个简单的机制来保证只有一个 NameNode 是活动的，那就是独占锁，如果当前的活动 NameNode 失效了，那么另一个 NameNode 将获取 ZK 中的独占锁，表明自己是活动的节点。</p>
+<p>ZKFailoverController（ZKFC）是 ZK 集群的客户端，用来监控 NN 的状态信息，每个运行 NameNode 的节点必须要运行一个 ZKFC。ZKFC 提供以下功能：</p>
+<ul>
+<li>健康检查，ZKFC 定期对本地的 NN 发起 health-check 的命令，如果 NN 正确返回，那么 NN 被认为是 OK 的，否则被认为是失效节点；</li>
+<li>session管理，当本地 NN 是健康的时候，ZKFC 将会在 ZK 中持有一个 session，如果本地 NN 又正好是 Active，那么 ZKFC 将持有一个短暂的节点作为锁，一旦本地 NN 失效了，那么这个节点就会被自动删除；</li>
+<li>基础选举，如果本地 NN 是健康的，并且 ZKFC 发现没有其他 NN 持有这个独占锁，那么它将试图去获取该锁，一旦成功，那么它就开始执行 Failover，然后变成 Active 状态的 NN 节点；Failover 的过程分两步，首先对之前的 NameNode 执行隔离（如果需要的话），然后将本地 NameNode 切换到 Active 状态。</li>
+</ul>
+<h3 id="HA-Quorum-Jouranl-Nodes"><a href="#HA-Quorum-Jouranl-Nodes" class="headerlink" title="HA - Quorum Jouranl Nodes"></a>HA - Quorum Jouranl Nodes</h3><p>quorum jouranl nodes，其实就是JournalNode集群。这里用来同步两个namenode中的元数据，同步方式如图↓<br><img src="/./hadoop-hdfs/jn.PNG" alt="jn"><br>JournalNode 集群可以几乎实时的去 NameNode 上拉取元数据，然后保存元数据到 JournalNode 集群；同时，处于 standby 状态的 NameNode 也会实时的去 JournalNode 集群上同步 JNS 数据，通过这种方式，就实现了两个 NameNode 之间的数据同步。</p>
+<p>那么，JournalNode 集群内部是如何实现的呢？</p>
+<p>两个 NameNode 为了数据同步，会通过一组称作 JournalNodes 的独立进程进行相互通信。当 Active 状态的 NameNode 元数据有任何修改时，会告知大部分的 JournalNodes 进程。同时，Standby 状态的 NameNode 也会读取 JNs 中的变更信息，并且一直监控 EditLog （事务日志）的变化，并把变化应用于自己的命名空间。Standby 可以确保在集群出错时，元数据状态已经完全同步了。<br><img src="/./hadoop-hdfs/qjm.PNG" alt="qjm"></p>
+<p>jn的集群机制： (<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079</a>)</p>
+<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
+<h2 id="HDFS中的概念"><a href="#HDFS中的概念" class="headerlink" title="HDFS中的概念"></a>HDFS中的概念</h2><h3 id="checkpointing"><a href="#checkpointing" class="headerlink" title="checkpointing"></a>checkpointing</h3><p><img src="/./hadoop-hdfs/checkpoints.PNG" alt="checkpoints"></p>
+<h3 id="Data-locality"><a href="#Data-locality" class="headerlink" title="Data locality"></a>Data locality</h3><p><img src="/./hadoop-hdfs/Data_locality.PNG" alt="Data_locality"></p>
+<h3 id="Replication"><a href="#Replication" class="headerlink" title="Replication"></a>Replication</h3><p><img src="/./hadoop-hdfs/replication.PNG" alt="replication"></p>
+<h3 id="Rack-awareness"><a href="#Rack-awareness" class="headerlink" title="Rack awareness"></a>Rack awareness</h3><p><img src="/./hadoop-hdfs/Rack_awareness.PNG" alt="Rack-awareness"></p>
+<h4 id="Why-Rack-awareness"><a href="#Why-Rack-awareness" class="headerlink" title="Why Rack awareness"></a>Why Rack awareness</h4><ul>
+<li>减少延迟</li>
+</ul>
+<ol>
+<li>读：blocks from multiple racks</li>
+<li>写：to 2 racks instead of 3 per block</li>
+</ol>
+<ul>
+<li>容错<br> Never put your eggs in the same basket<br> <img src="/./hadoop-hdfs/yra.PNG" alt="yra"></li>
+</ul>
+<h2 id="Small-file-problem"><a href="#Small-file-problem" class="headerlink" title="Small file problem"></a>Small file problem</h2><p>特别小的文件仍然会占用128kb block。这样会造成浪费</p>
+<!-- 
+## HDFS 的 access,cli 以及debug
+### Access 
+cli： hadoop cli
+gui: ambari,hue
+api: java,c, web rest
+
+### Cli:
+##### DFS
+##### DFSADMIN
+##### Balance
+##### FSCK
+
+### HDFS debug -->
+
+<h2 id="常见数据格式"><a href="#常见数据格式" class="headerlink" title="常见数据格式"></a>常见数据格式</h2><table>
+<thead>
+<tr>
+<th>Format</th>
+<th>feature</th>
+<th>for writes</th>
+<th>for reads</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Text</td>
+<td>JSON, CSV, XML, TEXT <br>Data is stored in bulky way<br> Not efficient for querying and analytics <br>Limited compression capabilities</td>
+<td>Fast, but inefficient for storage</td>
+<td>Easy to read and parse; Slow for reads</td>
+</tr>
+<tr>
+<td>Sequence</td>
+<td>Provides persistent data structure for binary key-value pairs<br>Row-based<br>Commonly used to transfer Hadoop MR-jobs<br>Can be used as archive to pack small files<br>Not efficient for querying and analytics<br>Limited compression capabilities<br>Support splitting even when data is compressed<br></td>
+<td>Useful when data needs to be shared between MR job</td>
+<td>Easy to read and parse</td>
+</tr>
+<tr>
+<td>PARQUET</td>
+<td>Column-oriented binary file format <br>Uses record shredding and assembly algorithm <br>Each data file contains the values for a set of rows<br>Efficient for I&#x2F;O in case specific columns needs to be queried<br>Schema is moved to the footer<br>Integrated compression and indexes</td>
+<td>Additional parsing needs to be done</td>
+<td>Easy to read and parse<br>Efficient when columns needs to be queried<br>Useful in scenarios when schema evolving by adding columns<br></td>
+</tr>
+<tr>
+<td>AVRO</td>
+<td>Widely used as a serialization platform<br>Row-based<br>Offers compact and fast compression format<br>Schema is stored in the file, but is segregated from data<br>Splittable<br>Support schema evolution<br></td>
+<td>Works as serialization framework, handle schema evolution</td>
+<td>Easy to read and parse</td>
+</tr>
+<tr>
+<td>ORC</td>
+<td>Considered evolution of RCFile<br>Stores collection of rows within the collection<br>The row data is stored in columnar format<br>Introduces a lightweight indexing that enables skipping of irrelevant blocks of rows<br>Splittable: allow parallel processing of row collections<br>It comes with basic statistics for columns<br>Schema is segregated into footer<br></td>
+<td>Additional parsing needs to be done</td>
+<td>Easy to read and parse<br>Efficient when columns needs to be queried</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0/" rel="tag"># 大数据学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/29/Hadoop-%E7%AE%80%E4%BB%8B/" rel="prev" title="Hadoop 简介">
+                  <i class="fa fa-angle-left"></i> Hadoop 简介
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/10/spark/" rel="next" title="spark">
+                  spark <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

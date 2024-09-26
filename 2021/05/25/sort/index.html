@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基础排序算法快速排序(Quick sort)思路就是分治，先找一个key，做一轮排序后，让key左边的数字都小于等于key,右边的大于key。在对半继续做这种排序 12345678910111213141516171819202122232425262728293031private void quickSort(int[] src, int begin, int end) &amp;#123;    i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见排序算法">
+<meta property="og:url" content="https://unicorn-raya.github.io/2021/05/25/sort/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="基础排序算法快速排序(Quick sort)思路就是分治，先找一个key，做一轮排序后，让key左边的数字都小于等于key,右边的大于key。在对半继续做这种排序 12345678910111213141516171819202122232425262728293031private void quickSort(int[] src, int begin, int end) &amp;#123;    i">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-25T02:42:15.000Z">
+<meta property="article:modified_time" content="2021-05-26T08:13:51.000Z">
+<meta property="article:author" content="ray">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/2021/05/25/sort/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/2021/05/25/sort/","path":"2021/05/25/sort/","title":"常见排序算法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>常见排序算法 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">基础排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-Quick-sort"><span class="nav-number">1.1.</span> <span class="nav-text">快速排序(Quick sort)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F-heap-sort"><span class="nav-number">1.2.</span> <span class="nav-text">堆排序 (heap sort)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F-merge-sort"><span class="nav-number">1.3.</span> <span class="nav-text">归并排序(merge sort)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F"><span class="nav-number">1.4.</span> <span class="nav-text">桶排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%92%8Cpython%E4%B8%AD%E9%BB%98%E8%AE%A4%E7%9A%84%E6%8E%92%E5%BA%8F-timsort"><span class="nav-number">1.4.1.</span> <span class="nav-text">Java和python中默认的排序 - timsort</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/25/sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="常见排序算法 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常见排序算法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-25 10:42:15" itemprop="dateCreated datePublished" datetime="2021-05-25T10:42:15+08:00">2021-05-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-05-26 16:13:51" itemprop="dateModified" datetime="2021-05-26T16:13:51+08:00">2021-05-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="基础排序算法"><a href="#基础排序算法" class="headerlink" title="基础排序算法"></a>基础排序算法</h1><h2 id="快速排序-Quick-sort"><a href="#快速排序-Quick-sort" class="headerlink" title="快速排序(Quick sort)"></a>快速排序(Quick sort)</h2><p>思路就是分治，先找一个key，做一轮排序后，让key左边的数字都小于等于key,右边的大于key。在对半继续做这种排序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">private void quickSort(int[] src, int begin, int end) &#123;</span><br><span class="line">    if (begin &lt; end) &#123;</span><br><span class="line">        int key = src[begin];</span><br><span class="line">        int i = begin;</span><br><span class="line">        int j = end;</span><br><span class="line">        while (i &lt; j) &#123;</span><br><span class="line">            while (i &lt; j &amp;&amp; src[j] &gt; key) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; j) &#123;</span><br><span class="line">                int tmp = src[i];</span><br><span class="line">                src[i] = src[j];</span><br><span class="line">                src[j] = tmp;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            while (i &lt; j &amp;&amp; src[i] &lt; key) &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; j) &#123;</span><br><span class="line">                int tmp = src[i];</span><br><span class="line">                src[i] = src[j];</span><br><span class="line">                src[j] = tmp;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        //src[i] = key;</span><br><span class="line">        quickSort(src, begin, i - 1);</span><br><span class="line">        quickSort(src, i + 1, end);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>详细图解: <a target="_blank" rel="noopener" href="http://data.biancheng.net/view/117.html">http://data.biancheng.net/view/117.html</a> q</p>
+<h2 id="堆排序-heap-sort"><a href="#堆排序-heap-sort" class="headerlink" title="堆排序 (heap sort)"></a>堆排序 (heap sort)</h2><p>堆(heap) 是一种完全二叉树，分为两种，大顶堆和小顶堆，满足以下关系:    </p>
+<ul>
+<li>大顶堆: arr[i] &gt;&#x3D; arr[2i+1] &amp;&amp; arr[i] &gt;&#x3D; arr[2i+2]</li>
+<li>小顶堆: arr[i] &lt;&#x3D; arr[2i+1] &amp;&amp; arr[i] &lt;&#x3D; arr[2i+2]<br>通常升序用大顶堆，降序用小顶堆。<br>基本思路: </li>
+<li>将无序数组变成大顶堆</li>
+<li>将首个数值换到最后一个</li>
+<li>将剩下的继续调整成大顶堆<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package sortdemo;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by chengxiao on 2016/12/17.</span><br><span class="line"> * 堆排序demo</span><br><span class="line"> */</span><br><span class="line">public class HeapSort &#123;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        int []arr = &#123;9,8,7,6,5,4,3,2,1&#125;;</span><br><span class="line">        sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    public static void sort(int []arr)&#123;</span><br><span class="line">        //1.构建大顶堆</span><br><span class="line">        for(int i=arr.length/2-1;i&gt;=0;i--)&#123;</span><br><span class="line">            //从第一个非叶子结点从下至上，从右至左调整结构</span><br><span class="line">            adjustHeap(arr,i,arr.length);</span><br><span class="line">        &#125;</span><br><span class="line">        //2.调整堆结构+交换堆顶元素与末尾元素</span><br><span class="line">        for(int j=arr.length-1;j&gt;0;j--)&#123;</span><br><span class="line">            swap(arr,0,j);//将堆顶元素与末尾元素进行交换</span><br><span class="line">            adjustHeap(arr,0,j);//重新对堆进行调整</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）</span><br><span class="line">     * @param arr</span><br><span class="line">     * @param i</span><br><span class="line">     * @param length</span><br><span class="line">     */</span><br><span class="line">    public static void adjustHeap(int []arr,int i,int length)&#123;</span><br><span class="line">        int temp = arr[i];//先取出当前元素i</span><br><span class="line">        for(int k=i*2+1;k&lt;length;k=k*2+1)&#123;//从i结点的左子结点开始，也就是2i+1处开始</span><br><span class="line">            if(k+1&lt;length &amp;&amp; arr[k]&lt;arr[k+1])&#123;//如果左子结点小于右子结点，k指向右子结点</span><br><span class="line">                k++;</span><br><span class="line">            &#125;</span><br><span class="line">            if(arr[k] &gt;temp)&#123;//如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）</span><br><span class="line">                arr[i] = arr[k];</span><br><span class="line">                i = k;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[i] = temp;//将temp值放到最终的位置</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 交换元素</span><br><span class="line">     * @param arr</span><br><span class="line">     * @param a</span><br><span class="line">     * @param b</span><br><span class="line">     */</span><br><span class="line">    public static void swap(int []arr,int a ,int b)&#123;</span><br><span class="line">        int temp=arr[a];</span><br><span class="line">        arr[a] = arr[b];</span><br><span class="line">        arr[b] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+图解: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6129630.html">https://www.cnblogs.com/chengxiao/p/6129630.html</a></li>
+</ul>
+<h2 id="归并排序-merge-sort"><a href="#归并排序-merge-sort" class="headerlink" title="归并排序(merge sort)"></a>归并排序(merge sort)</h2><p>分治，先分成最小，再合并有序数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package sortdemo;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by chengxiao on 2016/12/8.</span><br><span class="line"> */</span><br><span class="line">public class MergeSort &#123;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        int []arr = &#123;9,8,7,6,5,4,3,2,1&#125;;</span><br><span class="line">        sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    public static void sort(int []arr)&#123;</span><br><span class="line">        int []temp = new int[arr.length];//在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间</span><br><span class="line">        sort(arr,0,arr.length-1,temp);</span><br><span class="line">    &#125;</span><br><span class="line">    private static void sort(int[] arr,int left,int right,int []temp)&#123;</span><br><span class="line">        if(left&lt;right)&#123;</span><br><span class="line">            int mid = (left+right)/2;</span><br><span class="line">            sort(arr,left,mid,temp);//左边归并排序，使得左子序列有序</span><br><span class="line">            sort(arr,mid+1,right,temp);//右边归并排序，使得右子序列有序</span><br><span class="line">            merge(arr,left,mid,right,temp);//将两个有序子数组合并操作</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private static void merge(int[] arr,int left,int mid,int right,int[] temp)&#123;</span><br><span class="line">        int i = left;//左序列指针</span><br><span class="line">        int j = mid+1;//右序列指针</span><br><span class="line">        int t = 0;//临时数组指针</span><br><span class="line">        while (i&lt;=mid &amp;&amp; j&lt;=right)&#123;</span><br><span class="line">            if(arr[i]&lt;=arr[j])&#123;</span><br><span class="line">                temp[t++] = arr[i++];</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                temp[t++] = arr[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        while(i&lt;=mid)&#123;//将左边剩余元素填充进temp中</span><br><span class="line">            temp[t++] = arr[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        while(j&lt;=right)&#123;//将右序列剩余元素填充进temp中</span><br><span class="line">            temp[t++] = arr[j++];</span><br><span class="line">        &#125;</span><br><span class="line">        t = 0;</span><br><span class="line">        //将temp中的元素全部拷贝到原数组中</span><br><span class="line">        while(left &lt;= right)&#123;</span><br><span class="line">            arr[left++] = temp[t++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>图解: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6194356.html">https://www.cnblogs.com/chengxiao/p/6194356.html</a></p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>数据按照某种方式丢到不同的桶里面，保证左边桶的所有数字一定小于右边的所有桶的数字，比如,arr[] &#x3D; {1,2,3,1,12,32,23,45}<br>我们可以分成5个桶，通过arr[i]&#x2F;50的方式来放入，这样就变成: </p>
+<ul>
+<li>bucket_1 &#x3D; {1，2，3，1}</li>
+<li>bucket_2 &#x3D; {12}</li>
+<li>bucket_3 &#x3D; {23}</li>
+<li>bucket_4 &#x3D; {32}</li>
+<li>bucket_5 &#x3D; {45}<br>桶排序需要保证数据尽量均匀分布，不然会浪费桶的数量，造成额外的空间。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">//微信公众号：bigsai</span><br><span class="line">public class test3 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int a[]= &#123;1,8,7,44,42,46,38,34,33,17,15,16,27,28,24&#125;;</span><br><span class="line">		List[] buckets=new ArrayList[5];</span><br><span class="line">		for(int i=0;i&lt;buckets.length;i++)//初始化</span><br><span class="line">		&#123;</span><br><span class="line">			buckets[i]=new ArrayList&lt;Integer&gt;();</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;a.length;i++)//将待排序序列放入对应桶中</span><br><span class="line">		&#123;</span><br><span class="line">			int index=a[i]/10;//对应的桶号</span><br><span class="line">			buckets[index].add(a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;buckets.length;i++)//每个桶内进行排序(使用系统自带快排)</span><br><span class="line">		&#123;</span><br><span class="line">			buckets[i].sort(null);</span><br><span class="line">			for(int j=0;j&lt;buckets[i].size();j++)//顺便打印输出</span><br><span class="line">			&#123;</span><br><span class="line">				System.out.print(buckets[i].get(j)+&quot; &quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Java和python中默认的排序-timsort"><a href="#Java和python中默认的排序-timsort" class="headerlink" title="Java和python中默认的排序 - timsort"></a>Java和python中默认的排序 - timsort</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">直接看知乎吧</span><br><span class="line">https://www.zhihu.com/question/23928138</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/20/leetcode15/" rel="prev" title="leetcode 15">
+                  <i class="fa fa-angle-left"></i> leetcode 15
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/26/hive-advanced/" rel="next" title="Hive的高级特性">
+                  Hive的高级特性 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

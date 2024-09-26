@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="leetcode 993涉及知识点二叉树，深度优先搜索，广度优先搜索 答案DFS123456789101112131415161718192021222324252627282930class solution：    def isCousions(self,root: TreeNode, x: int, y: int):        # X 的相关信息        x_parent, x_d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode 993">
+<meta property="og:url" content="https://unicorn-raya.github.io/2021/05/17/leetcode993/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="leetcode 993涉及知识点二叉树，深度优先搜索，广度优先搜索 答案DFS123456789101112131415161718192021222324252627282930class solution：    def isCousions(self,root: TreeNode, x: int, y: int):        # X 的相关信息        x_parent, x_d">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://unicorn-raya.github.io/leetcode993/binary-tree.PNG">
+<meta property="article:published_time" content="2021-05-17T12:54:39.000Z">
+<meta property="article:modified_time" content="2021-05-21T07:34:12.000Z">
+<meta property="article:author" content="ray">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="二叉树">
+<meta property="article:tag" content="DFS">
+<meta property="article:tag" content="BFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unicorn-raya.github.io/leetcode993/binary-tree.PNG">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/2021/05/17/leetcode993/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/2021/05/17/leetcode993/","path":"2021/05/17/leetcode993/","title":"leetcode 993"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>leetcode 993 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#leetcode-993"><span class="nav-number">1.</span> <span class="nav-text">leetcode 993</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%89%E5%8F%8A%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">涉及知识点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%94%E6%A1%88"><span class="nav-number">1.2.</span> <span class="nav-text">答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DFS"><span class="nav-number">1.3.</span> <span class="nav-text">DFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BFS"><span class="nav-number">1.3.1.</span> <span class="nav-text">BFS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%B9%B2"><span class="nav-number">1.4.1.</span> <span class="nav-text">题干</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.4.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98"><span class="nav-number">1.4.3.</span> <span class="nav-text">解题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-1-%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">基础知识 1 二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-2-%E9%81%8D%E5%8E%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">基础知识 2 遍历算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DFS-1"><span class="nav-number">1.4.3.2.1.</span> <span class="nav-text">DFS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BFS-1"><span class="nav-number">1.4.3.2.2.</span> <span class="nav-text">BFS</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/17/leetcode993/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="leetcode 993 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode 993
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-17 20:54:39" itemprop="dateCreated datePublished" datetime="2021-05-17T20:54:39+08:00">2021-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-05-21 15:34:12" itemprop="dateModified" datetime="2021-05-21T15:34:12+08:00">2021-05-21</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="leetcode-993"><a href="#leetcode-993" class="headerlink" title="leetcode 993"></a>leetcode 993</h1><h2 id="涉及知识点"><a href="#涉及知识点" class="headerlink" title="涉及知识点"></a>涉及知识点</h2><p>二叉树，深度优先搜索，广度优先搜索</p>
+<h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><h2 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class solution：</span><br><span class="line">    def isCousions(self,root: TreeNode, x: int, y: int):</span><br><span class="line">        # X 的相关信息</span><br><span class="line">        x_parent, x_depth, x_found = None,None,False</span><br><span class="line">        # Y 的相关信息</span><br><span class="line">        y-parent, y_depth, y_found = None,None,False</span><br><span class="line">        def dfs(node: TreeNode, depth: int, parent: TreeNode):</span><br><span class="line">            if not node:</span><br><span class="line">                return </span><br><span class="line">            nonlocal x_parent,y_parent,x_depth,y_depth,x_found,y_found</span><br><span class="line"></span><br><span class="line">            if node.val == x:</span><br><span class="line">                x_parent,x_depth,x_found = parent,depth, True</span><br><span class="line">            elif node.val == y:</span><br><span class="line">                y_parent,y_depth,y_found = parent,depth, True</span><br><span class="line">            </span><br><span class="line">            # 假如两个点都找到了，就推出遍历</span><br><span class="line">            </span><br><span class="line">            if x_found and y_found：</span><br><span class="line">                return</span><br><span class="line">            </span><br><span class="line">            dfs(node.right,depth + 1, node)</span><br><span class="line"></span><br><span class="line">            if x_found and y_found:</span><br><span class="line">                return </span><br><span class="line">            </span><br><span class="line">            dfs(node.right, depth + 1,node)</span><br><span class="line">        dfs(root, 0, None)</span><br><span class="line">        return x_depth == y_depth and x_parent != y_parent</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def isCousins(self,root: TreeNode, x: int, y:int) -&gt; bool:</span><br><span class="line">        # X 的信息</span><br><span class="line">        x_parent, x_depth, x_found = None, None, False</span><br><span class="line">        # Y 的信息</span><br><span class="line">        y_parent, y_depth, y_found = None, None, False</span><br><span class="line"></span><br><span class="line">        def update(node: TreeNode, parent: TreeNode, depth: int):</span><br><span class="line">            if node.val == x:</span><br><span class="line">                nonlocal x_parent,x_depth,x_found</span><br><span class="line">                x_parent,x_depth,x_found = parent, depth, True</span><br><span class="line">            elif node.val == y:</span><br><span class="line">                nonlocal y_parent,y_depth,y_found</span><br><span class="line">                y_parent,y_depth,y_found = parent, depth, True</span><br><span class="line">            q = collection.deque([root,0])</span><br><span class="line">            update(root,None,0)</span><br><span class="line">            while q:</span><br><span class="line">                node, depth = q.popleft()</span><br><span class="line">                if node.left:</span><br><span class="line">                    q.append((node.left,depth + 1))</span><br><span class="line">                    update(node.left,node,depth + 1)</span><br><span class="line">                if node.right:</span><br><span class="line">                    q.append((node.right,depth + 1))</span><br><span class="line">                    update(node.right,node,depth + 1)</span><br><span class="line">                if x_found and y_found:</span><br><span class="line">                    break</span><br><span class="line">                </span><br><span class="line">        return x_depth == y_depth and x_parent != y_parent</span><br></pre></td></tr></table></figure>
+
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="题干"><a href="#题干" class="headerlink" title="题干"></a>题干</h3><p>在二叉树中，根节点位于深度 0 处，每个深度为 k 的节点的子节点位于深度 k+1 处。<br>如果二叉树的两个节点深度相同，但 父节点不同 ，则它们是一对堂兄弟节点。<br>我们给出了具有唯一值的二叉树的根节点 root ，以及树中两个不同节点的值 x 和 y 。<br>只有与值 x 和 y 对应的节点是堂兄弟节点时，才返回 true 。否则，返回 false。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>这题其实就是求树中node的深度。需要注意的是父节点要不同。<br>求节点深度有两种方法，深度优先(BFS)和广度优先(DFS)。两个都可以。</p>
+<h3 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h3><h4 id="基础知识-1-二叉树"><a href="#基础知识-1-二叉树" class="headerlink" title="基础知识 1 二叉树"></a>基础知识 1 二叉树</h4><p>二叉树是一种树结构，一个node，有两个子节点，左和右边。每个节点的结构相同</p>
+<h4 id="基础知识-2-遍历算法"><a href="#基础知识-2-遍历算法" class="headerlink" title="基础知识 2 遍历算法"></a>基础知识 2 遍历算法</h4><p>现在有一个二叉树结构，如图<br><img src="/./leetcode993/binary-tree.PNG" alt="binary-tree"></p>
+<h5 id="DFS-1"><a href="#DFS-1" class="headerlink" title="DFS"></a>DFS</h5><p>通过深度优先出来的结果应该是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A--&gt;B--&gt;D--&gt;E--&gt;I--&gt;C--&gt;F--&gt;G--&gt;H</span><br></pre></td></tr></table></figure>
+<p>对应代码应该是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def binary_tree_DFS(TreeNode root):</span><br><span class="line">    if root is not None:</span><br><span class="line">        print(root.value)</span><br><span class="line">    if root.left is not None:</span><br><span class="line">        binary_tree_DFS(root.left)</span><br><span class="line">    if root.right is not None:</span><br><span class="line">        binary_tree_DFS(root.right)</span><br></pre></td></tr></table></figure>
+<h5 id="BFS-1"><a href="#BFS-1" class="headerlink" title="BFS"></a>BFS</h5><p>通过广度优先出来的结果应该是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A--&gt;B--&gt;C--&gt;D--&gt;E--&gt;F--&gt;G--&gt;H--&gt;I</span><br></pre></td></tr></table></figure>
+<p>对应代码应该是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def binary_tree_BFS(Treenode root):</span><br><span class="line">    if root is not None:</span><br><span class="line">        return </span><br><span class="line">    q = []</span><br><span class="line">    node = root</span><br><span class="line">    q.append(node)</span><br><span class="line">    while q:</span><br><span class="line">        node = q.pop(0)</span><br><span class="line">        print(node.value)</span><br><span class="line">        if node.left is not None:</span><br><span class="line">            q.append(node.left)</span><br><span class="line">        if node.right is not None:</span><br><span class="line">            q.append(node.right)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag"># 二叉树</a>
+              <a href="/tags/DFS/" rel="tag"># DFS</a>
+              <a href="/tags/BFS/" rel="tag"># BFS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/17/leetcode1734/" rel="prev" title="leetcode 1734">
+                  <i class="fa fa-angle-left"></i> leetcode 1734
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/18/hive/" rel="next" title="Hive">
+                  Hive <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

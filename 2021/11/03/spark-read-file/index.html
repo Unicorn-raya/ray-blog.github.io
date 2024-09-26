@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="最近在项目上遇到需要读csv文件的情况，而且还是本地的。中间出现了数据读漏，读岔的情况。这里写一篇日志来总结我在读文件中遇到的坑。 比如一个csv文件，他的数据是这样的： 1234name,age,scorexiaoming,18,61xiaozhang,20,89... 这种情况下往往我们都会用最常见的读取csv的操作 12val sample_df &#x3D; spark.read.format(&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何用spark读取含有特殊字符的本地文件">
+<meta property="og:url" content="https://unicorn-raya.github.io/2021/11/03/spark-read-file/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近在项目上遇到需要读csv文件的情况，而且还是本地的。中间出现了数据读漏，读岔的情况。这里写一篇日志来总结我在读文件中遇到的坑。 比如一个csv文件，他的数据是这样的： 1234name,age,scorexiaoming,18,61xiaozhang,20,89... 这种情况下往往我们都会用最常见的读取csv的操作 12val sample_df &#x3D; spark.read.format(&amp;q">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-03T08:08:39.000Z">
+<meta property="article:modified_time" content="2021-11-03T10:22:56.000Z">
+<meta property="article:author" content="ray">
+<meta property="article:tag" content="大数据学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/2021/11/03/spark-read-file/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/2021/11/03/spark-read-file/","path":"2021/11/03/spark-read-file/","title":"如何用spark读取含有特殊字符的本地文件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何用spark读取含有特殊字符的本地文件 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Case-1-%E6%95%B0%E6%8D%AE%E6%9C%AC%E8%BA%AB%E5%B0%B1%E6%9C%89%E9%80%97%E5%8F%B7"><span class="nav-number">1.</span> <span class="nav-text">Case 1 数据本身就有逗号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Case-2-%E6%95%B0%E6%8D%AE%E5%90%AB%E6%9C%89%E5%9B%9E%E8%BD%A6"><span class="nav-number">2.</span> <span class="nav-text">Case 2 数据含有回车</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E9%80%9A%E7%94%A8%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">一个通用解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85pyarrow%E7%9A%84%E5%B0%8F%E5%9D%91"><span class="nav-number">3.1.</span> <span class="nav-text">安装pyarrow的小坑</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/11/03/spark-read-file/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何用spark读取含有特殊字符的本地文件 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何用spark读取含有特殊字符的本地文件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-11-03 16:08:39 / Modified: 18:22:56" itemprop="dateCreated datePublished" datetime="2021-11-03T16:08:39+08:00">2021-11-03</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近在项目上遇到需要读csv文件的情况，而且还是本地的。中间出现了数据读漏，读岔的情况。这里写一篇日志来总结我在读文件中遇到的坑。</p>
+<p>比如一个csv文件，他的数据是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name,age,score</span><br><span class="line">xiaoming,18,61</span><br><span class="line">xiaozhang,20,89</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>这种情况下往往我们都会用最常见的读取csv的操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val sample_df = spark.read.format(&quot;csv&quot;).option(&quot;delimiter&quot;,&quot;,&quot;).option(&quot;header&quot;,True).load(LOCAL_FILE_PATH)</span><br><span class="line">sample_df.show(truncate = False)</span><br></pre></td></tr></table></figure>
+<p>然而当数据变成以下情况时候，这种方法就失效了。</p>
+<h2 id="Case-1-数据本身就有逗号"><a href="#Case-1-数据本身就有逗号" class="headerlink" title="Case 1 数据本身就有逗号"></a>Case 1 数据本身就有逗号</h2><p>同样是上述的数据，但是数据变成如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name,age,score</span><br><span class="line">&quot;xiao,ming&quot;,18,61</span><br><span class="line">&quot;xiaozh,ang&quot;,20,89</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>此时仍然用上面的方法，数据会读成这样：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xiao</td>
+<td>ming</td>
+<td>18</td>
+</tr>
+<tr>
+<td>xiaozh</td>
+<td>ang</td>
+<td>20</td>
+</tr>
+</tbody></table>
+<p>这是因为当用了 option(“delimiter”,”,”) 的时候，每行数据都会用 “,” 隔开。这就会导致数据出现不正确的分割。要解决这种问题需要用如下的读取方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val sample_df = spark.read.format(&quot;csv&quot;).option(&quot;quote&quot;, &quot;\&quot;&quot;).option(&#x27;escape&#x27;, &quot;\&quot;&quot;).option(&quot;header&quot;,True).load(LOCAL_FILE_PATH)</span><br><span class="line">sample_df.show(truncate = False)</span><br></pre></td></tr></table></figure>
+<p>这样，上述的方法就可以读出正确的数据了。</p>
+<h2 id="Case-2-数据含有回车"><a href="#Case-2-数据含有回车" class="headerlink" title="Case 2 数据含有回车"></a>Case 2 数据含有回车</h2><p>还有一种特殊情况，数据是这样的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name,age,score</span><br><span class="line">&quot;xiao,m</span><br><span class="line">ing&quot;,18,61</span><br><span class="line">&quot;xiaozh,a</span><br><span class="line">ng&quot;,20,89</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>这种情况上述的方法会失效，上面的两种读取数据的方法都会得到以下的结果</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xiao,m</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>ing</td>
+<td>18</td>
+<td>61</td>
+</tr>
+</tbody></table>
+<p>在这种情况下，我们需要用如下的方法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val sample_df = spark.read.format(&quot;csv&quot;).option(&quot;quote&quot;, &quot;\&quot;&quot;).option(&#x27;escape&#x27;, &quot;\&quot;&quot;).option(&quot;multiline&quot;, True).option(&quot;header&quot;,True).load(LOCAL_FILE_PATH)</span><br><span class="line">sample_df.show(truncate = False)</span><br></pre></td></tr></table></figure>
+<h2 id="一个通用解"><a href="#一个通用解" class="headerlink" title="一个通用解"></a>一个通用解</h2><p>如上两种方法可以解决绝大多数的特殊字符问题。然而，当数据本身就不是正规的csv文件时候，以上的两种方法仍然会失效。比如，数据是从一些crm系统导出，或者数据存储的编码类型可能会是gbk但是却存储成utf-8的情况(这里用excel打开会出现各种???,但是用<a target="_blank" rel="noopener" href="https://notepad-plus-plus.org/">notepad++</a>打开就能看到文件的真实样子)这时候，spark就会无能为力。<br>为了保证有一个统一的方案，这里推荐安装 <a target="_blank" rel="noopener" href="https://arrow.apache.org/docs/python/index.html">pyarrow</a> 以及<a target="_blank" rel="noopener" href="https://pandas.pydata.org/">pandas</a> 来读取本地的数据，然后将pandas的dataframe来转成spark的dataframe.<br>经过一些踩坑的处理，我得到最终的本地通用解是以下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">from pyspark.sql import SparkSession,DataFrame</span><br><span class="line">from pyspark.sql import functions as f</span><br><span class="line">from pyspark.sql.functions import when,udf,concat_ws,col,lit,concat,substring,regexp_replace,date_format,expr</span><br><span class="line">from pyspark.sql.types import DoubleType,IntegerType</span><br><span class="line">import pandas as pd</span><br><span class="line">pd.set_option(&quot;max_columns&quot;,10000)</span><br><span class="line">spark = SparkSession.builder.master(&#x27;local[*]&#x27;).appName(&#x27;sample&#x27;).config(&quot;spark.executor.memory&quot;, &quot;6g&quot;)\</span><br><span class="line">                                                .config(&quot;spark.driver.memory&quot;, &quot;5g&quot;)\</span><br><span class="line">                                                .config(&quot;spark.memory.offHeap.enabled&quot;,True)\</span><br><span class="line">                                                .config(&quot;spark.memory.offHeap.size&quot;,&quot;10g&quot;).getOrCreate()</span><br><span class="line"></span><br><span class="line">spark.sparkContext.setLogLevel(&quot;ERROR&quot;) </span><br><span class="line">spark.conf.set(&quot;spark.sql.execution.arrow.pyspark.enabled&quot;, &quot;true&quot;)</span><br><span class="line"></span><br><span class="line">def load_csv(spark:SparkSession, path:str, used_column:list = None) -&gt; DataFrame:</span><br><span class="line">    if used_column is None:</span><br><span class="line">        used_column = spark.read.format(&quot;csv&quot;).option(&quot;header&quot;,True).option(&quot;delimiter&quot;,&quot;,&quot;).load(path).columns</span><br><span class="line">    &quot;&quot;&quot;read csv to spark df&quot;&quot;&quot;</span><br><span class="line">    pd_df = pd.read_csv(path,dtype=str)[used_column]</span><br><span class="line">    pd_df = pd_df.where((pd.notnull(pd_df)), None)</span><br><span class="line">    df = spark.createDataFrame(pd_df.astype(str)).replace(&#x27;None&#x27;,None).replace(&#x27;&#x27;,None)</span><br><span class="line">    return df</span><br><span class="line">data = load_csv(spark,LOCAL_FILE_PATH)</span><br></pre></td></tr></table></figure>
+<p>在用pyarrow的支持下，pandas的dataframe转spark的dataframe会快非常多。其中推荐首先选出需要的column,然后将列转到函数变量，而不是全量加载。此外函数内部同样处理了空值的情况，将None做了额外的处理。否则数据中的空值在pandas中会处理成NaN传递到spark的dataframe中，这种情况会导致df.isNull()&#x2F;df.isNotNull()判断失效。</p>
+<h3 id="安装pyarrow的小坑"><a href="#安装pyarrow的小坑" class="headerlink" title="安装pyarrow的小坑"></a>安装pyarrow的小坑</h3><p>Q:执行安装命令后没有反应<br>A: 需要安装如下<a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=48145">依赖</a>，假如你的本地装了visual studio，本地会有一个vc2015-2019的依赖，这个依赖会和这两个依赖冲突，需要先卸载visual studio的依赖，再安装这个。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0/" rel="tag"># 大数据学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/15/whyKafkaSoFast_cn/" rel="prev" title="为什么kafka这么快（总结）">
+                  <i class="fa fa-angle-left"></i> 为什么kafka这么快（总结）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/24/rdd1/" rel="next" title="论文存档">
+                  论文存档 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

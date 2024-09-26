@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Spark 简介Spark, what?Spark 是一个用于大数据的分布式计算框架 Why the spark首先，MapReduce 可以处理 one-pass 计算，但是更加复杂的就不行，比如图计算，机器学习。交互性更强的ad-hoc queries，也不能做到。还有像流数据的处理，也不可能。 Spark 的结构和成员 Master node Cluster Manager Worker N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark">
+<meta property="og:url" content="https://unicorn-raya.github.io/2021/05/10/spark/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spark 简介Spark, what?Spark 是一个用于大数据的分布式计算框架 Why the spark首先，MapReduce 可以处理 one-pass 计算，但是更加复杂的就不行，比如图计算，机器学习。交互性更强的ad-hoc queries，也不能做到。还有像流数据的处理，也不可能。 Spark 的结构和成员 Master node Cluster Manager Worker N">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/spark-a.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/narrow-wude.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/boardcast.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/hadoop-partition.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/hadoop-wordcount.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/rdd-reduceByKey.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/rdd-groupByKey.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/boardcast-join.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/Shuffle-Hash-Join.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/spark/Sort-Merge-Join.PNG">
+<meta property="article:published_time" content="2021-05-10T06:08:39.000Z">
+<meta property="article:modified_time" content="2021-05-24T10:04:18.000Z">
+<meta property="article:author" content="ray">
+<meta property="article:tag" content="大数据学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unicorn-raya.github.io/spark/spark-a.PNG">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/2021/05/10/spark/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/2021/05/10/spark/","path":"2021/05/10/spark/","title":"spark"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>spark | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Spark 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-what"><span class="nav-number">1.1.</span> <span class="nav-text">Spark, what?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-the-spark"><span class="nav-number">1.2.</span> <span class="nav-text">Why the spark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E6%88%90%E5%91%98"><span class="nav-number">1.3.</span> <span class="nav-text">Spark 的结构和成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resilient-Distributed-Dataset-RDD"><span class="nav-number">1.4.</span> <span class="nav-text">Resilient Distributed Dataset (RDD)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDD-%E7%89%B9%E7%82%B9"><span class="nav-number">1.4.1.</span> <span class="nav-text">RDD 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDD-%E5%88%9B%E5%BB%BA-Creation"><span class="nav-number">1.4.2.</span> <span class="nav-text">RDD 创建(Creation)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDD-%E7%AE%97%E5%AD%90-Operation"><span class="nav-number">1.4.3.</span> <span class="nav-text">RDD 算子(Operation)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Transformations"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">Transformations</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%BD%E7%AA%84%E4%BE%9D%E8%B5%96-Narrow-and-wide-Transformations"><span class="nav-number">1.4.3.1.1.</span> <span class="nav-text">宽窄依赖( Narrow and wide Transformations)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Actions"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">Actions</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%83%B0%E6%80%A7%E8%AE%A1%E7%AE%97-lazy-Evaluation"><span class="nav-number">1.5.</span> <span class="nav-text">惰性计算(lazy Evaluation)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F-shared-variable"><span class="nav-number">1.6.</span> <span class="nav-text">共享变量(shared variable)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F-broadcast-variable"><span class="nav-number">1.6.1.</span> <span class="nav-text">广播变量 (broadcast variable)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F%E5%9C%A8spark%E4%B8%AD%E7%9A%84%E4%BC%A0%E6%92%AD%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">广播变量在spark中的传播方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">广播变量的优点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%AF%E5%8A%A0%E5%99%A8-Accumulator"><span class="nav-number">1.6.2.</span> <span class="nav-text">累加器(Accumulator)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RDD-%E8%A1%80%E7%BB%9F-Lineage"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">RDD 血统(Lineage)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E9%94%99%EF%BC%88Fault-tolerance%EF%BC%89"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">容错（Fault tolerance）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAG-in-Spark"><span class="nav-number">1.6.3.</span> <span class="nav-text">DAG in Spark</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Stages-and-Tasks"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">Stages and Tasks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lineage-vs-DAG-in-Spark"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">Lineage vs. DAG in Spark</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MapReduce"><span class="nav-number">2.</span> <span class="nav-text">MapReduce</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce-%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">MapReduce 中的数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map-and-Reduce"><span class="nav-number">2.2.</span> <span class="nav-text">Map and Reduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop%E4%B8%AD%E7%9A%84-mapreduce"><span class="nav-number">2.3.</span> <span class="nav-text">Hadoop中的 mapreduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shuffle"><span class="nav-number">2.4.</span> <span class="nav-text">Shuffle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop-%E4%B8%AD%E7%9A%84shuffle%EF%BC%88%E7%94%B1framework%E5%A4%84%E7%90%86%EF%BC%89"><span class="nav-number">2.4.1.</span> <span class="nav-text">Hadoop 中的shuffle（由framework处理）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark%E4%B8%AD%E7%9A%84shuffle"><span class="nav-number">2.4.2.</span> <span class="nav-text">Spark中的shuffle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash-Shuffle"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">Hash Shuffle</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">2.4.2.1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">2.4.2.1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sort-Shuffle"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">Sort Shuffle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tungsten-shuffle-sort"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">Tungsten shuffle-sort</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark%E4%B8%AD%E7%9A%84-mapreduce"><span class="nav-number">2.5.</span> <span class="nav-text">Spark中的 mapreduce</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83rdd%E7%AE%97%E5%AD%90-CombineByKey"><span class="nav-number">2.5.1.</span> <span class="nav-text">核心rdd算子 CombineByKey</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#createCombiner"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">createCombiner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mergeValue"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">mergeValue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mergeCombiners"><span class="nav-number">2.5.1.3.</span> <span class="nav-text">mergeCombiners</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8D%E7%94%9F1-reduceByKey"><span class="nav-number">2.5.2.</span> <span class="nav-text">衍生1 reduceByKey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8D%E7%94%9F2-groupByKey"><span class="nav-number">2.5.3.</span> <span class="nav-text">衍生2 groupByKey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark%E4%B8%AD%E7%9A%84MR%E6%95%88%E7%8E%87"><span class="nav-number">2.5.4.</span> <span class="nav-text">Spark中的MR效率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transformation-%E7%9A%84%E6%95%B0%E9%87%8F"><span class="nav-number">2.5.4.1.</span> <span class="nav-text">transformation 的数量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transformation-%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="nav-number">2.5.4.2.</span> <span class="nav-text">transformation 的大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shuffles"><span class="nav-number">2.5.4.3.</span> <span class="nav-text">shuffles</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AARDD%EF%BC%9F"><span class="nav-number">2.5.5.</span> <span class="nav-text">如何合并两个RDD？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Union"><span class="nav-number">2.5.5.1.</span> <span class="nav-text">Union</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Zip"><span class="nav-number">2.5.5.2.</span> <span class="nav-text">Zip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Join"><span class="nav-number">2.5.5.3.</span> <span class="nav-text">Join</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark-%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">Spark 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E8%A1%A8join%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">大小表join的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E8%A1%A8%E5%AF%B9%E5%A4%A7%E8%A1%A8-broadcast-join"><span class="nav-number">3.1.1.</span> <span class="nav-text">小表对大表 broadcast  join</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shuffle-Hash-Join"><span class="nav-number">3.1.2.</span> <span class="nav-text">Shuffle Hash Join</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#shuffle-hash-join%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">shuffle hash join的步骤:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%90%E5%88%B6"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">限制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E8%A1%A8%E5%AF%B9%E5%A4%A7%E8%A1%A8-Sort-Merge-Join"><span class="nav-number">3.1.3.</span> <span class="nav-text">大表对大表 Sort Merge Join</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark%E7%9A%84%E7%BB%93%E6%9E%84%E8%B0%83%E4%BC%98"><span class="nav-number">3.2.</span> <span class="nav-text">Spark的结构调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Driver-%E8%B0%83%E4%BC%98"><span class="nav-number">3.2.1.</span> <span class="nav-text">Driver 调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Executor-%E8%B0%83%E4%BC%98"><span class="nav-number">3.2.2.</span> <span class="nav-text">Executor 调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shuffle-%E7%9A%84%E8%B0%83%E4%BC%98"><span class="nav-number">3.2.3.</span> <span class="nav-text">Shuffle 的调优</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-%E7%BC%93%E5%AD%98-cache"><span class="nav-number">3.3.</span> <span class="nav-text">spark 缓存(cache)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDD-%E7%BC%93%E5%AD%98"><span class="nav-number">3.3.1.</span> <span class="nav-text">RDD 缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BA%A7%E5%88%AB"><span class="nav-number">3.3.2.</span> <span class="nav-text">存储级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E7%BC%93%E5%AD%98"><span class="nav-number">3.3.3.</span> <span class="nav-text">移除缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataframe-%E7%BC%93%E5%AD%98"><span class="nav-number">3.3.4.</span> <span class="nav-text">Dataframe 缓存</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/10/spark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="spark | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spark
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-10 14:08:39" itemprop="dateCreated datePublished" datetime="2021-05-10T14:08:39+08:00">2021-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-05-24 18:04:18" itemprop="dateModified" datetime="2021-05-24T18:04:18+08:00">2021-05-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Spark-简介"><a href="#Spark-简介" class="headerlink" title="Spark 简介"></a>Spark 简介</h1><h2 id="Spark-what"><a href="#Spark-what" class="headerlink" title="Spark, what?"></a>Spark, what?</h2><p>Spark 是一个用于大数据的分布式计算框架</p>
+<h2 id="Why-the-spark"><a href="#Why-the-spark" class="headerlink" title="Why the spark"></a>Why the spark</h2><p>首先，MapReduce 可以处理 one-pass 计算，但是更加复杂的就不行，比如图计算，机器学习。交互性更强的ad-hoc queries，也不能做到。还有像流数据的处理，也不可能。</p>
+<h2 id="Spark-的结构和成员"><a href="#Spark-的结构和成员" class="headerlink" title="Spark 的结构和成员"></a>Spark 的结构和成员</h2><ul>
+<li>Master node</li>
+<li>Cluster Manager</li>
+<li>Worker Node<br><img src="/./spark/spark-a.PNG" alt="spark-a"></li>
+</ul>
+<h2 id="Resilient-Distributed-Dataset-RDD"><a href="#Resilient-Distributed-Dataset-RDD" class="headerlink" title="Resilient Distributed Dataset (RDD)"></a>Resilient Distributed Dataset (RDD)</h2><ul>
+<li>RDD 是存数据的位置</li>
+<li>spark中的基础数据类型<ol>
+<li>并行(parallel)</li>
+<li>容错(resilient)</li>
+</ol>
+</li>
+</ul>
+<h3 id="RDD-特点"><a href="#RDD-特点" class="headerlink" title="RDD 特点"></a>RDD 特点</h3><ul>
+<li>在内存中计算(In memory computation)</li>
+<li>分区(Partitioning)</li>
+<li>容错(Fault tolerance)</li>
+<li>不可变(Immutability)</li>
+<li>持久性(Persistence)</li>
+<li>Coarse-grained operations</li>
+<li>Location-stickiness</li>
+</ul>
+<h3 id="RDD-创建-Creation"><a href="#RDD-创建-Creation" class="headerlink" title="RDD 创建(Creation)"></a>RDD 创建(Creation)</h3><ul>
+<li>在driver program中，并行已在的集合</li>
+<li>引用外部存储的数据,像HDFS,HBASE,默认下，spark对每个block中的文件做一个partition</li>
+</ul>
+<h3 id="RDD-算子-Operation"><a href="#RDD-算子-Operation" class="headerlink" title="RDD 算子(Operation)"></a>RDD 算子(Operation)</h3><h4 id="Transformations"><a href="#Transformations" class="headerlink" title="Transformations"></a>Transformations</h4><p>function, 一个rdd进，一到多个rdd出。不会触发计算。</p>
+<h5 id="宽窄依赖-Narrow-and-wide-Transformations"><a href="#宽窄依赖-Narrow-and-wide-Transformations" class="headerlink" title="宽窄依赖( Narrow and wide Transformations)"></a>宽窄依赖( Narrow and wide Transformations)</h5><p>narrow没有shuffle, 操作: map,flatMap,filter,sample<br>wide有shuffle,比如softByKey, reduceByKey,groupByKey,join<br><img src="/./spark/narrow-wude.PNG" alt="narrow-wide"></p>
+<h4 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h4><p>rdd的算子，输出是非rdd的value.会触发spark的计算.<br>以下都是action的算子: collect,take,reduce,forEach,sample,count,save   </p>
+<h2 id="惰性计算-lazy-Evaluation"><a href="#惰性计算-lazy-Evaluation" class="headerlink" title="惰性计算(lazy Evaluation)"></a>惰性计算(lazy Evaluation)</h2><p>目的就是最小化计算机的工作，也就是延迟求值或者最小化求值。除了提升性能外，还可以构造一个无限的数据模型<br>eg:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">li = [lambda :x for x in range(10)]</span><br><span class="line">res = li[0]()</span><br><span class="line">print(res)</span><br><span class="line">#输出：9</span><br></pre></td></tr></table></figure>
+<p>原因: 由于编程语言延迟求值的特性，在使用延迟求值的时候，表达式不在它被绑定到变量之后就立即求值，而是在该值被取用的时候求值，<br>当调用li<a href="">0</a> 函数时，x的值已经是9了，所以输出的是9<br>怎么改成从0到9呢？   </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">li2 = [lambda x=x:x for x in range(10)]</span><br><span class="line">res = li2[0]()</span><br><span class="line"></span><br><span class="line">print(res)</span><br><span class="line">for i in li2:</span><br><span class="line">    print(i(), end=&quot; &quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="共享变量-shared-variable"><a href="#共享变量-shared-variable" class="headerlink" title="共享变量(shared variable)"></a>共享变量(shared variable)</h2><h3 id="广播变量-broadcast-variable"><a href="#广播变量-broadcast-variable" class="headerlink" title="广播变量 (broadcast variable)"></a>广播变量 (broadcast variable)</h3><p>广播变量类似MapReduce中的DistributeFile, 通常是一个小表。在drive中创建，一旦创建后，表会在整个集群中广播，能让所有正在运行的计算任务以只读的方式访问。支持各种数据类型。   </p>
+<h4 id="广播变量在spark中的传播方法"><a href="#广播变量在spark中的传播方法" class="headerlink" title="广播变量在spark中的传播方法"></a>广播变量在spark中的传播方法</h4><p>为了保证所有的节点都能接受到driver的变量，我们不能直接去连接driver，这会导致driver会负载，这里，executor 使用的是http连接去拉取数据，类似点对点传输。<br>Spark中，driver会将已序列化的数据分成小块，然后再将数据存储在自己的blockmanager中，当executor开始运行的时候，每个executor首先从自己的内部块管理器中取得广播变量。如果以前广播过，那么直接取。假如没有，executor会从driver或者其他的executor中拉数据块。一旦拉到数据块，就会放到自己的blockmanager中。供自己和其他拉取的executor使用。这样，就很好防止的driver单点的问题。<br><img src="/./spark/boardcast.PNG" alt="boardcast"></p>
+<h4 id="广播变量的优点"><a href="#广播变量的优点" class="headerlink" title="广播变量的优点"></a>广播变量的优点</h4><p>一定数据量范围内，避免shuffle，使得计算尽可能的本地运行。Spark的Map端的操作，就是用广播变量来实现的</p>
+<h3 id="累加器-Accumulator"><a href="#累加器-Accumulator" class="headerlink" title="累加器(Accumulator)"></a>累加器(Accumulator)</h3><p>一个只能累加的共享变量，初始化的累加器的变量是0，在被action算子触发计算后，累加器在map函数中调用，然后会累加，内置的累加器有：</p>
+<ul>
+<li>LongAccumulator: 长整型累加器，64位整数。用于求和，计数，求均值。</li>
+<li>DoubleAccumulator: 双精度累加器，双精度浮点数。用于求和，计数，求均值。</li>
+<li>CollectionAccumulator[T]: 集合型累加器，可以用来收集所需信息的集合。<br>以上三种都继承自：AccumulatorV2,此外，仍然可以自定义累加器。</li>
+</ul>
+<h4 id="RDD-血统-Lineage"><a href="#RDD-血统-Lineage" class="headerlink" title="RDD 血统(Lineage)"></a>RDD 血统(Lineage)</h4><p>RDD的依赖图(dependency graph),记录所有rdd的依赖关系<br>Node: RDDs<br>Edges: 依赖关系</p>
+<h4 id="容错（Fault-tolerance）"><a href="#容错（Fault-tolerance）" class="headerlink" title="容错（Fault tolerance）"></a>容错（Fault tolerance）</h4><p>当worker fail的时候，rdd的所有分区都会丢。<br>但是通过Lineage，我们可以重新得到rdd.同时，这部分的task，会被分配给其他的worker  </p>
+<h3 id="DAG-in-Spark"><a href="#DAG-in-Spark" class="headerlink" title="DAG in Spark"></a>DAG in Spark</h3><p>Direct graph with no cycle   </p>
+<ul>
+<li>Node: RDD, result   </li>
+<li>Edge: RDD 之间的Operations<br>在Action的阶段，DAG会被submit到DAG Scheduler上。之后会被进一步分解成task. DAG也能比mapreduce做更好的全局优化</li>
+</ul>
+<h4 id="Stages-and-Tasks"><a href="#Stages-and-Tasks" class="headerlink" title="Stages and Tasks"></a>Stages and Tasks</h4><p>DAG Scheduler 会把图分解成多个stages, stages的生成是基于算子。<br>窄依赖会被合并到一个stages里面，宽依赖会分割成两个stages.这些stages会被submit到task scheduler.<br>task的数量取决于partition的数量。没有依赖关系的stages可以被集群并行处理   </p>
+<h4 id="Lineage-vs-DAG-in-Spark"><a href="#Lineage-vs-DAG-in-Spark" class="headerlink" title="Lineage vs. DAG in Spark"></a>Lineage vs. DAG in Spark</h4><ul>
+<li>相同的数据结构（都是图）</li>
+<li>不同的end nodes</li>
+<li>Spark里面的role不同</li>
+</ul>
+<h1 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h1><h2 id="MapReduce-中的数据结构"><a href="#MapReduce-中的数据结构" class="headerlink" title="MapReduce 中的数据结构"></a>MapReduce 中的数据结构</h2><p>key-value pairs，key和value可以是任意的数据结构<br>MapReduce的算法，可以用被apply再任意的数据上，比如 网页的collection,key就是urls,value就可以是HTML.</p>
+<h2 id="Map-and-Reduce"><a href="#Map-and-Reduce" class="headerlink" title="Map and Reduce"></a>Map and Reduce</h2><ul>
+<li>Map<ol>
+<li>读数据(RDD in Spark)</li>
+<li>会产生key-value pairs的中间数据</li>
+</ol>
+</li>
+<li>Reduce<ol>
+<li>从先前的多个map的jobs中，接受key-value的pairs</li>
+<li>聚合中间数据，到最终结果</li>
+</ol>
+</li>
+</ul>
+<h2 id="Hadoop中的-mapreduce"><a href="#Hadoop中的-mapreduce" class="headerlink" title="Hadoop中的 mapreduce"></a>Hadoop中的 mapreduce</h2><ul>
+<li><p>数据存储在HDFS上（以blocks的方式存储）</p>
+</li>
+<li><p>Hadoop中，mapreduce会把数据分割成fix-size的小数据，然后，为每个小数据生成一个map task. Map task, 会为小数据跑user-defined map function.</p>
+</li>
+<li><p>小数据的size，通常都是HDFS的block的size</p>
+</li>
+<li><p>Data locality optimization</p>
+<ul>
+<li>当数据在HDFS上，map task在node上跑。这也是小数据的size，和hdfs的size一样。<br>  • The largest size of the input that can be guaranteed to be stored on a single<br>  node<br>  • If the split spanned two blocks, it would be unlikely that any HDFS node<br>  stored both block</li>
+</ul>
+</li>
+<li><p>Map的task会把结果写到local disk上(不是hdfs)</p>
+<ol>
+<li>Map 的结果是中间结果</li>
+<li>一旦job完成，map的结果就可以直接抛弃</li>
+<li>假如中间结果存在hdfs上(会有replication)，可能会导致过载(overkill)</li>
+<li>假如当前Node的map task fails, hadoop会自动把map task转移到其他节点</li>
+</ol>
+</li>
+<li><p>Reduce 的task，没有局部数据的优势</p>
+<ol>
+<li>通常来说，all map的task的结果，都会被合到一个reduce的task</li>
+<li>reduce的结果会被保存在hdfs上以保证数据的可靠性</li>
+<li>reduce的task的结果，不由input的size决定。而是单独的设定</li>
+</ol>
+</li>
+</ul>
+<p>再细节点：<br>当我们有多个reducers时，map task需要partition他们的结果</p>
+<ul>
+<li>一个reduce task一个partition</li>
+<li>一个中间结果的key都再一个partition里面</li>
+<li>partition的过程，可以再user-defined paritioning function中设定</li>
+</ul>
+<p><img src="/./spark/hadoop-partition.PNG" alt="hadoop-partition"></p>
+<h2 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h2><p>shuffle 是数据重分布的过程</p>
+<ul>
+<li>确保每个reducer得到同个key的所有相关values</li>
+<li>需要grouping</li>
+</ul>
+<p>Tips： Spark 和 hadoop 用的是不同的方法来shuffle</p>
+<h3 id="Hadoop-中的shuffle（由framework处理）"><a href="#Hadoop-中的shuffle（由framework处理）" class="headerlink" title="Hadoop 中的shuffle（由framework处理）"></a>Hadoop 中的shuffle（由framework处理）</h3><ul>
+<li>发生在每个map 和 reduce的阶段</li>
+<li>使用shuffle和sort机制： Map的结果，按照key排序，发生在map结束后，开始排序</li>
+<li>用combiner 去减少数据的shuffle<ol>
+<li>Combiner 可以按照key来combine 所有的 key-value的对(pairs)</li>
+<li>combiner不是由framework来处理<br>例子：hadoop中wordcount的过程<br><img src="/./spark/hadoop-wordcount.PNG" alt="hadoop-wordcount"></li>
+</ol>
+</li>
+</ul>
+<h3 id="Spark中的shuffle"><a href="#Spark中的shuffle" class="headerlink" title="Spark中的shuffle"></a>Spark中的shuffle</h3><p>（<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=71#/detail/pc?id=1982%EF%BC%89">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=71#/detail/pc?id=1982）</a></p>
+<ul>
+<li>shuffle是由某些算子触发: Distinct, join, repartition, all *By, *ByKey, 在stages直接发生</li>
+</ul>
+<h4 id="Hash-Shuffle"><a href="#Hash-Shuffle" class="headerlink" title="Hash Shuffle"></a>Hash Shuffle</h4><ul>
+<li>map端发生，数据被hash partitioned</li>
+<li>产生的文件被用来存储partition data的部分数据<ol>
+<li>“# of mappers X # of reducers</li>
+</ol>
+</li>
+<li>通过合并文件，来减少block的文件数量 <ul>
+<li>From M * R &#x3D;&gt; E*C&#x2F;T * R</li>
+</ul>
+</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><p>快，而且没有爆内存</p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><p>output文件量大，尤其是block的partition很多的时候</p>
+<h4 id="Sort-Shuffle"><a href="#Sort-Shuffle" class="headerlink" title="Sort Shuffle"></a>Sort Shuffle</h4><ul>
+<li>每个mapper 到文件， 用key来对数据排序。对每个chunk,标序</li>
+<li>当map被reducer读取的时候即时合并</li>
+<li>如果partition很小的话，会退化成hash shuffle<br>优点： 创建的文件小<br>缺点： 排序没有hash的速度快</li>
+</ul>
+<h4 id="Tungsten-shuffle-sort"><a href="#Tungsten-shuffle-sort" class="headerlink" title="Tungsten shuffle-sort"></a>Tungsten shuffle-sort</h4><p>• More on <a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SPARK-708">https://issues.apache.org/jira/browse/SPARK-708</a></p>
+<h2 id="Spark中的-mapreduce"><a href="#Spark中的-mapreduce" class="headerlink" title="Spark中的 mapreduce"></a>Spark中的 mapreduce</h2><p>spark中的算子（operation）分为 transformation 和 action.</p>
+<h3 id="核心rdd算子-CombineByKey"><a href="#核心rdd算子-CombineByKey" class="headerlink" title="核心rdd算子 CombineByKey"></a>核心rdd算子 CombineByKey</h3><ul>
+<li>作用：RDD([k,v]) &#x3D;&gt; RDD([k,c]), k: key; v: value; c:combined type </li>
+<li>Core: <ol>
+<li>createCombiner </li>
+<li>mergeValue</li>
+<li>mergeCombiners</li>
+</ol>
+</li>
+<li>eg： <a target="_blank" rel="noopener" href="https://spark.apache.org/docs/3.1.1/api/python/reference/api/pyspark.RDD.combineByKey.html">https://spark.apache.org/docs/3.1.1/api/python/reference/api/pyspark.RDD.combineByKey.html</a></li>
+</ul>
+<h4 id="createCombiner"><a href="#createCombiner" class="headerlink" title="createCombiner"></a>createCombiner</h4><p>V &#x3D;&gt; C ，这个函数把当前的值作为参数，此时我们可以对其做些附加操作(类型转换)并把它返回 (这一步类似于初始化操作)</p>
+<h4 id="mergeValue"><a href="#mergeValue" class="headerlink" title="mergeValue"></a>mergeValue</h4><p>(C, V) &#x3D;&gt; C，该函数把元素V合并到之前的元素C(createCombiner)上 (这个操作在每个分区内进行)</p>
+<h4 id="mergeCombiners"><a href="#mergeCombiners" class="headerlink" title="mergeCombiners"></a>mergeCombiners</h4><p>(C, C) &#x3D;&gt; C，该函数把2个元素C合并 (这个操作会跨分区间进行)</p>
+<h3 id="衍生1-reduceByKey"><a href="#衍生1-reduceByKey" class="headerlink" title="衍生1 reduceByKey"></a>衍生1 reduceByKey</h3><p>同key的value合并，比如 rdd.reduceByKey(lambda x, y: x+y)<br>这个函数中的 createCombiner： lambda v: v；mergeValue，mergeCombiners 都是 func<br>好处：shuffe前就会combines,以及避免用groupByKey<br><img src="/./spark/rdd-reduceByKey.PNG" alt="rdd-reduceByKey"></p>
+<h3 id="衍生2-groupByKey"><a href="#衍生2-groupByKey" class="headerlink" title="衍生2 groupByKey"></a>衍生2 groupByKey</h3><p>rdd中，按照key去 group 数据，组成一个序列。然后，在另一个rdd中按照key去做shuffle<br><img src="/./spark/rdd-groupByKey.PNG" alt="rdd-groupByKey"></p>
+<h3 id="Spark中的MR效率"><a href="#Spark中的MR效率" class="headerlink" title="Spark中的MR效率"></a>Spark中的MR效率</h3><h4 id="transformation-的数量"><a href="#transformation-的数量" class="headerlink" title="transformation 的数量"></a>transformation 的数量</h4><p>每个transformation 都有rdd的lineary scan<br>eg:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (id, score) pairs</span><br><span class="line">•Bad design</span><br><span class="line">maxByKey = rdd.combineByKey(…)</span><br><span class="line">sumByKey = rdd.combineByKey(…)</span><br><span class="line">sumMaxRdd = maxByKey.join(sumByKey)</span><br><span class="line"></span><br><span class="line">•Good design</span><br><span class="line">sumMaxRdd = rdd.combineByKey(…)</span><br></pre></td></tr></table></figure>
+
+<h4 id="transformation-的大小"><a href="#transformation-的大小" class="headerlink" title="transformation 的大小"></a>transformation 的大小</h4><p>越小，cost也就越小</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…</span><br></pre></td></tr></table></figure>
+
+<h4 id="shuffles"><a href="#shuffles" class="headerlink" title="shuffles"></a>shuffles</h4><p>尽量避免shuffle.性能的瓶颈，往往都在I&#x2F;O和网络上，以及数据的序列化和反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…)</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何合并两个RDD？"><a href="#如何合并两个RDD？" class="headerlink" title="如何合并两个RDD？"></a>如何合并两个RDD？</h3><h4 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h4><p>Concatenate two RDDs<br>How do A and B union together?<br>•What is the number of partitions for the union of A and B?<br>•Case 1: Different partitioner:<br>• Note: default partitioner is None<br>•Case 2: Same partitioner:   </p>
+<h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><p>Pair two RDDs<br>Key-Value pairs after A.zip(B)<br>•Key: tuples in A<br>•Value: tuples in B<br>•Assumes that the two RDDs have<br>•The same number of partitions<br>•The same number of elements in each partition<br>•E.g., 1-to-1 map   </p>
+<h4 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h4><p>Merge based on the keys from 2 RDDs,Just like join in DB<br>•join<br>•leftOuterJoin<br>•rightOuterJoin<br>•fullOuterJoin      </p>
+<h1 id="Spark-优化"><a href="#Spark-优化" class="headerlink" title="Spark 优化"></a>Spark 优化</h1><h2 id="大小表join的优化"><a href="#大小表join的优化" class="headerlink" title="大小表join的优化"></a>大小表join的优化</h2><p>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&dist_request_id=1619770363106_51540&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control%EF%BC%89">https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;dist_request_id=1619770363106_51540&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control）</a></p>
+<h3 id="小表对大表-broadcast-join"><a href="#小表对大表-broadcast-join" class="headerlink" title="小表对大表 broadcast  join"></a>小表对大表 broadcast  join</h3><p>广播小表，且被广播的表需要小于spark.sql.autoBroadcastJoinThreshold 所配置的值，默认是10M （或者加了 broadcast  join的hint。此外，基表不能被广播，比如leftouterjoin时，只能广播右表<br><img src="/./spark/boardcast-join.PNG" alt="boardcast-join">   </p>
+<h3 id="Shuffle-Hash-Join"><a href="#Shuffle-Hash-Join" class="headerlink" title="Shuffle Hash Join"></a>Shuffle Hash Join</h3><p>以上 broadcast join 仅在小表时候高效，当表大的时候，使用broadcast会导致driver和executor端的压力。这里，我们可以通过partition的方式，来将大批量的数据分成小份的数据集并行计算。<br>利用同key相同，分区也相同的原理。对大表的join做分治： 也就是先将表划分成n个分区，再多两个表中相对应的数据进行hash join。   </p>
+<h4 id="shuffle-hash-join的步骤"><a href="#shuffle-hash-join的步骤" class="headerlink" title="shuffle hash join的步骤:"></a>shuffle hash join的步骤:</h4><ul>
+<li>对两张表按照join的keys，进行重分区。目的是为了让相同的key的记录分到对应的分区中</li>
+<li>对对应分区中的数据进行join。这里会先将小表分区构造成一个hash表。然后根据大表分区中记录的join keys值拿出来进行匹配</li>
+</ul>
+<h4 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h4><ol>
+<li>分区的平均大小不超过spark.sql.autoBroadcastJoinThreshold所配置的值，默认是10M</li>
+<li>基表不能被广播，比如left outer join时，只能广播右表</li>
+<li>一侧的表要明显小于另外一侧，小的一侧将被广播（明显小于的定义为3倍小，此处为经验值）<br><img src="/./spark/Shuffle-Hash-Join.PNG" alt="Shuffle Hash Join"></li>
+</ol>
+<h3 id="大表对大表-Sort-Merge-Join"><a href="#大表对大表-Sort-Merge-Join" class="headerlink" title="大表对大表 Sort Merge Join"></a>大表对大表 Sort Merge Join</h3><p>两个表，按照join keys进行重新的shuffle.来保证join keys值相同的记录会被分在对应的分区。分区后对每个分区内的数据进行排序。排序后再对对应的分区记录进行连接。<br>由于两个序列都是有序的，从头遍历。碰到相同key就输出。不同的key，左边小就用左边的。右边小就用右边的。（用完就丢）<br><img src="/./spark/Sort-Merge-Join.PNG" alt="Sort-Merge-Join"></p>
+<h2 id="Spark的结构调优"><a href="#Spark的结构调优" class="headerlink" title="Spark的结构调优"></a>Spark的结构调优</h2><ul>
+<li>加内存  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark-shell –-driver-memory 8g </span><br><span class="line">spark-shell –-executor-memory 8g </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Driver-调优"><a href="#Driver-调优" class="headerlink" title="Driver 调优"></a>Driver 调优</h3><h3 id="Executor-调优"><a href="#Executor-调优" class="headerlink" title="Executor 调优"></a>Executor 调优</h3><h3 id="Shuffle-的调优"><a href="#Shuffle-的调优" class="headerlink" title="Shuffle 的调优"></a>Shuffle 的调优</h3><h2 id="spark-缓存-cache"><a href="#spark-缓存-cache" class="headerlink" title="spark 缓存(cache)"></a>spark 缓存(cache)</h2><p>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhuiqiuuuu/article/details/79290221">https://blog.csdn.net/zhuiqiuuuu/article/details/79290221</a>)</p>
+<h3 id="RDD-缓存"><a href="#RDD-缓存" class="headerlink" title="RDD 缓存"></a>RDD 缓存</h3><p>Spark调优有个原则，就是对多次使用的rdd进行持久化。持久化的操作，只要用rdd.cache()或rdd.persist()<br>cache(): 使用非序列化的方式，将rdd的数据全部尝试持久化到内存中，cache是一个transformation算子，需要action来触发，才能真正的把rdd缓存到内存中。<br>persist(): 手动选择持久化级别，并用指定方式进行持久化。<br>缓存方式有以下：</p>
+<ul>
+<li>NONE :什么类型都不是</li>
+<li>DISK_ONLY：磁盘</li>
+<li>DISK_ONLY_2：磁盘；双副本</li>
+<li>MEMORY_ONLY： 内存；反序列化；把RDD作为反序列化的方式存储，假如RDD的内容存不下，剩余的分区在以后需要时会重新计算，不会刷到磁盘上。</li>
+<li>MEMORY_ONLY_2：内存；反序列化；双副本</li>
+<li>MEMORY_ONLY_SER：内存；序列化；这种序列化方式，每一个partition以字节数据存储，好处是能带来更好的空间存储，但CPU耗费高</li>
+<li>MEMORY_ONLY_SER_2 : 内存；序列化；双副本</li>
+<li>MEMORY_AND_DISK：内存 + 磁盘；反序列化；双副本；RDD以反序列化的方式存内存，假如RDD的内容存不下，剩余的会存到磁盘</li>
+<li>MEMORY_AND_DISK_2 : 内存 + 磁盘；反序列化；双副本</li>
+<li>MEMORY_AND_DISK_SER：内存 + 磁盘；序列化  </li>
+<li>MEMORY_AND_DISK_SER_2：内存 + 磁盘；序列化；双副本</li>
+</ul>
+<h3 id="存储级别"><a href="#存储级别" class="headerlink" title="存储级别"></a>存储级别</h3><p>rdd在默认情况下满足的，就不需要更换。<br>假如MEMORY_ONLY不一定满足，可以使用MEMORY_ONLY_SER再加上一个序列化框架(kyro)。序列化就是为了节省空间。<br>不要写到磁盘，这样成本会变高，数据太大的时候，可以过滤一部分的数据再存。</p>
+<h3 id="移除缓存"><a href="#移除缓存" class="headerlink" title="移除缓存"></a>移除缓存</h3><p>spark会自动地监控每个节点的使用情况，以一种LRU的机制（least-recently-used：最近很少使用）去自动移除。如果想手工代替这种自动去移除，可以使用RDD.unpersist()去处理</p>
+<h3 id="Dataframe-缓存"><a href="#Dataframe-缓存" class="headerlink" title="Dataframe 缓存"></a>Dataframe 缓存</h3><p>语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sqlContext.cacheTable(&quot;...&quot;)</span><br><span class="line">dataFrame.cache()</span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//缓存全表</span><br><span class="line">sqlContext.sql(&quot;CACHE TABLE activity&quot;)</span><br><span class="line">//缓存过滤结果</span><br><span class="line">sqlContext.sql(&quot;CACHE TABLE activity_cached as select * from activity where ...&quot;)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0/" rel="tag"># 大数据学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/08/hadoop-hdfs/" rel="prev" title="hadoop-hdfs">
+                  <i class="fa fa-angle-left"></i> hadoop-hdfs
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/17/leetcode232/" rel="next" title="leetcode 232">
+                  leetcode 232 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="HiveHive, what is it 一个开源的 data warehouse system 基于hadoop,可以用来分析大规模数据: hql  hive 的结构 hive 的组件 metastore在 Hive 中，表名、表结构、字段名、字段类型、表的分隔符等统一被称为元数据。所有的元数据默认存储在 Hive 内置的 derby 数据库中，但由于 derby 只能有一个实例，也就是说不能有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive">
+<meta property="og:url" content="https://unicorn-raya.github.io/2021/05/18/hive/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="HiveHive, what is it 一个开源的 data warehouse system 基于hadoop,可以用来分析大规模数据: hql  hive 的结构 hive 的组件 metastore在 Hive 中，表名、表结构、字段名、字段类型、表的分隔符等统一被称为元数据。所有的元数据默认存储在 Hive 内置的 derby 数据库中，但由于 derby 只能有一个实例，也就是说不能有">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://unicorn-raya.github.io/hive/hive-arch.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hive/hive-comp.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hive/hive-du.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hive/hive-bucket.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/hive/hive-sample.PNG">
+<meta property="article:published_time" content="2021-05-18T05:08:39.000Z">
+<meta property="article:modified_time" content="2021-05-26T08:16:14.000Z">
+<meta property="article:author" content="ray">
+<meta property="article:tag" content="大数据学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unicorn-raya.github.io/hive/hive-arch.PNG">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/2021/05/18/hive/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/2021/05/18/hive/","path":"2021/05/18/hive/","title":"Hive"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Hive | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hive"><span class="nav-number">1.</span> <span class="nav-text">Hive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hive-what-is-it"><span class="nav-number">1.1.</span> <span class="nav-text">Hive, what is it</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">hive 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive-%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">hive 的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#metastore"><span class="nav-number">1.3.1.</span> <span class="nav-text">metastore</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive-%E7%9A%84-data-units"><span class="nav-number">1.4.</span> <span class="nav-text">hive 的 data units</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#database"><span class="nav-number">1.4.1.</span> <span class="nav-text">database</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#table"><span class="nav-number">1.4.2.</span> <span class="nav-text">table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Partitions-buckets"><span class="nav-number">1.4.3.</span> <span class="nav-text">Partitions &amp; buckets</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#partition"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">partition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bucket"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">Bucket</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive-%E7%9A%84%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">hive 的存储格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HQL"><span class="nav-number">1.6.</span> <span class="nav-text">HQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HiveQL-sampling"><span class="nav-number">1.6.1.</span> <span class="nav-text">HiveQL sampling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HiveSQL%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.6.2.</span> <span class="nav-text">HiveSQL的编译过程</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/18/hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Hive | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hive
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-18 13:08:39" itemprop="dateCreated datePublished" datetime="2021-05-18T13:08:39+08:00">2021-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-05-26 16:16:14" itemprop="dateModified" datetime="2021-05-26T16:16:14+08:00">2021-05-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Hive"><a href="#Hive" class="headerlink" title="Hive"></a>Hive</h1><h2 id="Hive-what-is-it"><a href="#Hive-what-is-it" class="headerlink" title="Hive, what is it"></a>Hive, what is it</h2><ul>
+<li>一个开源的 data warehouse system</li>
+<li>基于hadoop,可以用来分析大规模数据: hql</li>
+</ul>
+<h2 id="hive-的结构"><a href="#hive-的结构" class="headerlink" title="hive 的结构"></a>hive 的结构</h2><p><img src="/./hive/hive-arch.PNG" alt="hive-arch"></p>
+<h2 id="hive-的组件"><a href="#hive-的组件" class="headerlink" title="hive 的组件"></a>hive 的组件</h2><p><img src="/./hive/hive-comp.PNG" alt="hive-comp"></p>
+<h3 id="metastore"><a href="#metastore" class="headerlink" title="metastore"></a>metastore</h3><p>在 Hive 中，表名、表结构、字段名、字段类型、表的分隔符等统一被称为元数据。所有的元数据默认存储在 Hive 内置的 derby 数据库中，但由于 derby 只能有一个实例，也就是说不能有多个命令行客户端同时访问，所以在实际生产环境中，通常使用 MySQL 代替 derby。</p>
+<p>Hive 进行的是统一的元数据管理，就是说你在 Hive 上创建了一张表，然后在 presto／impala／sparksql 中都是可以直接使用的，它们会从 Metastore 中获取统一的元数据信息，同样的你在 presto／impala／sparksql 中创建一张表，在 Hive 中也可以直接使用。</p>
+<h2 id="hive-的-data-units"><a href="#hive-的-data-units" class="headerlink" title="hive 的 data units"></a>hive 的 data units</h2><p><img src="/./hive/hive-du.PNG" alt="hive-du"></p>
+<h3 id="database"><a href="#database" class="headerlink" title="database"></a>database</h3><p>table的目录，或者说namespace</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE IF NOT EXISTS [DATABASE_NAME];</span><br></pre></td></tr></table></figure>
+
+<h3 id="table"><a href="#table" class="headerlink" title="table"></a>table</h3><p>类似传统rdbms的table。分两种，一种external table,一种internal table</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>内部表</th>
+<th>外部表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据存储位置</td>
+<td>内部表数据存储的位置由 hive.metastore.warehouse.dir 参数指定，默认情况下表的数据存储在 HDFS 的 &#x2F;user&#x2F;hive&#x2F;warehouse&#x2F;数据库名.db&#x2F;表名&#x2F; 目录下</td>
+<td>外部表数据的存储位置创建表时由 Location 参数指定；</td>
+</tr>
+<tr>
+<td>导入数据</td>
+<td>在导入数据到内部表，内部表将数据移动到自己的数据仓库目录下，数据的生命周期由 Hive 来进行管理</td>
+<td>外部表不会将数据移动到自己的数据仓库目录下，只是在元数据中存储了数据的位置</td>
+</tr>
+<tr>
+<td>删除表</td>
+<td>删除元数据（metadata）和文件</td>
+<td>只删除元数据（metadata）</td>
+</tr>
+<tr>
+<td>建表语句:</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; create table if not exists employee(first_name string, last_name string,  emp_no int);</span><br><span class="line"></span><br><span class="line">hive&gt; create external table if not exists employee_ext( first_name string,  last_name string,  emp_no int) partitioned by (country string, state string)</span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;</span><br><span class="line">location &#x27;/user/bohdan/data/employee&#x27;;</span><br></pre></td></tr></table></figure>
+<h3 id="Partitions-buckets"><a href="#Partitions-buckets" class="headerlink" title="Partitions &amp; buckets"></a>Partitions &amp; buckets</h3><h4 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h4><p>分区(partition) 说白了就是主目录下的子目录。好处是查数据时候，若where条件中包含parittion的分区，会直接从分区目录中查，而不是全表查询。最典型的就是日志，按照天来做分区。比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE emp_partition(</span><br><span class="line">   empno INT,</span><br><span class="line">   ename STRING,</span><br><span class="line">   job STRING,</span><br><span class="line">   mgr INT,</span><br><span class="line">   hiredate TIMESTAMP,</span><br><span class="line">   sal DECIMAL(7,2),</span><br><span class="line">   comm DECIMAL(7,2)</span><br><span class="line">   )</span><br><span class="line">   PARTITIONED BY (deptno INT)   -- 按照部门编号进行分区</span><br><span class="line">   ROW FORMAT DELIMITED FIELDS TERMINATED BY &quot;\t&quot;</span><br><span class="line">   LOCATION &#x27;/hive/emp_partition&#x27;;</span><br></pre></td></tr></table></figure>
+<p>再比如加载数据到指定分区表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 加载部门编号为20的数据到表中</span><br><span class="line">LOAD DATA LOCAL INPATH &quot;/usr/file/emp20.txt&quot; OVERWRITE INTO TABLE emp_partition PARTITION (deptno=20)</span><br><span class="line"># 加载部门编号为30的数据到表中</span><br><span class="line">LOAD DATA LOCAL INPATH &quot;/usr/file/emp30.txt&quot; OVERWRITE INTO TABLE emp_partition PARTITION (deptno=30)</span><br></pre></td></tr></table></figure>
+<h4 id="Bucket"><a href="#Bucket" class="headerlink" title="Bucket"></a>Bucket</h4><p>有时候并不是所有数据都能分区。而且分区的数量也有限制。为了方便查询，还有一种分桶表，分桶表会将指定列的值进行哈希散列，并对 bucket（桶数量）取余，然后存储到对应的 bucket（桶）中。(可以理解成java中的hashmap)<br>例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE emp_bucket(</span><br><span class="line">  empno INT,</span><br><span class="line">  ename STRING,</span><br><span class="line">  job STRING,</span><br><span class="line">  mgr INT,</span><br><span class="line">  hiredate TIMESTAMP,</span><br><span class="line">  sal DECIMAL(7,2),</span><br><span class="line">  comm DECIMAL(7,2),</span><br><span class="line">  deptno INT)</span><br><span class="line">  CLUSTERED BY(empno) SORTED BY(empno ASC) INTO 4 BUCKETS  --按照员工编号散列到四个 bucket 中</span><br><span class="line">  ROW FORMAT DELIMITED FIELDS TERMINATED BY &quot;\t&quot;</span><br><span class="line">  LOCATION &#x27;/hive/emp_bucket&#x27;;</span><br></pre></td></tr></table></figure>
+<p>还有一种结合的用法，分区 + 分桶</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE page_view_bucketed(</span><br><span class="line">	viewTime INT, </span><br><span class="line">    userid BIGINT,</span><br><span class="line">    page_url STRING, </span><br><span class="line">    referrer_url STRING,</span><br><span class="line">    ip STRING )</span><br><span class="line"> PARTITIONED BY(dt STRING)</span><br><span class="line"> CLUSTERED BY(userid) SORTED BY(viewTime) INTO 32 BUCKETS</span><br><span class="line"> ROW FORMAT DELIMITED</span><br><span class="line">   FIELDS TERMINATED BY &#x27;\001&#x27;</span><br><span class="line">   COLLECTION ITEMS TERMINATED BY &#x27;\002&#x27;</span><br><span class="line">   MAP KEYS TERMINATED BY &#x27;\003&#x27;</span><br><span class="line"> STORED AS SEQUENCEFILE;</span><br></pre></td></tr></table></figure>
+<p>这时候导入数据需要指定分区:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INSERT OVERWRITE page_view_bucketed</span><br><span class="line">PARTITION (dt=&#x27;2009-02-25&#x27;)</span><br><span class="line">SELECT * FROM page_view WHERE dt=&#x27;2009-02-25&#x27;;</span><br></pre></td></tr></table></figure>
+<h2 id="hive-的存储格式"><a href="#hive-的存储格式" class="headerlink" title="hive 的存储格式"></a>hive 的存储格式</h2><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TextFile</td>
+<td>存储为纯文本文件。 这是 Hive 默认的文件存储格式。这种存储方式数据不做压缩，磁盘开销大，数据解析开销大。</td>
+</tr>
+<tr>
+<td>SequenceFile</td>
+<td>SequenceFile 是 Hadoop API 提供的一种二进制文件，它将数据以&lt;key,value&gt;的形式序列化到文件中。这种二进制文件内部使用 Hadoop 的标准的 Writable 接口实现序列化和反序列化。它与 Hadoop API 中的 MapFile 是互相兼容的。Hive 中的 SequenceFile 继承自 Hadoop API 的 SequenceFile，不过它的 key 为空，使用 value 存放实际的值，这样是为了避免 MR 在运行 map 阶段进行额外的排序操作。</td>
+</tr>
+<tr>
+<td>RCFile</td>
+<td>RCFile 文件格式是 FaceBook 开源的一种 Hive 的文件存储格式，首先将表分为几个行组，对每个行组内的数据按列存储，每一列的数据都是分开存储。</td>
+</tr>
+<tr>
+<td>ORC Files</td>
+<td>ORC 是在一定程度上扩展了 RCFile，是对 RCFile 的优化。</td>
+</tr>
+<tr>
+<td>Avro Files</td>
+<td>Avro 是一个数据序列化系统，设计用于支持大批量数据交换的应用。它的主要特点有：支持二进制序列化方式，可以便捷，快速地处理大量数据；动态语言友好，Avro 提供的机制使动态语言可以方便地处理 Avro 数据。</td>
+</tr>
+<tr>
+<td>Parquet</td>
+<td>Parquet 是基于 Dremel 的数据模型和算法实现的，面向分析型业务的列式存储格式。它通过按列进行高效压缩和特殊的编码技术，从而在降低存储空间的同时提高了 IO 效率。</td>
+</tr>
+</tbody></table>
+<p>以上压缩格式中 ORC 和 Parquet 的综合性能突出，使用较为广泛，推荐使用这两种格式</p>
+<h2 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h2><p>和传统rdbms的 sql语法类似,以及几个额外的操作</p>
+<h3 id="HiveQL-sampling"><a href="#HiveQL-sampling" class="headerlink" title="HiveQL sampling"></a>HiveQL sampling</h3><p>一例:</p>
+<pre><code>CREATE TABLE Employee
+(ID BIGINT, NAME STRING, AGE INT, SALARY BIGINT, DEPARTMENT STRING )
+CLUSTERED BY(ID) INTO 5 BUCKETS
+ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
+</code></pre>
+<p>数据如图:<br><img src="/./hive/hive-bucket.PNG" alt="hive-bucket">   </p>
+<p>以及结果:<br><img src="/./hive/hive-sample.PNG" alt="hive-sample"></p>
+<h3 id="HiveSQL的编译过程"><a href="#HiveSQL的编译过程" class="headerlink" title="HiveSQL的编译过程"></a>HiveSQL的编译过程</h3><p>Hive 在执行一条 HQL 的时候，会经过以下步骤：</p>
+<ul>
+<li>语法解析：Antlr 定义 SQL 的语法规则，完成 SQL 词法，语法解析，将 SQL 转化为抽象 语法树 AST Tree；</li>
+<li>语义解析：遍历 AST Tree，抽象出查询的基本组成单元 QueryBlock；</li>
+<li>生成逻辑执行计划：遍历 QueryBlock，翻译为执行操作树 OperatorTree；</li>
+<li>优化逻辑执行计划：逻辑层优化器进行 OperatorTree 变换，合并不必要的 ReduceSinkOperator，减少 shuffle 数据量；</li>
+<li>生成物理执行计划：遍历 OperatorTree，翻译为 MapReduce 任务；</li>
+<li>优化物理执行计划：物理层优化器进行 MapReduce 任务的变换，生成最终的执行计划。</li>
+</ul>
+<p>详细可以看这篇: <a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html">https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0/" rel="tag"># 大数据学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/17/leetcode993/" rel="prev" title="leetcode 993">
+                  <i class="fa fa-angle-left"></i> leetcode 993
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/20/leetcode15/" rel="next" title="leetcode 15">
+                  leetcode 15 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
