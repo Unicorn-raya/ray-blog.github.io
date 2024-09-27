@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/HA.PNG">
 <meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/jn.PNG">
 <meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/qjm.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/08/hadoop-hdfs/ha-share-storage.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/ha-share-storage.PNG">
 <meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/checkpoints.PNG">
 <meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/Data_locality.PNG">
 <meta property="og:image" content="https://unicorn-raya.github.io/hadoop-hdfs/replication.PNG">
@@ -274,7 +274,7 @@
 <p>那么，JournalNode 集群内部是如何实现的呢？</p>
 <p>两个 NameNode 为了数据同步，会通过一组称作 JournalNodes 的独立进程进行相互通信。当 Active 状态的 NameNode 元数据有任何修改时，会告知大部分的 JournalNodes 进程。同时，Standby 状态的 NameNode 也会读取 JNs 中的变更信息，并且一直监控 EditLog （事务日志）的变化，并把变化应用于自己的命名空间。Standby 可以确保在集群出错时，元数据状态已经完全同步了。<br><img src="/./hadoop-hdfs/qjm.PNG" alt="qjm"></p>
 <p>jn的集群机制： (<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079</a>)</p>
-<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/2021/05/08/hadoop-hdfs/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
+<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
 <h2 id="HDFS中的概念"><a href="#HDFS中的概念" class="headerlink" title="HDFS中的概念"></a>HDFS中的概念</h2><h3 id="checkpointing"><a href="#checkpointing" class="headerlink" title="checkpointing"></a>checkpointing</h3><p><img src="/./hadoop-hdfs/checkpoints.PNG" alt="checkpoints"></p>
 <h3 id="Data-locality"><a href="#Data-locality" class="headerlink" title="Data locality"></a>Data locality</h3><p><img src="/./hadoop-hdfs/Data_locality.PNG" alt="Data_locality"></p>
 <h3 id="Replication"><a href="#Replication" class="headerlink" title="Replication"></a>Replication</h3><p><img src="/./hadoop-hdfs/replication.PNG" alt="replication"></p>
@@ -361,7 +361,7 @@ api: java,c, web rest
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/04/29/Hadoop-%E7%AE%80%E4%BB%8B/" rel="prev" title="Hadoop 简介">
+                <a href="/2021/04/29/Hadoop-intro/" rel="prev" title="Hadoop 简介">
                   <i class="fa fa-angle-left"></i> Hadoop 简介
                 </a>
             </div>

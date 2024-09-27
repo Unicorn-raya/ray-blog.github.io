@@ -1052,7 +1052,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <p>那么，JournalNode 集群内部是如何实现的呢？</p>
 <p>两个 NameNode 为了数据同步，会通过一组称作 JournalNodes 的独立进程进行相互通信。当 Active 状态的 NameNode 元数据有任何修改时，会告知大部分的 JournalNodes 进程。同时，Standby 状态的 NameNode 也会读取 JNs 中的变更信息，并且一直监控 EditLog （事务日志）的变化，并把变化应用于自己的命名空间。Standby 可以确保在集群出错时，元数据状态已经完全同步了。<br><img src="/./hadoop-hdfs/qjm.PNG" alt="qjm"></p>
 <p>jn的集群机制： (<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079</a>)</p>
-<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/2021/05/08/hadoop-hdfs/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
+<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
 <h2 id="HDFS中的概念"><a href="#HDFS中的概念" class="headerlink" title="HDFS中的概念"></a>HDFS中的概念</h2><h3 id="checkpointing"><a href="#checkpointing" class="headerlink" title="checkpointing"></a>checkpointing</h3><p><img src="/./hadoop-hdfs/checkpoints.PNG" alt="checkpoints"></p>
 <h3 id="Data-locality"><a href="#Data-locality" class="headerlink" title="Data locality"></a>Data locality</h3><p><img src="/./hadoop-hdfs/Data_locality.PNG" alt="Data_locality"></p>
 <h3 id="Replication"><a href="#Replication" class="headerlink" title="Replication"></a>Replication</h3><p><img src="/./hadoop-hdfs/replication.PNG" alt="replication"></p>
@@ -1149,7 +1149,7 @@ api: java,c, web rest
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/04/29/Hadoop-%E7%AE%80%E4%BB%8B/">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/04/29/Hadoop-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1167,7 +1167,7 @@ api: java,c, web rest
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/29/Hadoop-%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">Hadoop 简介</a>
+          <a href="/2021/04/29/Hadoop-intro/" class="post-title-link" itemprop="url">Hadoop 简介</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1185,7 +1185,7 @@ api: java,c, web rest
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-04-30 12:10:45" itemprop="dateModified" datetime="2021-04-30T12:10:45+08:00">2021-04-30</time>
+      <time title="Modified: 2024-09-27 17:05:44" itemprop="dateModified" datetime="2024-09-27T17:05:44+08:00">2024-09-27</time>
     </span>
 
   
@@ -1208,8 +1208,8 @@ api: java,c, web rest
 <p>这就属于reduce的过程。而这种计算过程，也对分布式计算非常友好。因此，在最开始的hadoop 1.0 中，结构就是<br>mapreduce(计算) + hdfs（存储）</p>
 <h3 id="Hadoop-1-0的缺点"><a href="#Hadoop-1-0的缺点" class="headerlink" title="Hadoop 1.0的缺点"></a>Hadoop 1.0的缺点</h3><p>最早开始，hadoop 是 mapreduce + hdfs，已经没人用了。一是这样的计算方式，在极大数据的时候，中间的缓存太大。此外，由于最开始，hadoop的调度方式是顺序结构。也就是FIFO，导致了整个计算过程非常缓慢。而且，整个系统没有热备份(也就是实时备份)，已经无法适应大规模计算了，所以1.0的结构已经被彻底抛弃。</p>
 <h2 id="Hadoop-2-0"><a href="#Hadoop-2-0" class="headerlink" title="Hadoop 2.0"></a>Hadoop 2.0</h2><p>Hadoop 2.0的时候，整个结构变成了 mapreduce(计算) + yarn(资源管理) + hdfs(存储)。此外，在2.0的时候已经支持了spark的计算框架。并且，新加入了HA(high available)模式. </p>
-<h3 id="YARN-是什么"><a href="#YARN-是什么" class="headerlink" title="YARN 是什么"></a>YARN 是什么</h3><p>YARN 的全称是 Yet Another Resource Negotiator. YARN 主要管理两个资源：CPU + Memory, 并且他的结构如下图：<br><img src="/./Hadoop-%E7%AE%80%E4%BB%8B/1_yarn.png" alt="yarn"><br>其中，资源管理是由 RM(ResourceManager) + AM(ApplicationMaster) + NM(NodeManager) 组成,如上图所示。<br>从图中我们可以看出，yarn是典型的master-slave结构。其中，RM对所有的资源进行调度和管理，而NM会对自己的资源做出隔离和管理。连接NM和RM的就是AM，AM会负责向RM申请资源，并对container中的Aplication进行跟踪和管理。</p>
-<h4 id="YARN-启动一个作业的流程"><a href="#YARN-启动一个作业的流程" class="headerlink" title="YARN 启动一个作业的流程"></a>YARN 启动一个作业的流程</h4><p><img src="/./Hadoop-%E7%AE%80%E4%BB%8B/1_yarn_work.png" alt="1_yarn_work">   </p>
+<h3 id="YARN-是什么"><a href="#YARN-是什么" class="headerlink" title="YARN 是什么"></a>YARN 是什么</h3><p>YARN 的全称是 Yet Another Resource Negotiator. YARN 主要管理两个资源：CPU + Memory, 并且他的结构如下图：<br><img src="/./Hadoop-intro/1_yarn.png" alt="yarn"><br>其中，资源管理是由 RM(ResourceManager) + AM(ApplicationMaster) + NM(NodeManager) 组成,如上图所示。<br>从图中我们可以看出，yarn是典型的master-slave结构。其中，RM对所有的资源进行调度和管理，而NM会对自己的资源做出隔离和管理。连接NM和RM的就是AM，AM会负责向RM申请资源，并对container中的Aplication进行跟踪和管理。</p>
+<h4 id="YARN-启动一个作业的流程"><a href="#YARN-启动一个作业的流程" class="headerlink" title="YARN 启动一个作业的流程"></a>YARN 启动一个作业的流程</h4><p><img src="/./Hadoop-intro/1_yarn_work.png" alt="1_yarn_work">   </p>
 <ol>
 <li>首先，client 向 RM 提交 application</li>
 <li>RM 收到后，会让 NM 启动一个container,同时，也会为这个NM启动一个AM。</li>
@@ -1257,7 +1257,7 @@ api: java,c, web rest
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/04/29/flink-playground%E8%B8%A9%E5%9D%91/">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/04/29/flink-playground/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1275,7 +1275,7 @@ api: java,c, web rest
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/29/flink-playground%E8%B8%A9%E5%9D%91/" class="post-title-link" itemprop="url">flink-playground踩坑记录</a>
+          <a href="/2021/04/29/flink-playground/" class="post-title-link" itemprop="url">flink-playground踩坑记录</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1293,7 +1293,7 @@ api: java,c, web rest
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-12-22 21:17:18" itemprop="dateModified" datetime="2021-12-22T21:17:18+08:00">2021-12-22</time>
+      <time title="Modified: 2024-09-27 17:03:56" itemprop="dateModified" datetime="2024-09-27T17:03:56+08:00">2024-09-27</time>
     </span>
 
   
