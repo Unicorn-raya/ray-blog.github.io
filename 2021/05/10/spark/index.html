@@ -26,22 +26,22 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Spark 简介Spark, what?Spark 是一个用于大数据的分布式计算框架 Why the spark首先，MapReduce 可以处理 one-pass 计算，但是更加复杂的就不行，比如图计算，机器学习。交互性更强的ad-hoc queries，也不能做到。还有像流数据的处理，也不可能。 Spark 的结构和成员 Master node Cluster Manager Worker N">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/spark-a.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/narrow-wude.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/boardcast.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/hadoop-partition.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/hadoop-wordcount.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/rdd-reduceByKey.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/rdd-groupByKey.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/boardcast-join.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/Shuffle-Hash-Join.PNG">
-<meta property="og:image" content="https://unicorn-raya.github.io/spark/Sort-Merge-Join.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/spark-a.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/narrow-wude.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/boardcast.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/hadoop-partition.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/hadoop-wordcount.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/rdd-reduceByKey.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/rdd-groupByKey.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/boardcast-join.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/Shuffle-Hash-Join.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/10/spark/Sort-Merge-Join.PNG">
 <meta property="article:published_time" content="2021-05-10T06:08:39.000Z">
-<meta property="article:modified_time" content="2021-05-24T10:04:18.000Z">
+<meta property="article:modified_time" content="2024-09-27T12:54:30.890Z">
 <meta property="article:author" content="ray">
 <meta property="article:tag" content="大数据学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://unicorn-raya.github.io/spark/spark-a.PNG">
+<meta name="twitter:image" content="https://unicorn-raya.github.io/2021/05/10/spark/spark-a.PNG">
 
 
 <link rel="canonical" href="https://unicorn-raya.github.io/2021/05/10/spark/">
@@ -136,7 +136,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,7 +205,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-05-24 18:04:18" itemprop="dateModified" datetime="2021-05-24T18:04:18+08:00">2021-05-24</time>
+      <time title="Modified: 2024-09-27 20:54:30" itemprop="dateModified" datetime="2024-09-27T20:54:30+08:00">2024-09-27</time>
     </span>
 
   
@@ -222,7 +222,7 @@
 <h2 id="Spark-的结构和成员"><a href="#Spark-的结构和成员" class="headerlink" title="Spark 的结构和成员"></a>Spark 的结构和成员</h2><ul>
 <li>Master node</li>
 <li>Cluster Manager</li>
-<li>Worker Node<br><img src="/./spark/spark-a.PNG" alt="spark-a"></li>
+<li>Worker Node<br><img src="/2021/05/10/spark/spark-a.PNG" alt="spark-a"></li>
 </ul>
 <h2 id="Resilient-Distributed-Dataset-RDD"><a href="#Resilient-Distributed-Dataset-RDD" class="headerlink" title="Resilient Distributed Dataset (RDD)"></a>Resilient Distributed Dataset (RDD)</h2><ul>
 <li>RDD 是存数据的位置</li>
@@ -246,7 +246,7 @@
 <li>引用外部存储的数据,像HDFS,HBASE,默认下，spark对每个block中的文件做一个partition</li>
 </ul>
 <h3 id="RDD-算子-Operation"><a href="#RDD-算子-Operation" class="headerlink" title="RDD 算子(Operation)"></a>RDD 算子(Operation)</h3><h4 id="Transformations"><a href="#Transformations" class="headerlink" title="Transformations"></a>Transformations</h4><p>function, 一个rdd进，一到多个rdd出。不会触发计算。</p>
-<h5 id="宽窄依赖-Narrow-and-wide-Transformations"><a href="#宽窄依赖-Narrow-and-wide-Transformations" class="headerlink" title="宽窄依赖( Narrow and wide Transformations)"></a>宽窄依赖( Narrow and wide Transformations)</h5><p>narrow没有shuffle, 操作: map,flatMap,filter,sample<br>wide有shuffle,比如softByKey, reduceByKey,groupByKey,join<br><img src="/./spark/narrow-wude.PNG" alt="narrow-wide"></p>
+<h5 id="宽窄依赖-Narrow-and-wide-Transformations"><a href="#宽窄依赖-Narrow-and-wide-Transformations" class="headerlink" title="宽窄依赖( Narrow and wide Transformations)"></a>宽窄依赖( Narrow and wide Transformations)</h5><p>narrow没有shuffle, 操作: map,flatMap,filter,sample<br>wide有shuffle,比如softByKey, reduceByKey,groupByKey,join<br><img src="/2021/05/10/spark/narrow-wude.PNG" alt="narrow-wide"></p>
 <h4 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h4><p>rdd的算子，输出是非rdd的value.会触发spark的计算.<br>以下都是action的算子: collect,take,reduce,forEach,sample,count,save   </p>
 <h2 id="惰性计算-lazy-Evaluation"><a href="#惰性计算-lazy-Evaluation" class="headerlink" title="惰性计算(lazy Evaluation)"></a>惰性计算(lazy Evaluation)</h2><p>目的就是最小化计算机的工作，也就是延迟求值或者最小化求值。除了提升性能外，还可以构造一个无限的数据模型<br>eg:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">li = [lambda :x for x in range(10)]</span><br><span class="line">res = li[0]()</span><br><span class="line">print(res)</span><br><span class="line">#输出：9</span><br></pre></td></tr></table></figure>
@@ -254,7 +254,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">li2 = [lambda x=x:x for x in range(10)]</span><br><span class="line">res = li2[0]()</span><br><span class="line"></span><br><span class="line">print(res)</span><br><span class="line">for i in li2:</span><br><span class="line">    print(i(), end=&quot; &quot;)</span><br></pre></td></tr></table></figure>
 
 <h2 id="共享变量-shared-variable"><a href="#共享变量-shared-variable" class="headerlink" title="共享变量(shared variable)"></a>共享变量(shared variable)</h2><h3 id="广播变量-broadcast-variable"><a href="#广播变量-broadcast-variable" class="headerlink" title="广播变量 (broadcast variable)"></a>广播变量 (broadcast variable)</h3><p>广播变量类似MapReduce中的DistributeFile, 通常是一个小表。在drive中创建，一旦创建后，表会在整个集群中广播，能让所有正在运行的计算任务以只读的方式访问。支持各种数据类型。   </p>
-<h4 id="广播变量在spark中的传播方法"><a href="#广播变量在spark中的传播方法" class="headerlink" title="广播变量在spark中的传播方法"></a>广播变量在spark中的传播方法</h4><p>为了保证所有的节点都能接受到driver的变量，我们不能直接去连接driver，这会导致driver会负载，这里，executor 使用的是http连接去拉取数据，类似点对点传输。<br>Spark中，driver会将已序列化的数据分成小块，然后再将数据存储在自己的blockmanager中，当executor开始运行的时候，每个executor首先从自己的内部块管理器中取得广播变量。如果以前广播过，那么直接取。假如没有，executor会从driver或者其他的executor中拉数据块。一旦拉到数据块，就会放到自己的blockmanager中。供自己和其他拉取的executor使用。这样，就很好防止的driver单点的问题。<br><img src="/./spark/boardcast.PNG" alt="boardcast"></p>
+<h4 id="广播变量在spark中的传播方法"><a href="#广播变量在spark中的传播方法" class="headerlink" title="广播变量在spark中的传播方法"></a>广播变量在spark中的传播方法</h4><p>为了保证所有的节点都能接受到driver的变量，我们不能直接去连接driver，这会导致driver会负载，这里，executor 使用的是http连接去拉取数据，类似点对点传输。<br>Spark中，driver会将已序列化的数据分成小块，然后再将数据存储在自己的blockmanager中，当executor开始运行的时候，每个executor首先从自己的内部块管理器中取得广播变量。如果以前广播过，那么直接取。假如没有，executor会从driver或者其他的executor中拉数据块。一旦拉到数据块，就会放到自己的blockmanager中。供自己和其他拉取的executor使用。这样，就很好防止的driver单点的问题。<br><img src="/2021/05/10/spark/boardcast.PNG" alt="boardcast"></p>
 <h4 id="广播变量的优点"><a href="#广播变量的优点" class="headerlink" title="广播变量的优点"></a>广播变量的优点</h4><p>一定数据量范围内，避免shuffle，使得计算尽可能的本地运行。Spark的Map端的操作，就是用广播变量来实现的</p>
 <h3 id="累加器-Accumulator"><a href="#累加器-Accumulator" class="headerlink" title="累加器(Accumulator)"></a>累加器(Accumulator)</h3><p>一个只能累加的共享变量，初始化的累加器的变量是0，在被action算子触发计算后，累加器在map函数中调用，然后会累加，内置的累加器有：</p>
 <ul>
@@ -322,7 +322,7 @@
 <li>一个中间结果的key都再一个partition里面</li>
 <li>partition的过程，可以再user-defined paritioning function中设定</li>
 </ul>
-<p><img src="/./spark/hadoop-partition.PNG" alt="hadoop-partition"></p>
+<p><img src="/2021/05/10/spark/hadoop-partition.PNG" alt="hadoop-partition"></p>
 <h2 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h2><p>shuffle 是数据重分布的过程</p>
 <ul>
 <li>确保每个reducer得到同个key的所有相关values</li>
@@ -334,7 +334,7 @@
 <li>使用shuffle和sort机制： Map的结果，按照key排序，发生在map结束后，开始排序</li>
 <li>用combiner 去减少数据的shuffle<ol>
 <li>Combiner 可以按照key来combine 所有的 key-value的对(pairs)</li>
-<li>combiner不是由framework来处理<br>例子：hadoop中wordcount的过程<br><img src="/./spark/hadoop-wordcount.PNG" alt="hadoop-wordcount"></li>
+<li>combiner不是由framework来处理<br>例子：hadoop中wordcount的过程<br><img src="/2021/05/10/spark/hadoop-wordcount.PNG" alt="hadoop-wordcount"></li>
 </ol>
 </li>
 </ul>
@@ -375,13 +375,13 @@
 <h4 id="createCombiner"><a href="#createCombiner" class="headerlink" title="createCombiner"></a>createCombiner</h4><p>V &#x3D;&gt; C ，这个函数把当前的值作为参数，此时我们可以对其做些附加操作(类型转换)并把它返回 (这一步类似于初始化操作)</p>
 <h4 id="mergeValue"><a href="#mergeValue" class="headerlink" title="mergeValue"></a>mergeValue</h4><p>(C, V) &#x3D;&gt; C，该函数把元素V合并到之前的元素C(createCombiner)上 (这个操作在每个分区内进行)</p>
 <h4 id="mergeCombiners"><a href="#mergeCombiners" class="headerlink" title="mergeCombiners"></a>mergeCombiners</h4><p>(C, C) &#x3D;&gt; C，该函数把2个元素C合并 (这个操作会跨分区间进行)</p>
-<h3 id="衍生1-reduceByKey"><a href="#衍生1-reduceByKey" class="headerlink" title="衍生1 reduceByKey"></a>衍生1 reduceByKey</h3><p>同key的value合并，比如 rdd.reduceByKey(lambda x, y: x+y)<br>这个函数中的 createCombiner： lambda v: v；mergeValue，mergeCombiners 都是 func<br>好处：shuffe前就会combines,以及避免用groupByKey<br><img src="/./spark/rdd-reduceByKey.PNG" alt="rdd-reduceByKey"></p>
-<h3 id="衍生2-groupByKey"><a href="#衍生2-groupByKey" class="headerlink" title="衍生2 groupByKey"></a>衍生2 groupByKey</h3><p>rdd中，按照key去 group 数据，组成一个序列。然后，在另一个rdd中按照key去做shuffle<br><img src="/./spark/rdd-groupByKey.PNG" alt="rdd-groupByKey"></p>
+<h3 id="衍生1-reduceByKey"><a href="#衍生1-reduceByKey" class="headerlink" title="衍生1 reduceByKey"></a>衍生1 reduceByKey</h3><p>同key的value合并，比如 rdd.reduceByKey(lambda x, y: x+y)<br>这个函数中的 createCombiner： lambda v: v；mergeValue，mergeCombiners 都是 func<br>好处：shuffe前就会combines,以及避免用groupByKey<br><img src="/2021/05/10/spark/rdd-reduceByKey.PNG" alt="rdd-reduceByKey"></p>
+<h3 id="衍生2-groupByKey"><a href="#衍生2-groupByKey" class="headerlink" title="衍生2 groupByKey"></a>衍生2 groupByKey</h3><p>rdd中，按照key去 group 数据，组成一个序列。然后，在另一个rdd中按照key去做shuffle<br><img src="/2021/05/10/spark/rdd-groupByKey.PNG" alt="rdd-groupByKey"></p>
 <h3 id="Spark中的MR效率"><a href="#Spark中的MR效率" class="headerlink" title="Spark中的MR效率"></a>Spark中的MR效率</h3><h4 id="transformation-的数量"><a href="#transformation-的数量" class="headerlink" title="transformation 的数量"></a>transformation 的数量</h4><p>每个transformation 都有rdd的lineary scan<br>eg:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (id, score) pairs</span><br><span class="line">•Bad design</span><br><span class="line">maxByKey = rdd.combineByKey(…)</span><br><span class="line">sumByKey = rdd.combineByKey(…)</span><br><span class="line">sumMaxRdd = maxByKey.join(sumByKey)</span><br><span class="line"></span><br><span class="line">•Good design</span><br><span class="line">sumMaxRdd = rdd.combineByKey(…)</span><br></pre></td></tr></table></figure>
 
 <h4 id="transformation-的大小"><a href="#transformation-的大小" class="headerlink" title="transformation 的大小"></a>transformation 的大小</h4><p>越小，cost也就越小</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…)</span><br></pre></td></tr></table></figure>
 
 <h4 id="shuffles"><a href="#shuffles" class="headerlink" title="shuffles"></a>shuffles</h4><p>尽量避免shuffle.性能的瓶颈，往往都在I&#x2F;O和网络上，以及数据的序列化和反序列化</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…)</span><br></pre></td></tr></table></figure>
@@ -389,8 +389,8 @@
 <h3 id="如何合并两个RDD？"><a href="#如何合并两个RDD？" class="headerlink" title="如何合并两个RDD？"></a>如何合并两个RDD？</h3><h4 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h4><p>Concatenate two RDDs<br>How do A and B union together?<br>•What is the number of partitions for the union of A and B?<br>•Case 1: Different partitioner:<br>• Note: default partitioner is None<br>•Case 2: Same partitioner:   </p>
 <h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><p>Pair two RDDs<br>Key-Value pairs after A.zip(B)<br>•Key: tuples in A<br>•Value: tuples in B<br>•Assumes that the two RDDs have<br>•The same number of partitions<br>•The same number of elements in each partition<br>•E.g., 1-to-1 map   </p>
 <h4 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h4><p>Merge based on the keys from 2 RDDs,Just like join in DB<br>•join<br>•leftOuterJoin<br>•rightOuterJoin<br>•fullOuterJoin      </p>
-<h1 id="Spark-优化"><a href="#Spark-优化" class="headerlink" title="Spark 优化"></a>Spark 优化</h1><h2 id="大小表join的优化"><a href="#大小表join的优化" class="headerlink" title="大小表join的优化"></a>大小表join的优化</h2><p>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&dist_request_id=1619770363106_51540&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control%EF%BC%89">https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;dist_request_id=1619770363106_51540&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control）</a></p>
-<h3 id="小表对大表-broadcast-join"><a href="#小表对大表-broadcast-join" class="headerlink" title="小表对大表 broadcast  join"></a>小表对大表 broadcast  join</h3><p>广播小表，且被广播的表需要小于spark.sql.autoBroadcastJoinThreshold 所配置的值，默认是10M （或者加了 broadcast  join的hint。此外，基表不能被广播，比如leftouterjoin时，只能广播右表<br><img src="/./spark/boardcast-join.PNG" alt="boardcast-join">   </p>
+<h1 id="Spark-优化"><a href="#Spark-优化" class="headerlink" title="Spark 优化"></a>Spark 优化</h1><h2 id="大小表join的优化"><a href="#大小表join的优化" class="headerlink" title="大小表join的优化"></a>大小表join的优化</h2><p>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&dist_request_id=1619770363106_51540&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control">https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;dist_request_id=1619770363106_51540&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control</a>)</p>
+<h3 id="小表对大表-broadcast-join"><a href="#小表对大表-broadcast-join" class="headerlink" title="小表对大表 broadcast  join"></a>小表对大表 broadcast  join</h3><p>广播小表，且被广播的表需要小于spark.sql.autoBroadcastJoinThreshold 所配置的值，默认是10M （或者加了 broadcast  join的hint。此外，基表不能被广播，比如leftouterjoin时，只能广播右表<br><img src="/2021/05/10/spark/boardcast-join.PNG" alt="boardcast-join">   </p>
 <h3 id="Shuffle-Hash-Join"><a href="#Shuffle-Hash-Join" class="headerlink" title="Shuffle Hash Join"></a>Shuffle Hash Join</h3><p>以上 broadcast join 仅在小表时候高效，当表大的时候，使用broadcast会导致driver和executor端的压力。这里，我们可以通过partition的方式，来将大批量的数据分成小份的数据集并行计算。<br>利用同key相同，分区也相同的原理。对大表的join做分治： 也就是先将表划分成n个分区，再多两个表中相对应的数据进行hash join。   </p>
 <h4 id="shuffle-hash-join的步骤"><a href="#shuffle-hash-join的步骤" class="headerlink" title="shuffle hash join的步骤:"></a>shuffle hash join的步骤:</h4><ul>
 <li>对两张表按照join的keys，进行重分区。目的是为了让相同的key的记录分到对应的分区中</li>
@@ -399,9 +399,9 @@
 <h4 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h4><ol>
 <li>分区的平均大小不超过spark.sql.autoBroadcastJoinThreshold所配置的值，默认是10M</li>
 <li>基表不能被广播，比如left outer join时，只能广播右表</li>
-<li>一侧的表要明显小于另外一侧，小的一侧将被广播（明显小于的定义为3倍小，此处为经验值）<br><img src="/./spark/Shuffle-Hash-Join.PNG" alt="Shuffle Hash Join"></li>
+<li>一侧的表要明显小于另外一侧，小的一侧将被广播（明显小于的定义为3倍小，此处为经验值）<br><img src="/2021/05/10/spark/Shuffle-Hash-Join.PNG" alt="Shuffle Hash Join"></li>
 </ol>
-<h3 id="大表对大表-Sort-Merge-Join"><a href="#大表对大表-Sort-Merge-Join" class="headerlink" title="大表对大表 Sort Merge Join"></a>大表对大表 Sort Merge Join</h3><p>两个表，按照join keys进行重新的shuffle.来保证join keys值相同的记录会被分在对应的分区。分区后对每个分区内的数据进行排序。排序后再对对应的分区记录进行连接。<br>由于两个序列都是有序的，从头遍历。碰到相同key就输出。不同的key，左边小就用左边的。右边小就用右边的。（用完就丢）<br><img src="/./spark/Sort-Merge-Join.PNG" alt="Sort-Merge-Join"></p>
+<h3 id="大表对大表-Sort-Merge-Join"><a href="#大表对大表-Sort-Merge-Join" class="headerlink" title="大表对大表 Sort Merge Join"></a>大表对大表 Sort Merge Join</h3><p>两个表，按照join keys进行重新的shuffle.来保证join keys值相同的记录会被分在对应的分区。分区后对每个分区内的数据进行排序。排序后再对对应的分区记录进行连接。<br>由于两个序列都是有序的，从头遍历。碰到相同key就输出。不同的key，左边小就用左边的。右边小就用右边的。（用完就丢）<br><img src="/2021/05/10/spark/Sort-Merge-Join.PNG" alt="Sort-Merge-Join"></p>
 <h2 id="Spark的结构调优"><a href="#Spark的结构调优" class="headerlink" title="Spark的结构调优"></a>Spark的结构调优</h2><ul>
 <li>加内存  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark-shell –-driver-memory 8g </span><br><span class="line">spark-shell –-executor-memory 8g </span><br></pre></td></tr></table></figure></li>
 </ul>

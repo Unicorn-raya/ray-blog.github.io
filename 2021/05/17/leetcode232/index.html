@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="leetcode 232涉及知识点动态规划 答案Java 123456789101112131415161718192021class Solution&amp;#123;    public int numWays(int steps, int arrLen)&amp;#123;        final int mod &#x3D; 1000000007;        int maxColumn &#x3D;Math.min(">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://unicorn-raya.github.io/leetcode232/matrix.PNG">
+<meta property="og:image" content="https://unicorn-raya.github.io/2021/05/17/leetcode232/matrix.PNG">
 <meta property="article:published_time" content="2021-05-17T05:08:39.000Z">
-<meta property="article:modified_time" content="2021-05-17T07:37:25.000Z">
+<meta property="article:modified_time" content="2024-09-27T12:51:29.506Z">
 <meta property="article:author" content="ray">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://unicorn-raya.github.io/leetcode232/matrix.PNG">
+<meta name="twitter:image" content="https://unicorn-raya.github.io/2021/05/17/leetcode232/matrix.PNG">
 
 
 <link rel="canonical" href="https://unicorn-raya.github.io/2021/05/17/leetcode232/">
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,9 +188,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2021-05-17 13:08:39 / Modified: 15:37:25" itemprop="dateCreated datePublished" datetime="2021-05-17T13:08:39+08:00">2021-05-17</time>
+      <time title="Created: 2021-05-17 13:08:39" itemprop="dateCreated datePublished" datetime="2021-05-17T13:08:39+08:00">2021-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-09-27 20:51:29" itemprop="dateModified" datetime="2024-09-27T20:51:29+08:00">2024-09-27</time>
     </span>
 
   
@@ -205,7 +211,7 @@
     <div class="post-body" itemprop="articleBody"><h1 id="leetcode-232"><a href="#leetcode-232" class="headerlink" title="leetcode 232"></a>leetcode 232</h1><h2 id="涉及知识点"><a href="#涉及知识点" class="headerlink" title="涉及知识点"></a>涉及知识点</h2><p>动态规划</p>
 <h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><p>Java</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution&#123;</span><br><span class="line">    public int numWays(int steps, int arrLen)&#123;</span><br><span class="line">        final int mod = 1000000007;</span><br><span class="line">        int maxColumn =Math.min(arrLen-1, steps);</span><br><span class="line">        int [][]dp = new int[steps + 1][maxColumn + 1];</span><br><span class="line">        dp[0][0] = 1;</span><br><span class="line">        for(int i = 1;i &lt;= steps;i++)&#123;</span><br><span class="line">            for(int j = 0;j &lt;= maxColumn;j++)&#123;</span><br><span class="line">                dp[i][j] = dp[i-1][j];</span><br><span class="line">                if (j -1 &gt;= 0)&#123;</span><br><span class="line">                    dp[i][j] = (dp[i][j] + dp[i-1][j-1]) % mod;</span><br><span class="line">                &#125;</span><br><span class="line">                if (j + 1 &lt;= maxColumn)&#123;</span><br><span class="line">                    dp[i][j] = (dp[i][j] + dp[i-1][j+1]) % mod;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">        return dp[steps][0];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="动态规划简介"><a href="#动态规划简介" class="headerlink" title="动态规划简介"></a>动态规划简介</h3><p>动态规划的核心是 - 找出状态转移方程<br>一例:<br><img src="/./leetcode232/matrix.PNG" alt="matrix"><br>从起点，到终点，求最小权重的路径。这里状态转移方程就是</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="动态规划简介"><a href="#动态规划简介" class="headerlink" title="动态规划简介"></a>动态规划简介</h3><p>动态规划的核心是 - 找出状态转移方程<br>一例:<br><img src="/2021/05/17/leetcode232/matrix.PNG" alt="matrix"><br>从起点，到终点，求最小权重的路径。这里状态转移方程就是</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">min_weight(i,j)  = d[i][j] + min(d[i-1][j],d[i][j-1])</span><br></pre></td></tr></table></figure>
 <h3 id="题目的分析"><a href="#题目的分析" class="headerlink" title="题目的分析"></a>题目的分析</h3><h4 id="题干"><a href="#题干" class="headerlink" title="题干"></a>题干</h4><p>有一个长度为 arrLen 的数组，开始有一个指针在索引 0 处。<br>每一步操作中，你可以将指针向左或向右移动 1 步，或者停在原地（指针不能被移动到数组范围外）。<br>给你两个整数 steps 和 arrLen ，请你计算并返回：在恰好执行 steps 次操作以后，指针仍然指向索引 0 处的方案数。<br>由于答案可能会很大，请返回方案数 模 10^9 + 7(1000000007) 后的结果。</p>
 <h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>设计状态转移方程 d[i][j],i 代表steps，j代表索引的位置，value代表可有的方法数目，比如: d[0][0] &#x3D; 1，就代表在 step 0 时刻，指针在index 为 0 的位置。只有 1 种方法。<br>这里： i和j的范围明显大于0，i小于等于steps。j索引的位置应该小于数组的长度或者是steps的长度，所以</p>

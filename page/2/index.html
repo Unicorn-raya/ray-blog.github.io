@@ -121,7 +121,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -144,6 +144,106 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/25/sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/25/sort/" class="post-title-link" itemprop="url">常见排序算法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-25 10:42:15" itemprop="dateCreated datePublished" datetime="2021-05-25T10:42:15+08:00">2021-05-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-05-26 16:13:51" itemprop="dateModified" datetime="2021-05-26T16:13:51+08:00">2021-05-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="基础排序算法"><a href="#基础排序算法" class="headerlink" title="基础排序算法"></a>基础排序算法</h1><h2 id="快速排序-Quick-sort"><a href="#快速排序-Quick-sort" class="headerlink" title="快速排序(Quick sort)"></a>快速排序(Quick sort)</h2><p>思路就是分治，先找一个key，做一轮排序后，让key左边的数字都小于等于key,右边的大于key。在对半继续做这种排序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">private void quickSort(int[] src, int begin, int end) &#123;</span><br><span class="line">    if (begin &lt; end) &#123;</span><br><span class="line">        int key = src[begin];</span><br><span class="line">        int i = begin;</span><br><span class="line">        int j = end;</span><br><span class="line">        while (i &lt; j) &#123;</span><br><span class="line">            while (i &lt; j &amp;&amp; src[j] &gt; key) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; j) &#123;</span><br><span class="line">                int tmp = src[i];</span><br><span class="line">                src[i] = src[j];</span><br><span class="line">                src[j] = tmp;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            while (i &lt; j &amp;&amp; src[i] &lt; key) &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; j) &#123;</span><br><span class="line">                int tmp = src[i];</span><br><span class="line">                src[i] = src[j];</span><br><span class="line">                src[j] = tmp;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        //src[i] = key;</span><br><span class="line">        quickSort(src, begin, i - 1);</span><br><span class="line">        quickSort(src, i + 1, end);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>详细图解: <a target="_blank" rel="noopener" href="http://data.biancheng.net/view/117.html">http://data.biancheng.net/view/117.html</a> q</p>
+<h2 id="堆排序-heap-sort"><a href="#堆排序-heap-sort" class="headerlink" title="堆排序 (heap sort)"></a>堆排序 (heap sort)</h2><p>堆(heap) 是一种完全二叉树，分为两种，大顶堆和小顶堆，满足以下关系:    </p>
+<ul>
+<li>大顶堆: arr[i] &gt;&#x3D; arr[2i+1] &amp;&amp; arr[i] &gt;&#x3D; arr[2i+2]</li>
+<li>小顶堆: arr[i] &lt;&#x3D; arr[2i+1] &amp;&amp; arr[i] &lt;&#x3D; arr[2i+2]<br>通常升序用大顶堆，降序用小顶堆。<br>基本思路: </li>
+<li>将无序数组变成大顶堆</li>
+<li>将首个数值换到最后一个</li>
+<li>将剩下的继续调整成大顶堆<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package sortdemo;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by chengxiao on 2016/12/17.</span><br><span class="line"> * 堆排序demo</span><br><span class="line"> */</span><br><span class="line">public class HeapSort &#123;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        int []arr = &#123;9,8,7,6,5,4,3,2,1&#125;;</span><br><span class="line">        sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    public static void sort(int []arr)&#123;</span><br><span class="line">        //1.构建大顶堆</span><br><span class="line">        for(int i=arr.length/2-1;i&gt;=0;i--)&#123;</span><br><span class="line">            //从第一个非叶子结点从下至上，从右至左调整结构</span><br><span class="line">            adjustHeap(arr,i,arr.length);</span><br><span class="line">        &#125;</span><br><span class="line">        //2.调整堆结构+交换堆顶元素与末尾元素</span><br><span class="line">        for(int j=arr.length-1;j&gt;0;j--)&#123;</span><br><span class="line">            swap(arr,0,j);//将堆顶元素与末尾元素进行交换</span><br><span class="line">            adjustHeap(arr,0,j);//重新对堆进行调整</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）</span><br><span class="line">     * @param arr</span><br><span class="line">     * @param i</span><br><span class="line">     * @param length</span><br><span class="line">     */</span><br><span class="line">    public static void adjustHeap(int []arr,int i,int length)&#123;</span><br><span class="line">        int temp = arr[i];//先取出当前元素i</span><br><span class="line">        for(int k=i*2+1;k&lt;length;k=k*2+1)&#123;//从i结点的左子结点开始，也就是2i+1处开始</span><br><span class="line">            if(k+1&lt;length &amp;&amp; arr[k]&lt;arr[k+1])&#123;//如果左子结点小于右子结点，k指向右子结点</span><br><span class="line">                k++;</span><br><span class="line">            &#125;</span><br><span class="line">            if(arr[k] &gt;temp)&#123;//如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）</span><br><span class="line">                arr[i] = arr[k];</span><br><span class="line">                i = k;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[i] = temp;//将temp值放到最终的位置</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 交换元素</span><br><span class="line">     * @param arr</span><br><span class="line">     * @param a</span><br><span class="line">     * @param b</span><br><span class="line">     */</span><br><span class="line">    public static void swap(int []arr,int a ,int b)&#123;</span><br><span class="line">        int temp=arr[a];</span><br><span class="line">        arr[a] = arr[b];</span><br><span class="line">        arr[b] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+图解: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6129630.html">https://www.cnblogs.com/chengxiao/p/6129630.html</a></li>
+</ul>
+<h2 id="归并排序-merge-sort"><a href="#归并排序-merge-sort" class="headerlink" title="归并排序(merge sort)"></a>归并排序(merge sort)</h2><p>分治，先分成最小，再合并有序数组。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package sortdemo;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by chengxiao on 2016/12/8.</span><br><span class="line"> */</span><br><span class="line">public class MergeSort &#123;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        int []arr = &#123;9,8,7,6,5,4,3,2,1&#125;;</span><br><span class="line">        sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    public static void sort(int []arr)&#123;</span><br><span class="line">        int []temp = new int[arr.length];//在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间</span><br><span class="line">        sort(arr,0,arr.length-1,temp);</span><br><span class="line">    &#125;</span><br><span class="line">    private static void sort(int[] arr,int left,int right,int []temp)&#123;</span><br><span class="line">        if(left&lt;right)&#123;</span><br><span class="line">            int mid = (left+right)/2;</span><br><span class="line">            sort(arr,left,mid,temp);//左边归并排序，使得左子序列有序</span><br><span class="line">            sort(arr,mid+1,right,temp);//右边归并排序，使得右子序列有序</span><br><span class="line">            merge(arr,left,mid,right,temp);//将两个有序子数组合并操作</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private static void merge(int[] arr,int left,int mid,int right,int[] temp)&#123;</span><br><span class="line">        int i = left;//左序列指针</span><br><span class="line">        int j = mid+1;//右序列指针</span><br><span class="line">        int t = 0;//临时数组指针</span><br><span class="line">        while (i&lt;=mid &amp;&amp; j&lt;=right)&#123;</span><br><span class="line">            if(arr[i]&lt;=arr[j])&#123;</span><br><span class="line">                temp[t++] = arr[i++];</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                temp[t++] = arr[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        while(i&lt;=mid)&#123;//将左边剩余元素填充进temp中</span><br><span class="line">            temp[t++] = arr[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        while(j&lt;=right)&#123;//将右序列剩余元素填充进temp中</span><br><span class="line">            temp[t++] = arr[j++];</span><br><span class="line">        &#125;</span><br><span class="line">        t = 0;</span><br><span class="line">        //将temp中的元素全部拷贝到原数组中</span><br><span class="line">        while(left &lt;= right)&#123;</span><br><span class="line">            arr[left++] = temp[t++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>图解: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6194356.html">https://www.cnblogs.com/chengxiao/p/6194356.html</a></p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>数据按照某种方式丢到不同的桶里面，保证左边桶的所有数字一定小于右边的所有桶的数字，比如,arr[] &#x3D; {1,2,3,1,12,32,23,45}<br>我们可以分成5个桶，通过arr[i]&#x2F;50的方式来放入，这样就变成: </p>
+<ul>
+<li>bucket_1 &#x3D; {1，2，3，1}</li>
+<li>bucket_2 &#x3D; {12}</li>
+<li>bucket_3 &#x3D; {23}</li>
+<li>bucket_4 &#x3D; {32}</li>
+<li>bucket_5 &#x3D; {45}<br>桶排序需要保证数据尽量均匀分布，不然会浪费桶的数量，造成额外的空间。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">//微信公众号：bigsai</span><br><span class="line">public class test3 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int a[]= &#123;1,8,7,44,42,46,38,34,33,17,15,16,27,28,24&#125;;</span><br><span class="line">		List[] buckets=new ArrayList[5];</span><br><span class="line">		for(int i=0;i&lt;buckets.length;i++)//初始化</span><br><span class="line">		&#123;</span><br><span class="line">			buckets[i]=new ArrayList&lt;Integer&gt;();</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;a.length;i++)//将待排序序列放入对应桶中</span><br><span class="line">		&#123;</span><br><span class="line">			int index=a[i]/10;//对应的桶号</span><br><span class="line">			buckets[index].add(a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;buckets.length;i++)//每个桶内进行排序(使用系统自带快排)</span><br><span class="line">		&#123;</span><br><span class="line">			buckets[i].sort(null);</span><br><span class="line">			for(int j=0;j&lt;buckets[i].size();j++)//顺便打印输出</span><br><span class="line">			&#123;</span><br><span class="line">				System.out.print(buckets[i].get(j)+&quot; &quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Java和python中默认的排序-timsort"><a href="#Java和python中默认的排序-timsort" class="headerlink" title="Java和python中默认的排序 - timsort"></a>Java和python中默认的排序 - timsort</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">直接看知乎吧</span><br><span class="line">https://www.zhihu.com/question/23928138</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -265,7 +365,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-05-26 16:16:14" itemprop="dateModified" datetime="2021-05-26T16:16:14+08:00">2021-05-26</time>
+      <time title="Modified: 2024-09-27 20:52:37" itemprop="dateModified" datetime="2024-09-27T20:52:37+08:00">2024-09-27</time>
     </span>
 
   
@@ -282,11 +382,11 @@
 <li>一个开源的 data warehouse system</li>
 <li>基于hadoop,可以用来分析大规模数据: hql</li>
 </ul>
-<h2 id="hive-的结构"><a href="#hive-的结构" class="headerlink" title="hive 的结构"></a>hive 的结构</h2><p><img src="/./hive/hive-arch.PNG" alt="hive-arch"></p>
-<h2 id="hive-的组件"><a href="#hive-的组件" class="headerlink" title="hive 的组件"></a>hive 的组件</h2><p><img src="/./hive/hive-comp.PNG" alt="hive-comp"></p>
+<h2 id="hive-的结构"><a href="#hive-的结构" class="headerlink" title="hive 的结构"></a>hive 的结构</h2><p><img src="/2021/05/18/hive/hive-arch.PNG" alt="hive-arch"></p>
+<h2 id="hive-的组件"><a href="#hive-的组件" class="headerlink" title="hive 的组件"></a>hive 的组件</h2><p><img src="/2021/05/18/hive/hive-comp.PNG" alt="hive-comp"></p>
 <h3 id="metastore"><a href="#metastore" class="headerlink" title="metastore"></a>metastore</h3><p>在 Hive 中，表名、表结构、字段名、字段类型、表的分隔符等统一被称为元数据。所有的元数据默认存储在 Hive 内置的 derby 数据库中，但由于 derby 只能有一个实例，也就是说不能有多个命令行客户端同时访问，所以在实际生产环境中，通常使用 MySQL 代替 derby。</p>
 <p>Hive 进行的是统一的元数据管理，就是说你在 Hive 上创建了一张表，然后在 presto／impala／sparksql 中都是可以直接使用的，它们会从 Metastore 中获取统一的元数据信息，同样的你在 presto／impala／sparksql 中创建一张表，在 Hive 中也可以直接使用。</p>
-<h2 id="hive-的-data-units"><a href="#hive-的-data-units" class="headerlink" title="hive 的 data units"></a>hive 的 data units</h2><p><img src="/./hive/hive-du.PNG" alt="hive-du"></p>
+<h2 id="hive-的-data-units"><a href="#hive-的-data-units" class="headerlink" title="hive 的 data units"></a>hive 的 data units</h2><p><img src="/2021/05/18/hive/hive-du.PNG" alt="hive-du"></p>
 <h3 id="database"><a href="#database" class="headerlink" title="database"></a>database</h3><p>table的目录，或者说namespace</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE IF NOT EXISTS [DATABASE_NAME];</span><br></pre></td></tr></table></figure>
 
@@ -371,8 +471,8 @@
 CLUSTERED BY(ID) INTO 5 BUCKETS
 ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 </code></pre>
-<p>数据如图:<br><img src="/./hive/hive-bucket.PNG" alt="hive-bucket">   </p>
-<p>以及结果:<br><img src="/./hive/hive-sample.PNG" alt="hive-sample"></p>
+<p>数据如图:<br><img src="/2021/05/18/hive/hive-bucket.PNG" alt="hive-bucket">   </p>
+<p>以及结果:<br><img src="/2021/05/18/hive/hive-sample.PNG" alt="hive-sample"></p>
 <h3 id="HiveSQL的编译过程"><a href="#HiveSQL的编译过程" class="headerlink" title="HiveSQL的编译过程"></a>HiveSQL的编译过程</h3><p>Hive 在执行一条 HQL 的时候，会经过以下步骤：</p>
 <ul>
 <li>语法解析：Antlr 定义 SQL 的语法规则，完成 SQL 词法，语法解析，将 SQL 转化为抽象 语法树 AST Tree；</li>
@@ -445,7 +545,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-05-21 15:34:12" itemprop="dateModified" datetime="2021-05-21T15:34:12+08:00">2021-05-21</time>
+      <time title="Modified: 2024-09-27 20:51:39" itemprop="dateModified" datetime="2024-09-27T20:51:39+08:00">2024-09-27</time>
     </span>
 
   
@@ -466,7 +566,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="题干"><a href="#题干" class="headerlink" title="题干"></a>题干</h3><p>在二叉树中，根节点位于深度 0 处，每个深度为 k 的节点的子节点位于深度 k+1 处。<br>如果二叉树的两个节点深度相同，但 父节点不同 ，则它们是一对堂兄弟节点。<br>我们给出了具有唯一值的二叉树的根节点 root ，以及树中两个不同节点的值 x 和 y 。<br>只有与值 x 和 y 对应的节点是堂兄弟节点时，才返回 true 。否则，返回 false。</p>
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>这题其实就是求树中node的深度。需要注意的是父节点要不同。<br>求节点深度有两种方法，深度优先(BFS)和广度优先(DFS)。两个都可以。</p>
 <h3 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h3><h4 id="基础知识-1-二叉树"><a href="#基础知识-1-二叉树" class="headerlink" title="基础知识 1 二叉树"></a>基础知识 1 二叉树</h4><p>二叉树是一种树结构，一个node，有两个子节点，左和右边。每个节点的结构相同</p>
-<h4 id="基础知识-2-遍历算法"><a href="#基础知识-2-遍历算法" class="headerlink" title="基础知识 2 遍历算法"></a>基础知识 2 遍历算法</h4><p>现在有一个二叉树结构，如图<br><img src="/./leetcode993/binary-tree.PNG" alt="binary-tree"></p>
+<h4 id="基础知识-2-遍历算法"><a href="#基础知识-2-遍历算法" class="headerlink" title="基础知识 2 遍历算法"></a>基础知识 2 遍历算法</h4><p>现在有一个二叉树结构，如图<br><img src="/2021/05/17/leetcode993/binary-tree.PNG" alt="binary-tree"></p>
 <h5 id="DFS-1"><a href="#DFS-1" class="headerlink" title="DFS"></a>DFS</h5><p>通过深度优先出来的结果应该是</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A--&gt;B--&gt;D--&gt;E--&gt;I--&gt;C--&gt;F--&gt;G--&gt;H</span><br></pre></td></tr></table></figure>
 <p>对应代码应该是</p>
@@ -608,9 +708,15 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2021-05-17 13:08:39 / Modified: 15:37:25" itemprop="dateCreated datePublished" datetime="2021-05-17T13:08:39+08:00">2021-05-17</time>
+      <time title="Created: 2021-05-17 13:08:39" itemprop="dateCreated datePublished" datetime="2021-05-17T13:08:39+08:00">2021-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-09-27 20:51:29" itemprop="dateModified" datetime="2024-09-27T20:51:29+08:00">2024-09-27</time>
     </span>
 
   
@@ -626,7 +732,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
           <h1 id="leetcode-232"><a href="#leetcode-232" class="headerlink" title="leetcode 232"></a>leetcode 232</h1><h2 id="涉及知识点"><a href="#涉及知识点" class="headerlink" title="涉及知识点"></a>涉及知识点</h2><p>动态规划</p>
 <h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><p>Java</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Solution&#123;</span><br><span class="line">    public int numWays(int steps, int arrLen)&#123;</span><br><span class="line">        final int mod = 1000000007;</span><br><span class="line">        int maxColumn =Math.min(arrLen-1, steps);</span><br><span class="line">        int [][]dp = new int[steps + 1][maxColumn + 1];</span><br><span class="line">        dp[0][0] = 1;</span><br><span class="line">        for(int i = 1;i &lt;= steps;i++)&#123;</span><br><span class="line">            for(int j = 0;j &lt;= maxColumn;j++)&#123;</span><br><span class="line">                dp[i][j] = dp[i-1][j];</span><br><span class="line">                if (j -1 &gt;= 0)&#123;</span><br><span class="line">                    dp[i][j] = (dp[i][j] + dp[i-1][j-1]) % mod;</span><br><span class="line">                &#125;</span><br><span class="line">                if (j + 1 &lt;= maxColumn)&#123;</span><br><span class="line">                    dp[i][j] = (dp[i][j] + dp[i-1][j+1]) % mod;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">        return dp[steps][0];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="动态规划简介"><a href="#动态规划简介" class="headerlink" title="动态规划简介"></a>动态规划简介</h3><p>动态规划的核心是 - 找出状态转移方程<br>一例:<br><img src="/./leetcode232/matrix.PNG" alt="matrix"><br>从起点，到终点，求最小权重的路径。这里状态转移方程就是</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="动态规划简介"><a href="#动态规划简介" class="headerlink" title="动态规划简介"></a>动态规划简介</h3><p>动态规划的核心是 - 找出状态转移方程<br>一例:<br><img src="/2021/05/17/leetcode232/matrix.PNG" alt="matrix"><br>从起点，到终点，求最小权重的路径。这里状态转移方程就是</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">min_weight(i,j)  = d[i][j] + min(d[i-1][j],d[i][j-1])</span><br></pre></td></tr></table></figure>
 <h3 id="题目的分析"><a href="#题目的分析" class="headerlink" title="题目的分析"></a>题目的分析</h3><h4 id="题干"><a href="#题干" class="headerlink" title="题干"></a>题干</h4><p>有一个长度为 arrLen 的数组，开始有一个指针在索引 0 处。<br>每一步操作中，你可以将指针向左或向右移动 1 步，或者停在原地（指针不能被移动到数组范围外）。<br>给你两个整数 steps 和 arrLen ，请你计算并返回：在恰好执行 steps 次操作以后，指针仍然指向索引 0 处的方案数。<br>由于答案可能会很大，请返回方案数 模 10^9 + 7(1000000007) 后的结果。</p>
 <h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>设计状态转移方程 d[i][j],i 代表steps，j代表索引的位置，value代表可有的方法数目，比如: d[0][0] &#x3D; 1，就代表在 step 0 时刻，指针在index 为 0 的位置。只有 1 种方法。<br>这里： i和j的范围明显大于0，i小于等于steps。j索引的位置应该小于数组的长度或者是steps的长度，所以</p>
@@ -700,7 +806,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-05-24 18:04:18" itemprop="dateModified" datetime="2021-05-24T18:04:18+08:00">2021-05-24</time>
+      <time title="Modified: 2024-09-27 20:54:30" itemprop="dateModified" datetime="2024-09-27T20:54:30+08:00">2024-09-27</time>
     </span>
 
   
@@ -718,7 +824,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <h2 id="Spark-的结构和成员"><a href="#Spark-的结构和成员" class="headerlink" title="Spark 的结构和成员"></a>Spark 的结构和成员</h2><ul>
 <li>Master node</li>
 <li>Cluster Manager</li>
-<li>Worker Node<br><img src="/./spark/spark-a.PNG" alt="spark-a"></li>
+<li>Worker Node<br><img src="/2021/05/10/spark/spark-a.PNG" alt="spark-a"></li>
 </ul>
 <h2 id="Resilient-Distributed-Dataset-RDD"><a href="#Resilient-Distributed-Dataset-RDD" class="headerlink" title="Resilient Distributed Dataset (RDD)"></a>Resilient Distributed Dataset (RDD)</h2><ul>
 <li>RDD 是存数据的位置</li>
@@ -742,7 +848,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>引用外部存储的数据,像HDFS,HBASE,默认下，spark对每个block中的文件做一个partition</li>
 </ul>
 <h3 id="RDD-算子-Operation"><a href="#RDD-算子-Operation" class="headerlink" title="RDD 算子(Operation)"></a>RDD 算子(Operation)</h3><h4 id="Transformations"><a href="#Transformations" class="headerlink" title="Transformations"></a>Transformations</h4><p>function, 一个rdd进，一到多个rdd出。不会触发计算。</p>
-<h5 id="宽窄依赖-Narrow-and-wide-Transformations"><a href="#宽窄依赖-Narrow-and-wide-Transformations" class="headerlink" title="宽窄依赖( Narrow and wide Transformations)"></a>宽窄依赖( Narrow and wide Transformations)</h5><p>narrow没有shuffle, 操作: map,flatMap,filter,sample<br>wide有shuffle,比如softByKey, reduceByKey,groupByKey,join<br><img src="/./spark/narrow-wude.PNG" alt="narrow-wide"></p>
+<h5 id="宽窄依赖-Narrow-and-wide-Transformations"><a href="#宽窄依赖-Narrow-and-wide-Transformations" class="headerlink" title="宽窄依赖( Narrow and wide Transformations)"></a>宽窄依赖( Narrow and wide Transformations)</h5><p>narrow没有shuffle, 操作: map,flatMap,filter,sample<br>wide有shuffle,比如softByKey, reduceByKey,groupByKey,join<br><img src="/2021/05/10/spark/narrow-wude.PNG" alt="narrow-wide"></p>
 <h4 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h4><p>rdd的算子，输出是非rdd的value.会触发spark的计算.<br>以下都是action的算子: collect,take,reduce,forEach,sample,count,save   </p>
 <h2 id="惰性计算-lazy-Evaluation"><a href="#惰性计算-lazy-Evaluation" class="headerlink" title="惰性计算(lazy Evaluation)"></a>惰性计算(lazy Evaluation)</h2><p>目的就是最小化计算机的工作，也就是延迟求值或者最小化求值。除了提升性能外，还可以构造一个无限的数据模型<br>eg:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">li = [lambda :x for x in range(10)]</span><br><span class="line">res = li[0]()</span><br><span class="line">print(res)</span><br><span class="line">#输出：9</span><br></pre></td></tr></table></figure>
@@ -750,7 +856,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">li2 = [lambda x=x:x for x in range(10)]</span><br><span class="line">res = li2[0]()</span><br><span class="line"></span><br><span class="line">print(res)</span><br><span class="line">for i in li2:</span><br><span class="line">    print(i(), end=&quot; &quot;)</span><br></pre></td></tr></table></figure>
 
 <h2 id="共享变量-shared-variable"><a href="#共享变量-shared-variable" class="headerlink" title="共享变量(shared variable)"></a>共享变量(shared variable)</h2><h3 id="广播变量-broadcast-variable"><a href="#广播变量-broadcast-variable" class="headerlink" title="广播变量 (broadcast variable)"></a>广播变量 (broadcast variable)</h3><p>广播变量类似MapReduce中的DistributeFile, 通常是一个小表。在drive中创建，一旦创建后，表会在整个集群中广播，能让所有正在运行的计算任务以只读的方式访问。支持各种数据类型。   </p>
-<h4 id="广播变量在spark中的传播方法"><a href="#广播变量在spark中的传播方法" class="headerlink" title="广播变量在spark中的传播方法"></a>广播变量在spark中的传播方法</h4><p>为了保证所有的节点都能接受到driver的变量，我们不能直接去连接driver，这会导致driver会负载，这里，executor 使用的是http连接去拉取数据，类似点对点传输。<br>Spark中，driver会将已序列化的数据分成小块，然后再将数据存储在自己的blockmanager中，当executor开始运行的时候，每个executor首先从自己的内部块管理器中取得广播变量。如果以前广播过，那么直接取。假如没有，executor会从driver或者其他的executor中拉数据块。一旦拉到数据块，就会放到自己的blockmanager中。供自己和其他拉取的executor使用。这样，就很好防止的driver单点的问题。<br><img src="/./spark/boardcast.PNG" alt="boardcast"></p>
+<h4 id="广播变量在spark中的传播方法"><a href="#广播变量在spark中的传播方法" class="headerlink" title="广播变量在spark中的传播方法"></a>广播变量在spark中的传播方法</h4><p>为了保证所有的节点都能接受到driver的变量，我们不能直接去连接driver，这会导致driver会负载，这里，executor 使用的是http连接去拉取数据，类似点对点传输。<br>Spark中，driver会将已序列化的数据分成小块，然后再将数据存储在自己的blockmanager中，当executor开始运行的时候，每个executor首先从自己的内部块管理器中取得广播变量。如果以前广播过，那么直接取。假如没有，executor会从driver或者其他的executor中拉数据块。一旦拉到数据块，就会放到自己的blockmanager中。供自己和其他拉取的executor使用。这样，就很好防止的driver单点的问题。<br><img src="/2021/05/10/spark/boardcast.PNG" alt="boardcast"></p>
 <h4 id="广播变量的优点"><a href="#广播变量的优点" class="headerlink" title="广播变量的优点"></a>广播变量的优点</h4><p>一定数据量范围内，避免shuffle，使得计算尽可能的本地运行。Spark的Map端的操作，就是用广播变量来实现的</p>
 <h3 id="累加器-Accumulator"><a href="#累加器-Accumulator" class="headerlink" title="累加器(Accumulator)"></a>累加器(Accumulator)</h3><p>一个只能累加的共享变量，初始化的累加器的变量是0，在被action算子触发计算后，累加器在map函数中调用，然后会累加，内置的累加器有：</p>
 <ul>
@@ -818,7 +924,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>一个中间结果的key都再一个partition里面</li>
 <li>partition的过程，可以再user-defined paritioning function中设定</li>
 </ul>
-<p><img src="/./spark/hadoop-partition.PNG" alt="hadoop-partition"></p>
+<p><img src="/2021/05/10/spark/hadoop-partition.PNG" alt="hadoop-partition"></p>
 <h2 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h2><p>shuffle 是数据重分布的过程</p>
 <ul>
 <li>确保每个reducer得到同个key的所有相关values</li>
@@ -830,7 +936,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>使用shuffle和sort机制： Map的结果，按照key排序，发生在map结束后，开始排序</li>
 <li>用combiner 去减少数据的shuffle<ol>
 <li>Combiner 可以按照key来combine 所有的 key-value的对(pairs)</li>
-<li>combiner不是由framework来处理<br>例子：hadoop中wordcount的过程<br><img src="/./spark/hadoop-wordcount.PNG" alt="hadoop-wordcount"></li>
+<li>combiner不是由framework来处理<br>例子：hadoop中wordcount的过程<br><img src="/2021/05/10/spark/hadoop-wordcount.PNG" alt="hadoop-wordcount"></li>
 </ol>
 </li>
 </ul>
@@ -871,13 +977,13 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <h4 id="createCombiner"><a href="#createCombiner" class="headerlink" title="createCombiner"></a>createCombiner</h4><p>V &#x3D;&gt; C ，这个函数把当前的值作为参数，此时我们可以对其做些附加操作(类型转换)并把它返回 (这一步类似于初始化操作)</p>
 <h4 id="mergeValue"><a href="#mergeValue" class="headerlink" title="mergeValue"></a>mergeValue</h4><p>(C, V) &#x3D;&gt; C，该函数把元素V合并到之前的元素C(createCombiner)上 (这个操作在每个分区内进行)</p>
 <h4 id="mergeCombiners"><a href="#mergeCombiners" class="headerlink" title="mergeCombiners"></a>mergeCombiners</h4><p>(C, C) &#x3D;&gt; C，该函数把2个元素C合并 (这个操作会跨分区间进行)</p>
-<h3 id="衍生1-reduceByKey"><a href="#衍生1-reduceByKey" class="headerlink" title="衍生1 reduceByKey"></a>衍生1 reduceByKey</h3><p>同key的value合并，比如 rdd.reduceByKey(lambda x, y: x+y)<br>这个函数中的 createCombiner： lambda v: v；mergeValue，mergeCombiners 都是 func<br>好处：shuffe前就会combines,以及避免用groupByKey<br><img src="/./spark/rdd-reduceByKey.PNG" alt="rdd-reduceByKey"></p>
-<h3 id="衍生2-groupByKey"><a href="#衍生2-groupByKey" class="headerlink" title="衍生2 groupByKey"></a>衍生2 groupByKey</h3><p>rdd中，按照key去 group 数据，组成一个序列。然后，在另一个rdd中按照key去做shuffle<br><img src="/./spark/rdd-groupByKey.PNG" alt="rdd-groupByKey"></p>
+<h3 id="衍生1-reduceByKey"><a href="#衍生1-reduceByKey" class="headerlink" title="衍生1 reduceByKey"></a>衍生1 reduceByKey</h3><p>同key的value合并，比如 rdd.reduceByKey(lambda x, y: x+y)<br>这个函数中的 createCombiner： lambda v: v；mergeValue，mergeCombiners 都是 func<br>好处：shuffe前就会combines,以及避免用groupByKey<br><img src="/2021/05/10/spark/rdd-reduceByKey.PNG" alt="rdd-reduceByKey"></p>
+<h3 id="衍生2-groupByKey"><a href="#衍生2-groupByKey" class="headerlink" title="衍生2 groupByKey"></a>衍生2 groupByKey</h3><p>rdd中，按照key去 group 数据，组成一个序列。然后，在另一个rdd中按照key去做shuffle<br><img src="/2021/05/10/spark/rdd-groupByKey.PNG" alt="rdd-groupByKey"></p>
 <h3 id="Spark中的MR效率"><a href="#Spark中的MR效率" class="headerlink" title="Spark中的MR效率"></a>Spark中的MR效率</h3><h4 id="transformation-的数量"><a href="#transformation-的数量" class="headerlink" title="transformation 的数量"></a>transformation 的数量</h4><p>每个transformation 都有rdd的lineary scan<br>eg:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (id, score) pairs</span><br><span class="line">•Bad design</span><br><span class="line">maxByKey = rdd.combineByKey(…)</span><br><span class="line">sumByKey = rdd.combineByKey(…)</span><br><span class="line">sumMaxRdd = maxByKey.join(sumByKey)</span><br><span class="line"></span><br><span class="line">•Good design</span><br><span class="line">sumMaxRdd = rdd.combineByKey(…)</span><br></pre></td></tr></table></figure>
 
 <h4 id="transformation-的大小"><a href="#transformation-的大小" class="headerlink" title="transformation 的大小"></a>transformation 的大小</h4><p>越小，cost也就越小</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…)</span><br></pre></td></tr></table></figure>
 
 <h4 id="shuffles"><a href="#shuffles" class="headerlink" title="shuffles"></a>shuffles</h4><p>尽量避免shuffle.性能的瓶颈，往往都在I&#x2F;O和网络上，以及数据的序列化和反序列化</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(data) # data: (word, 1) pairs</span><br><span class="line">•Bad design</span><br><span class="line">countRdd = rdd.reduceByKey(…)</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">•Good design</span><br><span class="line">fileteredRdd = countRdd.filter(…)</span><br><span class="line">countRdd = fileteredRdd.reduceByKey(…)</span><br></pre></td></tr></table></figure>
@@ -885,8 +991,8 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <h3 id="如何合并两个RDD？"><a href="#如何合并两个RDD？" class="headerlink" title="如何合并两个RDD？"></a>如何合并两个RDD？</h3><h4 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h4><p>Concatenate two RDDs<br>How do A and B union together?<br>•What is the number of partitions for the union of A and B?<br>•Case 1: Different partitioner:<br>• Note: default partitioner is None<br>•Case 2: Same partitioner:   </p>
 <h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><p>Pair two RDDs<br>Key-Value pairs after A.zip(B)<br>•Key: tuples in A<br>•Value: tuples in B<br>•Assumes that the two RDDs have<br>•The same number of partitions<br>•The same number of elements in each partition<br>•E.g., 1-to-1 map   </p>
 <h4 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h4><p>Merge based on the keys from 2 RDDs,Just like join in DB<br>•join<br>•leftOuterJoin<br>•rightOuterJoin<br>•fullOuterJoin      </p>
-<h1 id="Spark-优化"><a href="#Spark-优化" class="headerlink" title="Spark 优化"></a>Spark 优化</h1><h2 id="大小表join的优化"><a href="#大小表join的优化" class="headerlink" title="大小表join的优化"></a>大小表join的优化</h2><p>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&dist_request_id=1619770363106_51540&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control%EF%BC%89">https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;dist_request_id=1619770363106_51540&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control）</a></p>
-<h3 id="小表对大表-broadcast-join"><a href="#小表对大表-broadcast-join" class="headerlink" title="小表对大表 broadcast  join"></a>小表对大表 broadcast  join</h3><p>广播小表，且被广播的表需要小于spark.sql.autoBroadcastJoinThreshold 所配置的值，默认是10M （或者加了 broadcast  join的hint。此外，基表不能被广播，比如leftouterjoin时，只能广播右表<br><img src="/./spark/boardcast-join.PNG" alt="boardcast-join">   </p>
+<h1 id="Spark-优化"><a href="#Spark-优化" class="headerlink" title="Spark 优化"></a>Spark 优化</h1><h2 id="大小表join的优化"><a href="#大小表join的优化" class="headerlink" title="大小表join的优化"></a>大小表join的优化</h2><p>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control&dist_request_id=1619770363106_51540&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-1.control">https://blog.csdn.net/wlk_328909605/article/details/82933552?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;dist_request_id=1619770363106_51540&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control</a>)</p>
+<h3 id="小表对大表-broadcast-join"><a href="#小表对大表-broadcast-join" class="headerlink" title="小表对大表 broadcast  join"></a>小表对大表 broadcast  join</h3><p>广播小表，且被广播的表需要小于spark.sql.autoBroadcastJoinThreshold 所配置的值，默认是10M （或者加了 broadcast  join的hint。此外，基表不能被广播，比如leftouterjoin时，只能广播右表<br><img src="/2021/05/10/spark/boardcast-join.PNG" alt="boardcast-join">   </p>
 <h3 id="Shuffle-Hash-Join"><a href="#Shuffle-Hash-Join" class="headerlink" title="Shuffle Hash Join"></a>Shuffle Hash Join</h3><p>以上 broadcast join 仅在小表时候高效，当表大的时候，使用broadcast会导致driver和executor端的压力。这里，我们可以通过partition的方式，来将大批量的数据分成小份的数据集并行计算。<br>利用同key相同，分区也相同的原理。对大表的join做分治： 也就是先将表划分成n个分区，再多两个表中相对应的数据进行hash join。   </p>
 <h4 id="shuffle-hash-join的步骤"><a href="#shuffle-hash-join的步骤" class="headerlink" title="shuffle hash join的步骤:"></a>shuffle hash join的步骤:</h4><ul>
 <li>对两张表按照join的keys，进行重分区。目的是为了让相同的key的记录分到对应的分区中</li>
@@ -895,9 +1001,9 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <h4 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h4><ol>
 <li>分区的平均大小不超过spark.sql.autoBroadcastJoinThreshold所配置的值，默认是10M</li>
 <li>基表不能被广播，比如left outer join时，只能广播右表</li>
-<li>一侧的表要明显小于另外一侧，小的一侧将被广播（明显小于的定义为3倍小，此处为经验值）<br><img src="/./spark/Shuffle-Hash-Join.PNG" alt="Shuffle Hash Join"></li>
+<li>一侧的表要明显小于另外一侧，小的一侧将被广播（明显小于的定义为3倍小，此处为经验值）<br><img src="/2021/05/10/spark/Shuffle-Hash-Join.PNG" alt="Shuffle Hash Join"></li>
 </ol>
-<h3 id="大表对大表-Sort-Merge-Join"><a href="#大表对大表-Sort-Merge-Join" class="headerlink" title="大表对大表 Sort Merge Join"></a>大表对大表 Sort Merge Join</h3><p>两个表，按照join keys进行重新的shuffle.来保证join keys值相同的记录会被分在对应的分区。分区后对每个分区内的数据进行排序。排序后再对对应的分区记录进行连接。<br>由于两个序列都是有序的，从头遍历。碰到相同key就输出。不同的key，左边小就用左边的。右边小就用右边的。（用完就丢）<br><img src="/./spark/Sort-Merge-Join.PNG" alt="Sort-Merge-Join"></p>
+<h3 id="大表对大表-Sort-Merge-Join"><a href="#大表对大表-Sort-Merge-Join" class="headerlink" title="大表对大表 Sort Merge Join"></a>大表对大表 Sort Merge Join</h3><p>两个表，按照join keys进行重新的shuffle.来保证join keys值相同的记录会被分在对应的分区。分区后对每个分区内的数据进行排序。排序后再对对应的分区记录进行连接。<br>由于两个序列都是有序的，从头遍历。碰到相同key就输出。不同的key，左边小就用左边的。右边小就用右边的。（用完就丢）<br><img src="/2021/05/10/spark/Sort-Merge-Join.PNG" alt="Sort-Merge-Join"></p>
 <h2 id="Spark的结构调优"><a href="#Spark的结构调优" class="headerlink" title="Spark的结构调优"></a>Spark的结构调优</h2><ul>
 <li>加内存  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark-shell –-driver-memory 8g </span><br><span class="line">spark-shell –-executor-memory 8g </span><br></pre></td></tr></table></figure></li>
 </ul>
@@ -977,9 +1083,15 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2021-05-08 17:08:39 / Modified: 17:33:36" itemprop="dateCreated datePublished" datetime="2021-05-08T17:08:39+08:00">2021-05-08</time>
+      <time title="Created: 2021-05-08 17:08:39" itemprop="dateCreated datePublished" datetime="2021-05-08T17:08:39+08:00">2021-05-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-09-27 20:52:06" itemprop="dateModified" datetime="2024-09-27T20:52:06+08:00">2024-09-27</time>
     </span>
 
   
@@ -1009,7 +1121,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>YARN<br>等等，像Pig, Hive,Spark, HBase</li>
 </ul>
 <h3 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h3><p>HDFS 是一个 master-slave 的文件系统(file system).他可以分布式存储数据(存储在node，也就是machine上，通常，node都是 linux machine with java)。同样的，他也支持分布式计算，以及 horizontal scalability （Vertical Scaling vs. Horizontal Scaling ?）</p>
-<h3 id="HDFS-结构"><a href="#HDFS-结构" class="headerlink" title="HDFS 结构"></a>HDFS 结构</h3><p><img src="/./hadoop-hdfs/hdfs_architecture.PNG" alt="hdfs_architecture"></p>
+<h3 id="HDFS-结构"><a href="#HDFS-结构" class="headerlink" title="HDFS 结构"></a>HDFS 结构</h3><p><img src="/2021/05/08/hadoop-hdfs/hdfs_architecture.PNG" alt="hdfs_architecture"></p>
 <h4 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h4><ul>
 <li>维护和管理 DataNodes 中的blocks,且 namenode 是 master node</li>
 </ul>
@@ -1034,12 +1146,12 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>周期性的把editlogs的改动应用到fsimages上，并刷新自身的editlogs</li>
 <li>一旦namenode down,file system metadata就可以从secondary namenode上的最新的fsimage上恢复</li>
 </ul>
-<h5 id="Secondary-NameNode-的工作机制"><a href="#Secondary-NameNode-的工作机制" class="headerlink" title="Secondary NameNode 的工作机制"></a>Secondary NameNode 的工作机制</h5><p><img src="/./hadoop-hdfs/Secondary_Namenode.PNG" alt="Secondary_Namenode"><br>详细解释：<br>(<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082</a>)</p>
-<h3 id="hdfs-读写过程"><a href="#hdfs-读写过程" class="headerlink" title="hdfs 读写过程"></a>hdfs 读写过程</h3><h4 id="hdfs-read"><a href="#hdfs-read" class="headerlink" title="hdfs read"></a>hdfs read</h4><p><img src="/./hadoop-hdfs/hdfs_read.PNG" alt="hdfs_read"></p>
-<h4 id="hdfs-write"><a href="#hdfs-write" class="headerlink" title="hdfs write"></a>hdfs write</h4><p><img src="/./hadoop-hdfs/hdfs_write.PNG" alt="hdfs_write"><br><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082</a></p>
+<h5 id="Secondary-NameNode-的工作机制"><a href="#Secondary-NameNode-的工作机制" class="headerlink" title="Secondary NameNode 的工作机制"></a>Secondary NameNode 的工作机制</h5><p><img src="/2021/05/08/hadoop-hdfs/Secondary_Namenode.PNG" alt="Secondary_Namenode"><br>详细解释：<br>(<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082</a>)</p>
+<h3 id="hdfs-读写过程"><a href="#hdfs-读写过程" class="headerlink" title="hdfs 读写过程"></a>hdfs 读写过程</h3><h4 id="hdfs-read"><a href="#hdfs-read" class="headerlink" title="hdfs read"></a>hdfs read</h4><p><img src="/2021/05/08/hadoop-hdfs/hdfs_read.PNG" alt="hdfs_read"></p>
+<h4 id="hdfs-write"><a href="#hdfs-write" class="headerlink" title="hdfs write"></a>hdfs write</h4><p><img src="/2021/05/08/hadoop-hdfs/hdfs_write.PNG" alt="hdfs_write"><br><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3082</a></p>
 <h2 id="HDFS-HA"><a href="#HDFS-HA" class="headerlink" title="HDFS - HA"></a>HDFS - HA</h2><p>HA 模式下，会有两个namenode。 其中只有一个namenode处于active的状态，另一个处于standby状态。这种机制实现namenode的双机热备高可用功能。</p>
 <h3 id="StandBy-Namenode-HA"><a href="#StandBy-Namenode-HA" class="headerlink" title="StandBy Namenode - HA"></a>StandBy Namenode - HA</h3><p>standby namenode 会时刻同步active namenode的元数据。一旦active的namenode down,standby 会自动或者手动变为active的状态。自动切换的实现，可以通过zookeeper的仲裁来实现(kafka集群结构也同样依赖zookeeper)。zookeeper会检测两个namenode的状态，来选举active的namenode.此外，active 和 standby 的同步，是通过journal nodes来实现的。 </p>
-<h3 id="HA-下的结构"><a href="#HA-下的结构" class="headerlink" title="HA 下的结构"></a>HA 下的结构</h3><p><img src="/./hadoop-hdfs/HA.PNG" alt="HA"><br>机制：（<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079%EF%BC%89">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079）</a><br>（ha下，active namenode 和 standby 必须有一样的metadata）    </p>
+<h3 id="HA-下的结构"><a href="#HA-下的结构" class="headerlink" title="HA 下的结构"></a>HA 下的结构</h3><p><img src="/2021/05/08/hadoop-hdfs/HA.PNG" alt="HA"><br>机制：（<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079%EF%BC%89">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079）</a><br>（ha下，active namenode 和 standby 必须有一样的metadata）    </p>
 <p>ZooKeeper（ZK）集群作为一个高可靠系统，能够为集群协作数据提供监控，并将数据的更改随时反馈给客户端。HDFS 的热备功能依赖 ZK 提供的两个特性：错误监测、活动节点选举。HDFS 通过 ZK 实现高可用的机制如下。</p>
 <p>每个 NameNode 都会在 ZK 中注册并且持久化一个 session 标识，一旦 NameNode 失效了，那么 session 也将过期，而 ZK 也会通知其他的 NameNode 发起一个失败切换。ZK 提供了一个简单的机制来保证只有一个 NameNode 是活动的，那就是独占锁，如果当前的活动 NameNode 失效了，那么另一个 NameNode 将获取 ZK 中的独占锁，表明自己是活动的节点。</p>
 <p>ZKFailoverController（ZKFC）是 ZK 集群的客户端，用来监控 NN 的状态信息，每个运行 NameNode 的节点必须要运行一个 ZKFC。ZKFC 提供以下功能：</p>
@@ -1048,15 +1160,15 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>session管理，当本地 NN 是健康的时候，ZKFC 将会在 ZK 中持有一个 session，如果本地 NN 又正好是 Active，那么 ZKFC 将持有一个短暂的节点作为锁，一旦本地 NN 失效了，那么这个节点就会被自动删除；</li>
 <li>基础选举，如果本地 NN 是健康的，并且 ZKFC 发现没有其他 NN 持有这个独占锁，那么它将试图去获取该锁，一旦成功，那么它就开始执行 Failover，然后变成 Active 状态的 NN 节点；Failover 的过程分两步，首先对之前的 NameNode 执行隔离（如果需要的话），然后将本地 NameNode 切换到 Active 状态。</li>
 </ul>
-<h3 id="HA-Quorum-Jouranl-Nodes"><a href="#HA-Quorum-Jouranl-Nodes" class="headerlink" title="HA - Quorum Jouranl Nodes"></a>HA - Quorum Jouranl Nodes</h3><p>quorum jouranl nodes，其实就是JournalNode集群。这里用来同步两个namenode中的元数据，同步方式如图↓<br><img src="/./hadoop-hdfs/jn.PNG" alt="jn"><br>JournalNode 集群可以几乎实时的去 NameNode 上拉取元数据，然后保存元数据到 JournalNode 集群；同时，处于 standby 状态的 NameNode 也会实时的去 JournalNode 集群上同步 JNS 数据，通过这种方式，就实现了两个 NameNode 之间的数据同步。</p>
+<h3 id="HA-Quorum-Jouranl-Nodes"><a href="#HA-Quorum-Jouranl-Nodes" class="headerlink" title="HA - Quorum Jouranl Nodes"></a>HA - Quorum Jouranl Nodes</h3><p>quorum jouranl nodes，其实就是JournalNode集群。这里用来同步两个namenode中的元数据，同步方式如图↓<br><img src="/2021/05/08/hadoop-hdfs/jn.PNG" alt="jn"><br>JournalNode 集群可以几乎实时的去 NameNode 上拉取元数据，然后保存元数据到 JournalNode 集群；同时，处于 standby 状态的 NameNode 也会实时的去 JournalNode 集群上同步 JNS 数据，通过这种方式，就实现了两个 NameNode 之间的数据同步。</p>
 <p>那么，JournalNode 集群内部是如何实现的呢？</p>
-<p>两个 NameNode 为了数据同步，会通过一组称作 JournalNodes 的独立进程进行相互通信。当 Active 状态的 NameNode 元数据有任何修改时，会告知大部分的 JournalNodes 进程。同时，Standby 状态的 NameNode 也会读取 JNs 中的变更信息，并且一直监控 EditLog （事务日志）的变化，并把变化应用于自己的命名空间。Standby 可以确保在集群出错时，元数据状态已经完全同步了。<br><img src="/./hadoop-hdfs/qjm.PNG" alt="qjm"></p>
+<p>两个 NameNode 为了数据同步，会通过一组称作 JournalNodes 的独立进程进行相互通信。当 Active 状态的 NameNode 元数据有任何修改时，会告知大部分的 JournalNodes 进程。同时，Standby 状态的 NameNode 也会读取 JNs 中的变更信息，并且一直监控 EditLog （事务日志）的变化，并把变化应用于自己的命名空间。Standby 可以确保在集群出错时，元数据状态已经完全同步了。<br><img src="/2021/05/08/hadoop-hdfs/qjm.PNG" alt="qjm"></p>
 <p>jn的集群机制： (<a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079">https://kaiwu.lagou.com/course/courseInfo.htm?courseId=144#/detail/pc?id=3079</a>)</p>
-<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
-<h2 id="HDFS中的概念"><a href="#HDFS中的概念" class="headerlink" title="HDFS中的概念"></a>HDFS中的概念</h2><h3 id="checkpointing"><a href="#checkpointing" class="headerlink" title="checkpointing"></a>checkpointing</h3><p><img src="/./hadoop-hdfs/checkpoints.PNG" alt="checkpoints"></p>
-<h3 id="Data-locality"><a href="#Data-locality" class="headerlink" title="Data locality"></a>Data locality</h3><p><img src="/./hadoop-hdfs/Data_locality.PNG" alt="Data_locality"></p>
-<h3 id="Replication"><a href="#Replication" class="headerlink" title="Replication"></a>Replication</h3><p><img src="/./hadoop-hdfs/replication.PNG" alt="replication"></p>
-<h3 id="Rack-awareness"><a href="#Rack-awareness" class="headerlink" title="Rack awareness"></a>Rack awareness</h3><p><img src="/./hadoop-hdfs/Rack_awareness.PNG" alt="Rack-awareness"></p>
+<h3 id="HA-共享存储-shared-storage"><a href="#HA-共享存储-shared-storage" class="headerlink" title="HA - 共享存储(shared storage)"></a>HA - 共享存储(shared storage)</h3><p><img src="/2021/05/08/hadoop-hdfs/ha-share-storage.PNG" alt="ha-share-storage"><br>The StandbyNode and the active NameNode keep in sync with each other by using a shared storage device. The active NameNode logs the record of any modification done in its namespace to an EditLog present in this shared storage. The StandbyNode reads the changes made to the EditLogs in this shared storage and applies it to its own namespace.<br>Now, in case of failover, the StandbyNode updates its metadata information using the EditLogs in the shared storage at first. Then, it takes the responsibility of the Active NameNode. This makes the current namespace state synchronized with the state before failover.<br>The administrator must configure at least one fencing method to avoid a split-brain scenario.<br>The system may employ a range of fencing mechanisms. It may include killing of the NameNode’s process and revoking its access to the shared storage directory.<br>As a last resort, we can fence the previously active NameNode with a technique known as STONITH, or “shoot the other node in the head”. STONITH uses a specialized power distribution unit to forcibly power down the NameNode machine。（待整合）</p>
+<h2 id="HDFS中的概念"><a href="#HDFS中的概念" class="headerlink" title="HDFS中的概念"></a>HDFS中的概念</h2><h3 id="checkpointing"><a href="#checkpointing" class="headerlink" title="checkpointing"></a>checkpointing</h3><p><img src="/2021/05/08/hadoop-hdfs/checkpoints.PNG" alt="checkpoints"></p>
+<h3 id="Data-locality"><a href="#Data-locality" class="headerlink" title="Data locality"></a>Data locality</h3><p><img src="/2021/05/08/hadoop-hdfs/Data_locality.PNG" alt="Data_locality"></p>
+<h3 id="Replication"><a href="#Replication" class="headerlink" title="Replication"></a>Replication</h3><p><img src="/2021/05/08/hadoop-hdfs/replication.PNG" alt="replication"></p>
+<h3 id="Rack-awareness"><a href="#Rack-awareness" class="headerlink" title="Rack awareness"></a>Rack awareness</h3><p><img src="/2021/05/08/hadoop-hdfs/Rack_awareness.PNG" alt="Rack-awareness"></p>
 <h4 id="Why-Rack-awareness"><a href="#Why-Rack-awareness" class="headerlink" title="Why Rack awareness"></a>Why Rack awareness</h4><ul>
 <li>减少延迟</li>
 </ul>
@@ -1065,7 +1177,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;,&#39; STORED AS TEXTFILE;
 <li>写：to 2 racks instead of 3 per block</li>
 </ol>
 <ul>
-<li>容错<br> Never put your eggs in the same basket<br> <img src="/./hadoop-hdfs/yra.PNG" alt="yra"></li>
+<li>容错<br> Never put your eggs in the same basket<br> <img src="/2021/05/08/hadoop-hdfs/yra.PNG" alt="yra"></li>
 </ul>
 <h2 id="Small-file-problem"><a href="#Small-file-problem" class="headerlink" title="Small file problem"></a>Small file problem</h2><p>特别小的文件仍然会占用128kb block。这样会造成浪费</p>
 <!-- 
@@ -1123,114 +1235,6 @@ api: java,c, web rest
 <td>Easy to read and parse<br>Efficient when columns needs to be queried</td>
 </tr>
 </tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/04/29/Hadoop-intro/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ray">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="摸鱼小据点">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/29/Hadoop-intro/" class="post-title-link" itemprop="url">Hadoop 简介</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-04-29 17:47:13" itemprop="dateCreated datePublished" datetime="2021-04-29T17:47:13+08:00">2021-04-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-09-27 17:05:44" itemprop="dateModified" datetime="2024-09-27T17:05:44+08:00">2024-09-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Hadoop-what"><a href="#Hadoop-what" class="headerlink" title="Hadoop, what?"></a>Hadoop, what?</h2><p>Hadoop 是一个分布式系统基础架构。这篇聊聊他的进化历史，从1.0 到 2.0 </p>
-<h2 id="Hadoop-1-0"><a href="#Hadoop-1-0" class="headerlink" title="Hadoop 1.0"></a>Hadoop 1.0</h2><p>Hadoop 1.0 是最早hadoop的版本，主要由两个部分构成，HDFS(存储) + MapReduce(计算)</p>
-<h3 id="HDFS-（存储）"><a href="#HDFS-（存储）" class="headerlink" title="HDFS （存储）"></a>HDFS （存储）</h3><p>hdfs,全称是hadoop distribute file system,如名字所言: 分布式(Distribute)，文件系统(file system)。就是以分布式的形式存储文件。所谓分布式存储，就是将文件分割成若干个小文件，并分散存储在不同服务器上。不过现在大家都用云存储了，hdfs主要是入门基础。不用太深，图一乐。<br>HDFS 的结构主要由 NameNode(metadata) + DataNode(data) 组成。<br>NameNode 是存储元数据的节点，元数据指的是文件的block位置，size 等。 DataNode 是真正存储数据的位置，通常，一个数据会被分割成几分，且每一份数据会复制3份(为什么是3份)来保证数据不会被丢失。在1.0的版本中，namenode同样负责job的调度，等等，这些都在2.0里丢给了yarn。</p>
-<h3 id="MapReduce（计算）"><a href="#MapReduce（计算）" class="headerlink" title="MapReduce（计算）"></a>MapReduce（计算）</h3><p>在hadoop生态里，最早的是mapreduce,再往后，就是spark，以及tez。<br>MapReduce 是一种计算框架。字面意思，就是把计算分为map 和 reduce。 map中，通常是数据的转换。而reduce，更多的是聚合。比如，现在统计一组数据中男生，女生的个数，处理逻辑如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name1 -&gt; man -&gt; 1</span><br><span class="line">name2 -&gt; women -&gt; 1</span><br><span class="line">name3 -&gt; man -&gt; 1</span><br><span class="line">name4 -&gt; women -&gt; 1</span><br></pre></td></tr></table></figure>
-<p>在这一步，就是map的过程，而将这一步统计在一起</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">man -&gt; 2</span><br><span class="line">women -&gt; 2</span><br></pre></td></tr></table></figure>
-<p>这就属于reduce的过程。而这种计算过程，也对分布式计算非常友好。因此，在最开始的hadoop 1.0 中，结构就是<br>mapreduce(计算) + hdfs（存储）</p>
-<h3 id="Hadoop-1-0的缺点"><a href="#Hadoop-1-0的缺点" class="headerlink" title="Hadoop 1.0的缺点"></a>Hadoop 1.0的缺点</h3><p>最早开始，hadoop 是 mapreduce + hdfs，已经没人用了。一是这样的计算方式，在极大数据的时候，中间的缓存太大。此外，由于最开始，hadoop的调度方式是顺序结构。也就是FIFO，导致了整个计算过程非常缓慢。而且，整个系统没有热备份(也就是实时备份)，已经无法适应大规模计算了，所以1.0的结构已经被彻底抛弃。</p>
-<h2 id="Hadoop-2-0"><a href="#Hadoop-2-0" class="headerlink" title="Hadoop 2.0"></a>Hadoop 2.0</h2><p>Hadoop 2.0的时候，整个结构变成了 mapreduce(计算) + yarn(资源管理) + hdfs(存储)。此外，在2.0的时候已经支持了spark的计算框架。并且，新加入了HA(high available)模式. </p>
-<h3 id="YARN-是什么"><a href="#YARN-是什么" class="headerlink" title="YARN 是什么"></a>YARN 是什么</h3><p>YARN 的全称是 Yet Another Resource Negotiator. YARN 主要管理两个资源：CPU + Memory, 并且他的结构如下图：<br><img src="/./Hadoop-intro/1_yarn.png" alt="yarn"><br>其中，资源管理是由 RM(ResourceManager) + AM(ApplicationMaster) + NM(NodeManager) 组成,如上图所示。<br>从图中我们可以看出，yarn是典型的master-slave结构。其中，RM对所有的资源进行调度和管理，而NM会对自己的资源做出隔离和管理。连接NM和RM的就是AM，AM会负责向RM申请资源，并对container中的Aplication进行跟踪和管理。</p>
-<h4 id="YARN-启动一个作业的流程"><a href="#YARN-启动一个作业的流程" class="headerlink" title="YARN 启动一个作业的流程"></a>YARN 启动一个作业的流程</h4><p><img src="/./Hadoop-intro/1_yarn_work.png" alt="1_yarn_work">   </p>
-<ol>
-<li>首先，client 向 RM 提交 application</li>
-<li>RM 收到后，会让 NM 启动一个container,同时，也会为这个NM启动一个AM。</li>
-<li>AM 向 RM 注册。</li>
-<li>AM 用轮询的方式向 RM 中的 resource scheduler要资源</li>
-<li>AM 在拿到资源后，会联系 NM，请求启动计算任务</li>
-<li>NM 会根据 AM 拿到的资源，在 container 中启动任务</li>
-<li>任务会向 AM 汇报自己的 状态 和 进度，以便让AM掌握各个任务的执行状况</li>
-<li>任务做完之后，AM 会向 RM 提交注销，并关闭自己</li>
-</ol>
-<h4 id="YARN-的调度方式"><a href="#YARN-的调度方式" class="headerlink" title="YARN 的调度方式"></a>YARN 的调度方式</h4><p>从宏观上来说，调度方式又如下三种: 集中式调度器(Monolithic scheduler)，双层调度器(Two-Level Scheduler)，状态共享调度器(Shared-State Scheduler)</p>
-<ol>
-<li><p>集中式调度器(Monolithic scheduler)<br>集中式调度器只有一个中央调度器构成。其中，所有的计算资源申请，调度逻辑都会交给中央调度器。这也就直接导致了中央调度器再做高并发的情况下，会出现性能瓶颈。假如此时，有多个资源申请，中央调度器只能顺序执行</p>
-</li>
-<li><p>双层调度器(Two-Level Scheduler)<br>双层调度器(Two-Level Scheduler) 在 集中式 基础上，变为了 中央调度器 + 框架调度器。此时，中央调度器只负责资源的状态，然后按照一定的策略（FIFO, Fair, Capacity, Dominant Resouce Fair）把资源分配给 框架调度器，框架调度器在根据接收到的资源来给容器分配任务。 </p>
-</li>
-<li><p>状态共享调度器（Shared-State Scheduler）<br>状态共享调度器（Shared-State Scheduler，结构同样是 中央调度器 + 框架调度器。但，此时的 中央调度器 只负责保存集群的使用信息，不再去分配资源。而 框架调度器 会根据当前集群的使用信息来去申请资源。一旦 框架调度器 申请完资源，新的资源会更新中央调度器的信息。资源申请若是出现了竞争，会通过 事务 进行，来保证操作的原子性（见数据库中的事务）。这种类似 MVCC的乐观并发机制。缺点是调度公平性不足。</p>
-</li>
-</ol>
-<p>那么，Yarn是什么<br>Yarn 很像 双层调度器 的结构，但是有一些区别：双层调度的模式是 框架调度器主动的向 中央调度器申请资源，而 Yarn中，资源是由中央(RM) 分配给地方（NM）。不过整体的结构相似。</p>
-<h3 id="Hadoop-中的-HA-mode"><a href="#Hadoop-中的-HA-mode" class="headerlink" title="Hadoop 中的 HA mode"></a>Hadoop 中的 HA mode</h3><p>HA,也就是 High available。一般的hadoop system,结构是由 namenode + datanode组成。 但是，假如，namenode 故障了，整个集群就会无法启动，直到你重启了namenode。那这个时候，HA模式就可以解决这个问题，HA模式在 namenode + datanode 基础上，变成了 namenode（active） + namenode (standby) + datanode. 其中，namenode（active）仍然负责所有的操作，而 namenode (standby) 是作为备份。其中 namenode（active） 和 namenode (standby)为了保证数据一致，会通过一个共享存储系统，比如 zookeeper，来保证一致性。</p>
 
       
     </div>
@@ -1346,7 +1350,7 @@ api: java,c, web rest
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/1970/01/01/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/04/29/hadoop-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1364,7 +1368,7 @@ api: java,c, web rest
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/1970/01/01/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+          <a href="/2021/04/29/hadoop-intro/" class="post-title-link" itemprop="url">Hadoop 简介</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1375,14 +1379,14 @@ api: java,c, web rest
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 1970-01-01 08:00:00" itemprop="dateCreated datePublished" datetime="1970-01-01T08:00:00+08:00">1970-01-01</time>
+      <time title="Created: 2021-04-29 17:47:13" itemprop="dateCreated datePublished" datetime="2021-04-29T17:47:13+08:00">2021-04-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-08-29 10:09:16" itemprop="dateModified" datetime="2023-08-29T10:09:16+08:00">2023-08-29</time>
+      <time title="Modified: 2024-09-27 20:52:18" itemprop="dateModified" datetime="2024-09-27T20:52:18+08:00">2024-09-27</time>
     </span>
 
   
@@ -1395,19 +1399,39 @@ api: java,c, web rest
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+          <h2 id="Hadoop-what"><a href="#Hadoop-what" class="headerlink" title="Hadoop, what?"></a>Hadoop, what?</h2><p>Hadoop 是一个分布式系统基础架构。这篇聊聊他的进化历史，从1.0 到 2.0 </p>
+<h2 id="Hadoop-1-0"><a href="#Hadoop-1-0" class="headerlink" title="Hadoop 1.0"></a>Hadoop 1.0</h2><p>Hadoop 1.0 是最早hadoop的版本，主要由两个部分构成，HDFS(存储) + MapReduce(计算)</p>
+<h3 id="HDFS-（存储）"><a href="#HDFS-（存储）" class="headerlink" title="HDFS （存储）"></a>HDFS （存储）</h3><p>hdfs,全称是hadoop distribute file system,如名字所言: 分布式(Distribute)，文件系统(file system)。就是以分布式的形式存储文件。所谓分布式存储，就是将文件分割成若干个小文件，并分散存储在不同服务器上。不过现在大家都用云存储了，hdfs主要是入门基础。不用太深，图一乐。<br>HDFS 的结构主要由 NameNode(metadata) + DataNode(data) 组成。<br>NameNode 是存储元数据的节点，元数据指的是文件的block位置，size 等。 DataNode 是真正存储数据的位置，通常，一个数据会被分割成几分，且每一份数据会复制3份(为什么是3份)来保证数据不会被丢失。在1.0的版本中，namenode同样负责job的调度，等等，这些都在2.0里丢给了yarn。</p>
+<h3 id="MapReduce（计算）"><a href="#MapReduce（计算）" class="headerlink" title="MapReduce（计算）"></a>MapReduce（计算）</h3><p>在hadoop生态里，最早的是mapreduce,再往后，就是spark，以及tez。<br>MapReduce 是一种计算框架。字面意思，就是把计算分为map 和 reduce。 map中，通常是数据的转换。而reduce，更多的是聚合。比如，现在统计一组数据中男生，女生的个数，处理逻辑如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name1 -&gt; man -&gt; 1</span><br><span class="line">name2 -&gt; women -&gt; 1</span><br><span class="line">name3 -&gt; man -&gt; 1</span><br><span class="line">name4 -&gt; women -&gt; 1</span><br></pre></td></tr></table></figure>
+<p>在这一步，就是map的过程，而将这一步统计在一起</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">man -&gt; 2</span><br><span class="line">women -&gt; 2</span><br></pre></td></tr></table></figure>
+<p>这就属于reduce的过程。而这种计算过程，也对分布式计算非常友好。因此，在最开始的hadoop 1.0 中，结构就是<br>mapreduce(计算) + hdfs（存储）</p>
+<h3 id="Hadoop-1-0的缺点"><a href="#Hadoop-1-0的缺点" class="headerlink" title="Hadoop 1.0的缺点"></a>Hadoop 1.0的缺点</h3><p>最早开始，hadoop 是 mapreduce + hdfs，已经没人用了。一是这样的计算方式，在极大数据的时候，中间的缓存太大。此外，由于最开始，hadoop的调度方式是顺序结构。也就是FIFO，导致了整个计算过程非常缓慢。而且，整个系统没有热备份(也就是实时备份)，已经无法适应大规模计算了，所以1.0的结构已经被彻底抛弃。</p>
+<h2 id="Hadoop-2-0"><a href="#Hadoop-2-0" class="headerlink" title="Hadoop 2.0"></a>Hadoop 2.0</h2><p>Hadoop 2.0的时候，整个结构变成了 mapreduce(计算) + yarn(资源管理) + hdfs(存储)。此外，在2.0的时候已经支持了spark的计算框架。并且，新加入了HA(high available)模式. </p>
+<h3 id="YARN-是什么"><a href="#YARN-是什么" class="headerlink" title="YARN 是什么"></a>YARN 是什么</h3><p>YARN 的全称是 Yet Another Resource Negotiator. YARN 主要管理两个资源：CPU + Memory, 并且他的结构如下图：<br><img src="/2021/04/29/hadoop-intro/1_yarn.png" alt="yarn"><br>其中，资源管理是由 RM(ResourceManager) + AM(ApplicationMaster) + NM(NodeManager) 组成,如上图所示。<br>从图中我们可以看出，yarn是典型的master-slave结构。其中，RM对所有的资源进行调度和管理，而NM会对自己的资源做出隔离和管理。连接NM和RM的就是AM，AM会负责向RM申请资源，并对container中的Aplication进行跟踪和管理。</p>
+<h4 id="YARN-启动一个作业的流程"><a href="#YARN-启动一个作业的流程" class="headerlink" title="YARN 启动一个作业的流程"></a>YARN 启动一个作业的流程</h4><p><img src="/2021/04/29/hadoop-intro/1_yarn_work.png" alt="1_yarn_work">   </p>
+<ol>
+<li>首先，client 向 RM 提交 application</li>
+<li>RM 收到后，会让 NM 启动一个container,同时，也会为这个NM启动一个AM。</li>
+<li>AM 向 RM 注册。</li>
+<li>AM 用轮询的方式向 RM 中的 resource scheduler要资源</li>
+<li>AM 在拿到资源后，会联系 NM，请求启动计算任务</li>
+<li>NM 会根据 AM 拿到的资源，在 container 中启动任务</li>
+<li>任务会向 AM 汇报自己的 状态 和 进度，以便让AM掌握各个任务的执行状况</li>
+<li>任务做完之后，AM 会向 RM 提交注销，并关闭自己</li>
+</ol>
+<h4 id="YARN-的调度方式"><a href="#YARN-的调度方式" class="headerlink" title="YARN 的调度方式"></a>YARN 的调度方式</h4><p>从宏观上来说，调度方式又如下三种: 集中式调度器(Monolithic scheduler)，双层调度器(Two-Level Scheduler)，状态共享调度器(Shared-State Scheduler)</p>
+<ol>
+<li><p>集中式调度器(Monolithic scheduler)<br>集中式调度器只有一个中央调度器构成。其中，所有的计算资源申请，调度逻辑都会交给中央调度器。这也就直接导致了中央调度器再做高并发的情况下，会出现性能瓶颈。假如此时，有多个资源申请，中央调度器只能顺序执行</p>
+</li>
+<li><p>双层调度器(Two-Level Scheduler)<br>双层调度器(Two-Level Scheduler) 在 集中式 基础上，变为了 中央调度器 + 框架调度器。此时，中央调度器只负责资源的状态，然后按照一定的策略（FIFO, Fair, Capacity, Dominant Resouce Fair）把资源分配给 框架调度器，框架调度器在根据接收到的资源来给容器分配任务。 </p>
+</li>
+<li><p>状态共享调度器（Shared-State Scheduler）<br>状态共享调度器（Shared-State Scheduler，结构同样是 中央调度器 + 框架调度器。但，此时的 中央调度器 只负责保存集群的使用信息，不再去分配资源。而 框架调度器 会根据当前集群的使用信息来去申请资源。一旦 框架调度器 申请完资源，新的资源会更新中央调度器的信息。资源申请若是出现了竞争，会通过 事务 进行，来保证操作的原子性（见数据库中的事务）。这种类似 MVCC的乐观并发机制。缺点是调度公平性不足。</p>
+</li>
+</ol>
+<p>那么，Yarn是什么<br>Yarn 很像 双层调度器 的结构，但是有一些区别：双层调度的模式是 框架调度器主动的向 中央调度器申请资源，而 Yarn中，资源是由中央(RM) 分配给地方（NM）。不过整体的结构相似。</p>
+<h3 id="Hadoop-中的-HA-mode"><a href="#Hadoop-中的-HA-mode" class="headerlink" title="Hadoop 中的 HA mode"></a>Hadoop 中的 HA mode</h3><p>HA,也就是 High available。一般的hadoop system,结构是由 namenode + datanode组成。 但是，假如，namenode 故障了，整个集群就会无法启动，直到你重启了namenode。那这个时候，HA模式就可以解决这个问题，HA模式在 namenode + datanode 基础上，变成了 namenode（active） + namenode (standby) + datanode. 其中，namenode（active）仍然负责所有的操作，而 namenode (standby) 是作为备份。其中 namenode（active） 和 namenode (standby)为了保证数据一致，会通过一个共享存储系统，比如 zookeeper，来保证一致性。</p>
 
       
     </div>
@@ -1427,7 +1451,7 @@ api: java,c, web rest
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
