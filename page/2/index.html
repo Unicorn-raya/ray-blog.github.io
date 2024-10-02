@@ -121,13 +121,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -144,106 +144,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/2021/05/25/sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ray">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-      <meta itemprop="description" content="摸鱼小据点">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/25/sort/" class="post-title-link" itemprop="url">常见排序算法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-05-25 10:42:15" itemprop="dateCreated datePublished" datetime="2021-05-25T10:42:15+08:00">2021-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-05-26 16:13:51" itemprop="dateModified" datetime="2021-05-26T16:13:51+08:00">2021-05-26</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基础排序算法"><a href="#基础排序算法" class="headerlink" title="基础排序算法"></a>基础排序算法</h1><h2 id="快速排序-Quick-sort"><a href="#快速排序-Quick-sort" class="headerlink" title="快速排序(Quick sort)"></a>快速排序(Quick sort)</h2><p>思路就是分治，先找一个key，做一轮排序后，让key左边的数字都小于等于key,右边的大于key。在对半继续做这种排序</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">private void quickSort(int[] src, int begin, int end) &#123;</span><br><span class="line">    if (begin &lt; end) &#123;</span><br><span class="line">        int key = src[begin];</span><br><span class="line">        int i = begin;</span><br><span class="line">        int j = end;</span><br><span class="line">        while (i &lt; j) &#123;</span><br><span class="line">            while (i &lt; j &amp;&amp; src[j] &gt; key) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; j) &#123;</span><br><span class="line">                int tmp = src[i];</span><br><span class="line">                src[i] = src[j];</span><br><span class="line">                src[j] = tmp;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            while (i &lt; j &amp;&amp; src[i] &lt; key) &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; j) &#123;</span><br><span class="line">                int tmp = src[i];</span><br><span class="line">                src[i] = src[j];</span><br><span class="line">                src[j] = tmp;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        //src[i] = key;</span><br><span class="line">        quickSort(src, begin, i - 1);</span><br><span class="line">        quickSort(src, i + 1, end);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>详细图解: <a target="_blank" rel="noopener" href="http://data.biancheng.net/view/117.html">http://data.biancheng.net/view/117.html</a> q</p>
-<h2 id="堆排序-heap-sort"><a href="#堆排序-heap-sort" class="headerlink" title="堆排序 (heap sort)"></a>堆排序 (heap sort)</h2><p>堆(heap) 是一种完全二叉树，分为两种，大顶堆和小顶堆，满足以下关系:    </p>
-<ul>
-<li>大顶堆: arr[i] &gt;&#x3D; arr[2i+1] &amp;&amp; arr[i] &gt;&#x3D; arr[2i+2]</li>
-<li>小顶堆: arr[i] &lt;&#x3D; arr[2i+1] &amp;&amp; arr[i] &lt;&#x3D; arr[2i+2]<br>通常升序用大顶堆，降序用小顶堆。<br>基本思路: </li>
-<li>将无序数组变成大顶堆</li>
-<li>将首个数值换到最后一个</li>
-<li>将剩下的继续调整成大顶堆<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package sortdemo;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by chengxiao on 2016/12/17.</span><br><span class="line"> * 堆排序demo</span><br><span class="line"> */</span><br><span class="line">public class HeapSort &#123;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        int []arr = &#123;9,8,7,6,5,4,3,2,1&#125;;</span><br><span class="line">        sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    public static void sort(int []arr)&#123;</span><br><span class="line">        //1.构建大顶堆</span><br><span class="line">        for(int i=arr.length/2-1;i&gt;=0;i--)&#123;</span><br><span class="line">            //从第一个非叶子结点从下至上，从右至左调整结构</span><br><span class="line">            adjustHeap(arr,i,arr.length);</span><br><span class="line">        &#125;</span><br><span class="line">        //2.调整堆结构+交换堆顶元素与末尾元素</span><br><span class="line">        for(int j=arr.length-1;j&gt;0;j--)&#123;</span><br><span class="line">            swap(arr,0,j);//将堆顶元素与末尾元素进行交换</span><br><span class="line">            adjustHeap(arr,0,j);//重新对堆进行调整</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）</span><br><span class="line">     * @param arr</span><br><span class="line">     * @param i</span><br><span class="line">     * @param length</span><br><span class="line">     */</span><br><span class="line">    public static void adjustHeap(int []arr,int i,int length)&#123;</span><br><span class="line">        int temp = arr[i];//先取出当前元素i</span><br><span class="line">        for(int k=i*2+1;k&lt;length;k=k*2+1)&#123;//从i结点的左子结点开始，也就是2i+1处开始</span><br><span class="line">            if(k+1&lt;length &amp;&amp; arr[k]&lt;arr[k+1])&#123;//如果左子结点小于右子结点，k指向右子结点</span><br><span class="line">                k++;</span><br><span class="line">            &#125;</span><br><span class="line">            if(arr[k] &gt;temp)&#123;//如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）</span><br><span class="line">                arr[i] = arr[k];</span><br><span class="line">                i = k;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[i] = temp;//将temp值放到最终的位置</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 交换元素</span><br><span class="line">     * @param arr</span><br><span class="line">     * @param a</span><br><span class="line">     * @param b</span><br><span class="line">     */</span><br><span class="line">    public static void swap(int []arr,int a ,int b)&#123;</span><br><span class="line">        int temp=arr[a];</span><br><span class="line">        arr[a] = arr[b];</span><br><span class="line">        arr[b] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-图解: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6129630.html">https://www.cnblogs.com/chengxiao/p/6129630.html</a></li>
-</ul>
-<h2 id="归并排序-merge-sort"><a href="#归并排序-merge-sort" class="headerlink" title="归并排序(merge sort)"></a>归并排序(merge sort)</h2><p>分治，先分成最小，再合并有序数组。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package sortdemo;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by chengxiao on 2016/12/8.</span><br><span class="line"> */</span><br><span class="line">public class MergeSort &#123;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        int []arr = &#123;9,8,7,6,5,4,3,2,1&#125;;</span><br><span class="line">        sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br><span class="line">    public static void sort(int []arr)&#123;</span><br><span class="line">        int []temp = new int[arr.length];//在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间</span><br><span class="line">        sort(arr,0,arr.length-1,temp);</span><br><span class="line">    &#125;</span><br><span class="line">    private static void sort(int[] arr,int left,int right,int []temp)&#123;</span><br><span class="line">        if(left&lt;right)&#123;</span><br><span class="line">            int mid = (left+right)/2;</span><br><span class="line">            sort(arr,left,mid,temp);//左边归并排序，使得左子序列有序</span><br><span class="line">            sort(arr,mid+1,right,temp);//右边归并排序，使得右子序列有序</span><br><span class="line">            merge(arr,left,mid,right,temp);//将两个有序子数组合并操作</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private static void merge(int[] arr,int left,int mid,int right,int[] temp)&#123;</span><br><span class="line">        int i = left;//左序列指针</span><br><span class="line">        int j = mid+1;//右序列指针</span><br><span class="line">        int t = 0;//临时数组指针</span><br><span class="line">        while (i&lt;=mid &amp;&amp; j&lt;=right)&#123;</span><br><span class="line">            if(arr[i]&lt;=arr[j])&#123;</span><br><span class="line">                temp[t++] = arr[i++];</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                temp[t++] = arr[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        while(i&lt;=mid)&#123;//将左边剩余元素填充进temp中</span><br><span class="line">            temp[t++] = arr[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        while(j&lt;=right)&#123;//将右序列剩余元素填充进temp中</span><br><span class="line">            temp[t++] = arr[j++];</span><br><span class="line">        &#125;</span><br><span class="line">        t = 0;</span><br><span class="line">        //将temp中的元素全部拷贝到原数组中</span><br><span class="line">        while(left &lt;= right)&#123;</span><br><span class="line">            arr[left++] = temp[t++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>图解: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6194356.html">https://www.cnblogs.com/chengxiao/p/6194356.html</a></p>
-<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>数据按照某种方式丢到不同的桶里面，保证左边桶的所有数字一定小于右边的所有桶的数字，比如,arr[] &#x3D; {1,2,3,1,12,32,23,45}<br>我们可以分成5个桶，通过arr[i]&#x2F;50的方式来放入，这样就变成: </p>
-<ul>
-<li>bucket_1 &#x3D; {1，2，3，1}</li>
-<li>bucket_2 &#x3D; {12}</li>
-<li>bucket_3 &#x3D; {23}</li>
-<li>bucket_4 &#x3D; {32}</li>
-<li>bucket_5 &#x3D; {45}<br>桶排序需要保证数据尽量均匀分布，不然会浪费桶的数量，造成额外的空间。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">//微信公众号：bigsai</span><br><span class="line">public class test3 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int a[]= &#123;1,8,7,44,42,46,38,34,33,17,15,16,27,28,24&#125;;</span><br><span class="line">		List[] buckets=new ArrayList[5];</span><br><span class="line">		for(int i=0;i&lt;buckets.length;i++)//初始化</span><br><span class="line">		&#123;</span><br><span class="line">			buckets[i]=new ArrayList&lt;Integer&gt;();</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;a.length;i++)//将待排序序列放入对应桶中</span><br><span class="line">		&#123;</span><br><span class="line">			int index=a[i]/10;//对应的桶号</span><br><span class="line">			buckets[index].add(a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i=0;i&lt;buckets.length;i++)//每个桶内进行排序(使用系统自带快排)</span><br><span class="line">		&#123;</span><br><span class="line">			buckets[i].sort(null);</span><br><span class="line">			for(int j=0;j&lt;buckets[i].size();j++)//顺便打印输出</span><br><span class="line">			&#123;</span><br><span class="line">				System.out.print(buckets[i].get(j)+&quot; &quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="Java和python中默认的排序-timsort"><a href="#Java和python中默认的排序-timsort" class="headerlink" title="Java和python中默认的排序 - timsort"></a>Java和python中默认的排序 - timsort</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">直接看知乎吧</span><br><span class="line">https://www.zhihu.com/question/23928138</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1450,8 +1350,96 @@ api: java,c, web rest
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/1970/01/01/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1970/01/01/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 1970-01-01 08:00:00" itemprop="dateCreated datePublished" datetime="1970-01-01T08:00:00+08:00">1970-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-08-29 10:09:16" itemprop="dateModified" datetime="2023-08-29T10:09:16+08:00">2023-08-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 </div>
