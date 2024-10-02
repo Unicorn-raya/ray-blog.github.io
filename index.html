@@ -189,7 +189,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-10-02 21:36:04" itemprop="dateModified" datetime="2024-10-02T21:36:04+08:00">2024-10-02</time>
+      <time title="Modified: 2024-10-02 21:50:15" itemprop="dateModified" datetime="2024-10-02T21:50:15+08:00">2024-10-02</time>
     </span>
 
   
@@ -300,20 +300,21 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(3948, &#x27;Loading local data is disabled; this must be enabled on both the client and server sides&#x27;)</span><br></pre></td></tr></table></figure>
 <p>由于电脑的mysql是docker服务，因此修改了配置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">show global variables like &#x27;local_infile&#x27; -- 默认是0</span><br><span class="line">set global local_infile = 1;</span><br><span class="line">````</span><br><span class="line">最终代码为</span><br></pre></td></tr></table></figure>
-<p>from faker import Faker<br>import pandas as pd<br>faker &#x3D; Faker()<br>tmp_data &#x3D; []<br>step &#x3D; 10000000<br>N &#x3D; step * 1</p>
-<h1 id="生成假数据"><a href="#生成假数据" class="headerlink" title="生成假数据"></a>生成假数据</h1><p>data &#x3D; {<br>    ‘name’: [faker.name() for _ in range(N)],<br>    ‘gender’: [ faker.random_element(elements&#x3D;(‘Male’, ‘Female’,’unknown’)) for _ in range(N)],<br>    ‘age’: [faker.random_int(min&#x3D;1, max&#x3D;60) for _ in range(N)],<br>    ‘date’: [ faker.date_between(start_date&#x3D;’-10y’, end_date&#x3D;’today’) for _ in range(N)]<br>}</p>
-<h1 id="创建DataFrame"><a href="#创建DataFrame" class="headerlink" title="创建DataFrame"></a>创建DataFrame</h1><p>df &#x3D; pd.DataFrame(data)</p>
-<h1 id="将数据保存为CSV文件到本地"><a href="#将数据保存为CSV文件到本地" class="headerlink" title="将数据保存为CSV文件到本地"></a>将数据保存为CSV文件到本地</h1><p>df.to_csv(‘&#x2F;mnt&#x2F;c&#x2F;mysql_data&#x2F;fake_data.csv’, index &#x3D; False)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">以及</span><br></pre></td></tr></table></figure>
+<p>from faker import Faker<br>import pandas as pd<br>faker &#x3D; Faker()<br>tmp_data &#x3D; []<br>step &#x3D; 10000000<br>N &#x3D; step * 1<br>data &#x3D; {<br>    ‘name’: [faker.name() for _ in range(N)],<br>    ‘gender’: [ faker.random_element(elements&#x3D;(‘Male’, ‘Female’,’unknown’)) for _ in range(N)],<br>    ‘age’: [faker.random_int(min&#x3D;1, max&#x3D;60) for _ in range(N)],<br>    ‘date’: [ faker.date_between(start_date&#x3D;’-10y’, end_date&#x3D;’today’) for _ in range(N)]<br>}</p>
+<p>df &#x3D; pd.DataFrame(data)<br>df.to_csv(‘&#x2F;mnt&#x2F;c&#x2F;mysql_data&#x2F;fake_data.csv’, index &#x3D; False)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以及</span><br></pre></td></tr></table></figure>
 <p>CREATE TABLE IF NOT EXISTS morkusers (<br>    id INT PRIMARY KEY,<br>    name VARCHAR(255),<br>    gender VARCHAR(255),<br>    age INT,<br>    date VARCHAR(255)<br>); </p>
 <p>LOAD DATA LOCAL INFILE ‘&#x2F;mysql_data&#x2F;morkdata.csv’<br>INTO TABLE morkusers FIELDS TERMINATED BY ‘,’<br>LINES TERMINATED BY ‘\n’<br>IGNORE 1 LINES<br>(name,gender,age,date);</p>
 <pre><code>
-
 效率表:
 |数据量 | 时间 | 步骤 | 
 |---|---|---|
 |1000w数据|35minn52.8s|1000w假数据写本地
 |1000w数据|21:29.24 - 21:28:22 = 58s|load到mysql中
+
+= =其实发现慢的是假数据生成的逻辑，导入数据的速度其实很快，   
+假数据的生成逻辑后续再考虑优化
+
 </code></pre>
 
       
