@@ -27,7 +27,7 @@
 <meta property="og:description" content="场景一个压力测试的情况，需要一次性查询查询大量数据，然而数据库中没有这么多数据。因此为了测试场景要求：  数据的行行之间不可以重复 快速写入（时间不够了）  优化我们用逐条写入MySQL的模式，效率非常底下，效率表大概如下:    数据量 时间    10w数据 2min24.6s   100w数据 22min31.7s   1000w数据 220min 7.2s   建表语句：    12345">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-09-30T02:47:13.000Z">
-<meta property="article:modified_time" content="2024-10-02T13:50:15.934Z">
+<meta property="article:modified_time" content="2024-10-02T13:58:29.526Z">
 <meta property="article:author" content="ray">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="mysql">
@@ -195,7 +195,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-10-02 21:50:15" itemprop="dateModified" datetime="2024-10-02T21:50:15+08:00">2024-10-02</time>
+      <time title="Modified: 2024-10-02 21:58:29" itemprop="dateModified" datetime="2024-10-02T21:58:29+08:00">2024-10-02</time>
     </span>
 
   
@@ -304,23 +304,35 @@
 <p>发现报错 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(3948, &#x27;Loading local data is disabled; this must be enabled on both the client and server sides&#x27;)</span><br></pre></td></tr></table></figure>
 <p>由于电脑的mysql是docker服务，因此修改了配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">show global variables like &#x27;local_infile&#x27; -- 默认是0</span><br><span class="line">set global local_infile = 1;</span><br><span class="line">````</span><br><span class="line">最终代码为</span><br></pre></td></tr></table></figure>
-<p>from faker import Faker<br>import pandas as pd<br>faker &#x3D; Faker()<br>tmp_data &#x3D; []<br>step &#x3D; 10000000<br>N &#x3D; step * 1<br>data &#x3D; {<br>    ‘name’: [faker.name() for _ in range(N)],<br>    ‘gender’: [ faker.random_element(elements&#x3D;(‘Male’, ‘Female’,’unknown’)) for _ in range(N)],<br>    ‘age’: [faker.random_int(min&#x3D;1, max&#x3D;60) for _ in range(N)],<br>    ‘date’: [ faker.date_between(start_date&#x3D;’-10y’, end_date&#x3D;’today’) for _ in range(N)]<br>}</p>
-<p>df &#x3D; pd.DataFrame(data)<br>df.to_csv(‘&#x2F;mnt&#x2F;c&#x2F;mysql_data&#x2F;fake_data.csv’, index &#x3D; False)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以及</span><br></pre></td></tr></table></figure>
-<p>CREATE TABLE IF NOT EXISTS morkusers (<br>    id INT PRIMARY KEY,<br>    name VARCHAR(255),<br>    gender VARCHAR(255),<br>    age INT,<br>    date VARCHAR(255)<br>); </p>
-<p>LOAD DATA LOCAL INFILE ‘&#x2F;mysql_data&#x2F;morkdata.csv’<br>INTO TABLE morkusers FIELDS TERMINATED BY ‘,’<br>LINES TERMINATED BY ‘\n’<br>IGNORE 1 LINES<br>(name,gender,age,date);</p>
-<pre><code>
-效率表:
-|数据量 | 时间 | 步骤 | 
-|---|---|---|
-|1000w数据|35minn52.8s|1000w假数据写本地
-|1000w数据|21:29.24 - 21:28:22 = 58s|load到mysql中
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show global variables like &#x27;local_infile&#x27; -- 默认是0</span><br><span class="line">set global local_infile = 1;</span><br></pre></td></tr></table></figure>
 
-= =其实发现慢的是假数据生成的逻辑，导入数据的速度其实很快，   
-假数据的生成逻辑后续再考虑优化
+<p>最终代码为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from faker import Faker</span><br><span class="line">import pandas as pd</span><br><span class="line">faker = Faker()</span><br><span class="line">tmp_data = []</span><br><span class="line">step = 10000000</span><br><span class="line">N = step * 1</span><br><span class="line">data = &#123;</span><br><span class="line">    &#x27;name&#x27;: [faker.name() for _ in range(N)],</span><br><span class="line">    &#x27;gender&#x27;: [ faker.random_element(elements=(&#x27;Male&#x27;, &#x27;Female&#x27;,&#x27;unknown&#x27;)) for _ in range(N)],</span><br><span class="line">    &#x27;age&#x27;: [faker.random_int(min=1, max=60) for _ in range(N)],</span><br><span class="line">    &#x27;date&#x27;: [ faker.date_between(start_date=&#x27;-10y&#x27;, end_date=&#x27;today&#x27;) for _ in range(N)]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(data)</span><br><span class="line">df.to_csv(&#x27;/mnt/c/mysql_data/fake_data.csv&#x27;, index = False)</span><br></pre></td></tr></table></figure>
 
-</code></pre>
+<p>以及</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS morkusers (</span><br><span class="line">    id INT PRIMARY KEY,</span><br><span class="line">    name VARCHAR(255),</span><br><span class="line">    gender VARCHAR(255),</span><br><span class="line">    age INT,</span><br><span class="line">    date VARCHAR(255)</span><br><span class="line">); </span><br><span class="line"></span><br><span class="line">LOAD DATA LOCAL INFILE &#x27;/mysql_data/morkdata.csv&#x27; </span><br><span class="line">INTO TABLE morkusers FIELDS TERMINATED BY &#x27;,&#x27;</span><br><span class="line">LINES TERMINATED BY &#x27;\n&#x27;</span><br><span class="line">IGNORE 1 LINES</span><br><span class="line">(name,gender,age,date);</span><br></pre></td></tr></table></figure>
+
+<p>效率表:</p>
+<table>
+<thead>
+<tr>
+<th>数据量</th>
+<th>时间</th>
+<th>步骤</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000w数据</td>
+<td>35minn52.8s</td>
+<td>1000w假数据写本地</td>
+</tr>
+<tr>
+<td>1000w数据</td>
+<td>21:29.24 - 21:28:22 &#x3D; 58s</td>
+<td>load到mysql中</td>
+</tr>
+</tbody></table>
+<p>&#x3D; &#x3D;其实发现慢的是假数据生成的逻辑，导入数据的速度其实很快，<br>假数据的生成逻辑后续再考虑优化</p>
 
     </div>
 
