@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/project/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/project/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/project/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/project/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/project/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"unicorn-raya.github.io","root":"/project/","images":"/project/images","scheme":"Muse","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/project/js/config.js"></script>
+
+    <meta name="description" content="测试理论——SIT测试 和 UAT测试概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="testconcept">
+<meta property="og:url" content="https://unicorn-raya.github.io/project/2024/10/07/testconcept/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="测试理论——SIT测试 和 UAT测试概念">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-07T06:49:50.000Z">
+<meta property="article:modified_time" content="2024-10-10T10:42:11.025Z">
+<meta property="article:author" content="ray">
+<meta property="article:tag" content="测试理论">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://unicorn-raya.github.io/project/2024/10/07/testconcept/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://unicorn-raya.github.io/project/2024/10/07/testconcept/","path":"2024/10/07/testconcept/","title":"testconcept"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>testconcept | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/project/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/project/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/project/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/project/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/project/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-archives"><a href="/project/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA%E2%80%94%E2%80%94SIT%E6%B5%8B%E8%AF%95-%E5%92%8C-UAT%E6%B5%8B%E8%AF%95%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">测试理论——SIT测试 和 UAT测试概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SIT%E6%B5%8B%E8%AF%95%E5%92%8CUAT%E6%B5%8B%E8%AF%95"><span class="nav-number">1.1.</span> <span class="nav-text">SIT测试和UAT测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">区别与联系：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%A4%A7%E5%9E%8B%E9%A1%B9%E7%9B%AE%E7%8E%AF%E5%A2%83%E7%9A%84%E5%87%86%E5%A4%87%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">对于大型项目环境的准备问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%92%8C%E9%83%A8%E7%BD%B2%E5%8C%85%E8%BF%81%E7%A7%BB%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.3.</span> <span class="nav-text">环境和部署包迁移的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E8%BF%81%E7%A7%BB%E7%9A%84%E5%A4%8D%E6%9D%82%E6%80%A7"><span class="nav-number">1.1.4.</span> <span class="nav-text">环境迁移的复杂性</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ray</p>
+  <div class="site-description" itemprop="description">摸鱼小据点</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/project/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/project/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://unicorn-raya.github.io/project/2024/10/07/testconcept/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/project/images/avatar.gif">
+      <meta itemprop="name" content="ray">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="摸鱼小据点">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="testconcept | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          testconcept
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-07 14:49:50" itemprop="dateCreated datePublished" datetime="2024-10-07T14:49:50+08:00">2024-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-10-10 18:42:11" itemprop="dateModified" datetime="2024-10-10T18:42:11+08:00">2024-10-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="测试理论——SIT测试-和-UAT测试概念"><a href="#测试理论——SIT测试-和-UAT测试概念" class="headerlink" title="测试理论——SIT测试 和 UAT测试概念"></a>测试理论——SIT测试 和 UAT测试概念</h2><span id="more"></span>
+<h3 id="SIT测试和UAT测试"><a href="#SIT测试和UAT测试" class="headerlink" title="SIT测试和UAT测试"></a>SIT测试和UAT测试</h3><p>　　在企业级软件的测试过程中，经常会划分为三个阶段——单元测试，SIT和UAT，如果开发人员足够，通常还会在SIT之前引入代码审查机制（CodeReview）来保证软件符合客户需求且流程正确。下面简单介绍一下SIT和UAT的基本情况。</p>
+<p>　　SIT(SystemIntegrationTesting)系统集成测试，也叫做集成测试，是软件测试的一个术语，在其中单独的软件模块被合并和作为一个组测试。它在单元测试以后和在系统测试之前。集成测试在已经被单元测试检验后进行作为它的输入模式，组织它们在更大的集合，和递送，作为它的输出，集成系统为系统测试做准备。集成测试的目的是校验功能、性能和可靠性要求，配置在主设计项目中。</p>
+<p>　　UAT(UserAcceptanceTesting)用户验收测试，通常是由最终软件的用户（通常这些用户不了解软件的具体逻辑，而对业务逻辑却相当熟悉）进行的测试，因此是面向最终用户的测试，结束之后通常就可以发布生产环境了。</p>
+<h4 id="区别与联系："><a href="#区别与联系：" class="headerlink" title="区别与联系："></a>区别与联系：</h4><p>　　SIT是集成测试、UAT是验收测试</p>
+<p>　　从时间上看，UAT要在SIT后面，UAT测试要在系统测试完成后才开始。</p>
+<p>　　从测试人员看，SIT由公司的测试员来测试，而UAT一般是由用户来测试。它们两个之间的专注点是不一样的.UAT主要是从用户层面这些去考虑和着手测试,而SIT主要是系统的各个模块的集成测试.这在整个软件过程理论的基础知识中相当重要的.理论上讲SIT是由专业的测试人员去完成,UAT是由用户去做的.</p>
+<p>　　如果按照规范来的话,做UAT测试的人一定是要对业务很精通的,并且是具有代表性的用户,关注的东西就是业务流程是否通畅是否符合业务的需要.以需求分析文档为重要参考,还有一些用户的操作习惯等等一系列的东西.</p>
+<h4 id="对于大型项目环境的准备问题"><a href="#对于大型项目环境的准备问题" class="headerlink" title="对于大型项目环境的准备问题"></a>对于大型项目环境的准备问题</h4><p>　　前提假设是一个大型集团性项目同时规划建设A，B，C，D等多个业务系统，同时建设4A平台，流程平台和ESB服务总线等基础技术平台。这个在我2012到13年企业私有云PaaS平台建设中，专门对集成测试方法和流程进行了详细的阐述，因此在这里只重新回顾一下关键点。</p>
+<p>　　一般需要准备DEV，SIT，UAT和PRD四套环境，即开发，集成，用户验收和生产四套环境。开发环境用于开发厂商自己的单元测试和接口联调，SIT环境用于正式的集成测试，UAT给最终用户验收测试使用。</p>
+<p>注意对于测试有两个维度的说法:</p>
+<ul>
+<li>a.一个维度是单元测试，集成测试和系统测试。</li>
+<li>b.一个维度是开发环境测试，集成环境测试和UAT环境测试。</li>
+</ul>
+<p>　　为什么强调这个概念，因为两个维度都出现了集成测试，容易混淆。即在SIT集成测试环境不是指只做接口的集成测试，在SIT环境同时需要做接口集成测试和业务系统功能点的系统测试。也就是说SIT环境本身也是黑盒的系统测试，只是这个系统测试首先会选择跨系统接口的场景进行测试，确保跨系统场景是通的，然后接着再做业务系统内部的详细功能点测试。</p>
+<p>　　而对于UAT环境的测试，往往不会特意去强调对接口的覆盖，而是完全根据业务场景出发进行测试，端到端的业务场景如果都能够跑通，那么自然是覆盖了所有的跨系统接口的。</p>
+<p>因此对于三个环境实际进行的测试内容为：</p>
+<ul>
+<li>a.DEV环境：主体是开发厂商自己进行，包括了单元测试+接口集成测试+业务模块功能点的系统测试。</li>
+<li>b.SIT环境：可以是整体集成商牵头进行，包括接口集成测试+系统测试，但是全为黑盒测试。</li>
+<li>c.UAT环境：以甲方用户牵头进行，也是只进行系统测试，以端到端流程和业务场景驱动进行测试。</li>
+</ul>
+<h4 id="环境和部署包迁移的问题"><a href="#环境和部署包迁移的问题" class="headerlink" title="环境和部署包迁移的问题"></a>环境和部署包迁移的问题</h4><p>　　这个实际上我在持续集成方法论中讲过多次，对于SIT环境和UAT环境的部署，都不应该是重新进行编译和构建，而是应该基于DEV环境测试通过的部署包进行迁移，在进行迁移后只修改相应的配置文件。这个当时在执行Ucloud项目的时候，我们完全可以做到上面这种要求。同时对于编译，构建，环境迁移都全部统一管理，开发厂商只能需要按时提交和Checkin代码，由统一的配置管理员进行编译构建和环境部署。虽然没有完全做到基于PaaS平台的自动部署，但是也实现了完整的持续集成过程和版本管理。</p>
+<p>　　一个开发厂商建设的A系统，首先是在Dev环境进行单元测试，那么什么时候能够迁移到SIT环境。</p>
+<p>　　比如，A系统往往涉及到调用B，C等系统的外部接口，那么需要B和C系统配合才能够完成A系统内部各个功能点的测试，这个时候就需要B和C系统已经部署了配合的接口服务。当然也可以是B和C没有部署，A系统自己实现了了一个接口服务模拟器，类似测试挡板和测试桩。但是整体原则都是A系统必须所有功能都自测通过，才能够申请迁移到SIT环境。</p>
+<p>　　注意，这里A系统自测只会关心自己消费外部的接口全部通过，并确保自己提供的功能模块各功能都可以就可以了。对于其它系统消费A的接口它并不会关心。</p>
+<p>　　如果在DEV环境，每个模块都按照刚才的方法自我验证通过，那么基本确认各个模块相互之间集成应该是没有问题的，那么这个时候才能够都迁移到SIT环境，根据业务集成场景进行集成测试。跨系统交互的业务集成场景自然就会覆盖到所有的集成接口。</p>
+<p>　　对于每次的环境迁移，比如在从SIT环境迁移到UAT环境后，都需要准备一个最基本的冒烟测试脚本先进行冒烟测试，确保环境迁移本身没有问题，然后再进行详细的功能性测试。对于冒烟测试可以是人工进行，也可以是通过自动化测试脚本进行。</p>
+<p>　　即使你没有采用持续集成和持续构建方法论，但是环境迁移和各个环境本身的测试状态，当前各个业务系统在各个环境的部署包的版本都必须得到统一的管理，需要有一个类似可视化看板一样的东西能够很明确的看到当前各个业务系统版本在各个环境中的状态情况，并在某次集成或UAT测试结束或通过后及时的标记关键的基线版本。</p>
+<h4 id="环境迁移的复杂性"><a href="#环境迁移的复杂性" class="headerlink" title="环境迁移的复杂性"></a>环境迁移的复杂性</h4><p>　　任何环境的迁移，不仅仅是业务系统自身部署包的迁移，同时还涉及到ESB集成平台服务的迁移和部署。而ESB总线的环境迁移仍然应该是迁移部署包的模式，同时只能够是修改相应的配置文件。</p>
+<p>　　注意，对于环境迁移不仅仅是迁移各个业务系统的部署包，更加重要的是静态基础数据的初始化，即在进行SIT或UAT测试之前，各个系统应该有一套相同的基础主数据信息，这个是后续测试的基础。对于这部分基础数据，可以是通过文件或Excel进行导入初始化，也可以是通过接口进行分发，但是具体的规则必须建立好，同时在基础数据初始化完成后必须做校验，以确保期初的基础数据在各个系统是一致的。</p>
+<p>ref：<br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1742973">https://cloud.tencent.com/developer/article/1742973</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/project/tags/%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA/" rel="tag"># 测试理论</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/project/2024/09/30/python2mysql_morkdata/" rel="prev" title="如何用python效率往mysql写入1000w条假数据">
+                  <i class="fa fa-angle-left"></i> 如何用python效率往mysql写入1000w条假数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/project/2024/10/10/testconcept-1/" rel="next" title="testconcept">
+                  testconcept <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ray</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/project/js/comments.js"></script><script src="/project/js/utils.js"></script><script src="/project/js/motion.js"></script><script src="/project/js/schemes/muse.js"></script><script src="/project/js/sidebar.js"></script><script src="/project/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
